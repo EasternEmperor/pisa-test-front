@@ -194,9 +194,9 @@ export default {
               // 将用户信息存储到sessionStorage中
               sessionStorage.setItem("userInfo", JSON.stringify(res.data.data));
               // 根据用户身份跳转页面到首页
-              if (res.data.data.role === "0") {
+              if (res.data.data.role === 0) {
                 this.$router.push('/user');
-              } else if (res.data.data.role === "1") {
+              } else if (res.data.data.role === 1) {
                 this.$router.push('/admin');
               } else {
                 this.$router.push('/home');
