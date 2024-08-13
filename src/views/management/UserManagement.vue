@@ -30,7 +30,7 @@
       <el-table :data="filteredData">
         <el-table-column prop="id" label="ID"></el-table-column>
         <el-table-column prop="userName" label="用户名"></el-table-column>
-        <el-table-column prop="ithAnswer" label="题目ID"></el-table-column>
+        <el-table-column prop="ithAnswer" label="答题次序"></el-table-column>
         <el-table-column prop="testBegin" label="测试开始时间"></el-table-column>
         <el-table-column prop="testEnd" label="测试结束时间"></el-table-column>
       </el-table>
@@ -89,7 +89,7 @@
           });
       },
       fetchQuestions() {
-        this.axios.get('/api/admin/getAllQuestionNo')
+        this.axios.get('/api/admin/getAllAnswerNo')
           .then(response => {
             if (response.data.code === '0') {
               this.questions = response.data.data;
@@ -105,9 +105,7 @@
       fetchUserAnswers() {
         const params = {
           userName: this.selectedUser,
-          ith: this.selectedQuestion,
-          page: this.currentPage,
-          size: this.pageSize
+          ith: this.selectedQuestion
         };
         this.axios.get('/api/admin/getUserAnswerList', { params })
           .then(response => {
