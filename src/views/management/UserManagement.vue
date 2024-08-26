@@ -1,32 +1,46 @@
 <template>
     <div>
+    <!-- 筛选器部分 -->
+    <el-form :inline="true" label-width="120px">
       <el-row :gutter="20">
+        <!-- 用户选择 -->
         <el-col :span="8">
-          <el-select v-model="selectedUser" placeholder="选择用户">
-            <el-option
-              v-for="user in users"
-              :key="user"
-              :label="user === '-1' ? '全部' : user"
-              :value="user"
-            >
-            </el-option>
-          </el-select>
+          <el-form-item label="用户选择：" style="width: 100%;">
+            <el-select v-model="selectedUser" placeholder="选择用户" style="width: 100%;">
+              <el-option
+                v-for="user in users"
+                :key="user"
+                :label="user === '-1' ? '全部' : user"
+                :value="user"
+              ></el-option>
+            </el-select>
+          </el-form-item>
         </el-col>
+
+        <!-- 答题次序选择 -->
         <el-col :span="8">
-          <el-select v-model="selectedQuestion" placeholder="选择题目ID">
-            <el-option
-              v-for="question in questions"
-              :key="question"
-              :label="question === '-1' ? '全部' : question"
-              :value="question"
-            >
-            </el-option>
-          </el-select>
+          <el-form-item label="答题次序选择：" style="width: 100%;">
+            <el-select v-model="selectedQuestion" placeholder="选择题目ID" style="width: 100%;">
+              <el-option
+                v-for="question in questions"
+                :key="question"
+                :label="question === '-1' ? '全部' : question"
+                :value="question"
+              ></el-option>
+            </el-select>
+          </el-form-item>
         </el-col>
+
+        <!-- 确认按钮 -->
         <el-col :span="8">
-          <el-button type="primary" @click="filterData">确认</el-button>
+          <el-form-item style="width: 100%; text-align: right;">
+            <el-button type="primary" @click="filterData">确认</el-button>
+          </el-form-item>
         </el-col>
       </el-row>
+    </el-form>
+
+    <!--表格展示部分-->
       <el-table :data="filteredData">
         <el-table-column prop="id" label="ID"></el-table-column>
         <el-table-column prop="userName" label="用户名"></el-table-column>
@@ -68,14 +82,14 @@
         return Math.ceil(this.totalItems / this.pageSize);
       }
     },
-    created() {
-      this.fetchUsers();
-      this.fetchQuestions();
+    async created() {
+      await this.fetchUsers();
+      await this.fetchQuestions();
       this.fetchUserAnswers();
     },
     methods: {
       fetchUsers() {
-        this.axios.get('/api/admin/getAllUserName')
+        return this.axios.get('/api/admin/getAllUserName')
           .then(response => {
             if (response.data.code === '0') {
               this.users = response.data.data;
@@ -89,17 +103,17 @@
           });
       },
       fetchQuestions() {
-        this.axios.get('/api/admin/getAllAnswerNo')
+        return this.axios.get('/api/admin/getAllAnswerNo')
           .then(response => {
             if (response.data.code === '0') {
               this.questions = response.data.data;
             } else {
-              this.$message.error(response.data.message || '获取题目ID失败');
+              this.$message.error(response.data.message || '获取答题次序失败');
             }
           })
           .catch(error => {
             console.error(error);
-            this.$message.error('获取题目ID失败');
+            this.$message.error('获取答题次序失败');
           });
       },
       fetchUserAnswers() {

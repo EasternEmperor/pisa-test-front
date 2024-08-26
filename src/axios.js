@@ -24,17 +24,17 @@ instance.interceptors.request.use(
 );
 
 // 添加响应拦截器（可选）
-// instance.interceptors.response.use(
-//   response => {
-//     return response;
-//   },
-//   error => {
-//     if (error.response && error.response.status === 401) {
-//       // Token过期或未授权，重定向到登录页面
-//       window.location.href = '/login';
-//     }
-//     return Promise.reject(error);
-//   }
-// );
+instance.interceptors.response.use(
+  response => {
+    return response;
+  },
+  error => {
+    if (error.response && error.response.status === 401) {
+      // Token过期或未授权，重定向到登录页面
+      window.location.href = '/login';
+    }
+    return Promise.reject(error);
+  }
+);
 
 export default instance;

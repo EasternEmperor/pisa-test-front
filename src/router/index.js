@@ -9,6 +9,12 @@ import Home from '../views/home/Home'
 import Admin from '../views/home/Admin'
 // import User from '../views/user/User'
 import { Message } from "element-ui";
+import User from "../views/home/User.vue"
+import AirControllerT1 from '../views/questions/air_controller/air_controller_t1';
+import AirControllerT2 from '../views/questions/air_controller/air_controller_t2';
+import TicketsSaleT1 from '../views/questions/tickets_sale/tickets_sale_t1';
+import TicketsSaleT2 from '../views/questions/tickets_sale/tickets_sale_t2';
+import TicketsSaleT3 from '../views/questions/tickets_sale/tickets_sale_t3';
 
 // 创建并暴露一个路由器
 const router = new VueRouter({
@@ -34,10 +40,30 @@ const router = new VueRouter({
             path: '/admin',     // 路径
             component: Admin    // 跳转到的组件
         },
-        // {
-        //     path: '/user',     // 路径
-        //     component: User    // 跳转到的组件
-        // }
+        {
+            path: "/user",      // 路径
+            component: User     // 跳转到的组件
+        },
+        {
+            path: '/questions/air_controller/air_controller_t1',
+            component: AirControllerT1
+        },
+        {
+            path: '/questions/air_controller/air_controller_t2',
+            component: AirControllerT2
+        },
+        {
+            path: '/questions/tickets_sale/tickets_sale_t1',
+            component: TicketsSaleT1
+        },
+        {
+            path: '/questions/tickets_sale/tickets_sale_t2',
+            component: TicketsSaleT2
+        },
+        {
+            path: '/questions/tickets_sale/tickets_sale_t3',
+            component: TicketsSaleT3
+        }
     ]
 })
 
