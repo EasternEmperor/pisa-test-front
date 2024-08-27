@@ -1,28 +1,28 @@
 <template>
     <div class="air-controller-up">
-      <div class="left-section">
-        <h2>CLIMATE CONTROL</h2>
-        <p>
-          You have no instructions for your new air conditioner. You need to work out how to use it.<br/>
-          You can change the top, central and bottom controls on the left by using the sliders (---).
-          The initial setting for each control is indicated by ▲.<br/>
-          By clicking APPLY, you will see any changes in the temperature and humidity of the room in the temperature and humidity graphs.
-          The box to the left of each graph shows the current level of temperature or humidity.
-        </p>
-      </div>
-      <div class="right-section">
-        <controller-component
-          :top-control="topControl"
-          :central-control="centralControl"
-          :bottom-control="bottomControl"
-          @update:top-control="topControl = $event"
-          @update:central-control="centralControl = $event"
-          @update:bottom-control="bottomControl = $event"
-        />
-        <chart-component
-          :temperature="temperature"
-          :humidity="humidity"
-        />
+      <h2>CLIMATE CONTROL</h2>
+      <p>
+        You have no instructions for your new air conditioner. You need to work out how to use it.<br/>
+        You can change the top, central and bottom controls on the left by using the sliders (-o-).
+        The initial setting for each control is indicated by ▲.<br/>
+        By clicking APPLY, you will see any changes in the temperature and humidity of the room in the temperature and humidity graphs.
+        The box to the left of each graph shows the current level of temperature or humidity.
+      </p>
+      <div class="control-and-chart">
+        <div class="flex-container">
+          <controller-component
+            :top-control="topControl"
+            :central-control="centralControl"
+            :bottom-control="bottomControl"
+            @update:top-control="topControl = $event"
+            @update:central-control="centralControl = $event"
+            @update:bottom-control="bottomControl = $event"
+          />
+          <chart-component
+            :temperature="temperature"
+            :humidity="humidity"
+          />
+        </div>
         <button-component
           @apply="applyChanges"
           @reset="resetChanges"
@@ -78,37 +78,24 @@
   <style scoped>
   .air-controller-up {
     display: flex;
-    justify-content: space-between;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  .left-section {
-    width: 45%;
-    padding-right: 20px;
-    line-height: 1.6;
-  }
-  
-  .right-section {
-    width: 55%;
-    display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    width: 100%; /* 占据整个页面宽度 */
+    padding: 0 20px; /* 减少左右内边距 */
+    box-sizing: border-box;
   }
   
-  .right-section > * {
-    margin-bottom: 20px;
+  .flex-container {
+    display: flex;
+    /* 可选: 如果需要间距，可以添加 gap 属性 */
+    gap: 10px; /* 用于控制组件间的间距 */
   }
-  
   h2 {
-    margin-bottom: 20px;
-    font-size: 24px;
-    font-weight: bold;
+    margin-bottom: 10px;
   }
-  
+
   p {
-    font-size: 16px;
+    margin-bottom: 20px;
+    line-height: 1.6;
   }
   </style>
   

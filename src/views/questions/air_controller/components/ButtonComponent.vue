@@ -17,6 +17,11 @@
     text-align: center;
     margin-top: 20px;
   }
+
+  .air-conditioner-image {
+    max-width: 50%;
+    height: auto;
+  }
   
   button {
     width: 100px;
