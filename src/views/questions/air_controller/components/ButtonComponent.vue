@@ -1,7 +1,7 @@
 <template>
     <div class="button-component">
       <button @click="$emit('apply')">APPLY</button>
-      <img src="@/assets/air_conditioner.png" alt="Air Conditioner" class="air-conditioner-image"/>
+      <img src="@/assets/air_conditioner.png" alt="Air Conditioner" style="width: 200px; height: 200px;"/>
       <button @click="$emit('reset')">RESET</button>
     </div>
   </template>
@@ -16,11 +16,6 @@
   .button-component {
     text-align: center;
     margin-top: 20px;
-  }
-
-  .air-conditioner-image {
-    max-width: 50%;
-    height: auto;
   }
   
   button {

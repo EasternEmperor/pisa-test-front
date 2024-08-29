@@ -1,12 +1,11 @@
 <template>
     <div class="air-controller-up">
-      <h2>CLIMATE CONTROL</h2>
+      <h2>一、空调控制</h2>
       <p>
-        You have no instructions for your new air conditioner. You need to work out how to use it.<br/>
-        You can change the top, central and bottom controls on the left by using the sliders (-o-).
-        The initial setting for each control is indicated by ▲.<br/>
-        By clicking APPLY, you will see any changes in the temperature and humidity of the room in the temperature and humidity graphs.
-        The box to the left of each graph shows the current level of temperature or humidity.
+        你的新空调没有说明书，需要你通过探索如何使用它。<br/>
+        你可以使用左侧的滑块（-o-）更改顶部、中心和底部控件。每个控件的初始设置在▲的位置。<br/>
+        点击"APLLY"键，你将在温度计和湿度计中看到房间温度和湿度的任何变化。<br/>
+        点击"RESET"键，你可以将所有控件重置到初始设置，温度计和湿度计数字也将变回初始值。<br/>
       </p>
       <div class="control-and-chart">
         <div class="flex-container">
