@@ -190,7 +190,8 @@
             { label: 'central control设置', prop: 'centralSetting' },
             { label: 'bottom control设置', prop: 'bottomSetting' },
             { label: '温度', prop: 'tempValue' },
-            { label: '湿度', prop: 'humidValue' }
+            { label: '湿度', prop: 'humidValue' },
+            { label: '连线答案', prop: 'diagramState' }
           ];
         } else if (tableName === 2) {
           this.tableColumns = [

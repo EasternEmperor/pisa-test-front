@@ -1,19 +1,22 @@
 <template>
     <div class="air-controller-t1">
+      <!-- 使用 Header 组件 -->
+      <header-component :userName="userName" />
+
       <!-- 题干部分 -->
       <div class="container-box">
-        <air-controller-up-component />
+        <air-controller-up-component ref="upComponentRef" @applyChanges="handleApply" @resetChanges="handleReset" />
       </div>
   
       <!-- 题目部分 -->
       <div class="container-box question-section">
         <div class="question-text">
-          <h3>问题1: 控件作用</h3>
+          <h3>Question 1: CLIMATE CONTROL CPO25Q01</h3>
           <p>
-            通过改变滑块，弄清楚每个控件控制的是温度还是湿度。<br/>
-            你可以通过"RESET"键来重置所有组件。<br/>
-            在下方将你认为控件对应控制的对象连上线。<br/>
-            连线的操作是：点击一个控件，然后点击另一个温度/湿度键。分别点击已连线的两个方块可取消它们之间的连线。
+            Find whether each control influences temperature and humidity by changing the sliders.<br/>
+            You can start again by clicking RESET.<br/>
+            Draw lines in the diagram on the right to show what each control influences.<br/>
+            To draw a line, click on a control and then click on either Temperature or Humidity. You can remove any line by clicking on it.
           </p>
         </div>
         <div class="diagram-section">
@@ -34,6 +37,7 @@
   
   <script>
   import AirControllerUpComponent from './air_controller_up_component.vue';
+  import HeaderComponent from '@/components/Header.vue';
   
   export default {
     name: 'AirControllerT1',
@@ -42,39 +46,116 @@
     },
     data() {
       return {
+        userName: '',
+        ithAnswer: -1,
         selectedControl: null,
         connections: [],
+        eventNumber: 1, // 用于记录事件次数
       };
     },
+    created() {
+        this.userName = JSON.parse(sessionStorage.getItem('userInfo')).userName;
+        this.ithAnswer = sessionStorage.getItem('ithAnswer');
+    },
     methods: {
+      handleApply() {
+        this.sendEvent('apply');
+      },
+      handleReset() {
+        this.sendEvent('reset');
+      },
       handleBoxClick(type) {
         if (this.selectedControl) {
-          // Check if the connection already exists
+          if ((this.isControl(this.selectedControl) && this.isControl(type)) || 
+              (this.isInfluence(this.selectedControl) && this.isInfluence(type))) {
+            this.selectedControl = null;  // 重置选择，避免错误连线
+            return;
+          }
+  
           const existingConnection = this.connections.find(
             conn => (conn.start === this.selectedControl && conn.end === type) ||
                     (conn.start === type && conn.end === this.selectedControl)
           );
   
           if (existingConnection) {
-            // Remove the connection if it exists
             this.connections = this.connections.filter(
               conn => conn !== existingConnection
             );
           } else {
-            // Add a new connection
             this.connections.push({ start: this.selectedControl, end: type });
           }
   
           this.selectedControl = null;
+          this.drawLines();
+  
+          this.sendEvent('diagram');
         } else {
           this.selectedControl = type;
         }
+      },
+      sendEvent(eventType) {
+        const userName = this.userName;
+        const ithAnswer = this.ithAnswer;
   
-        this.drawLines();
+        const data = {
+          tableName: 1,
+          htmlName: 'air_controller_t1',
+          userName: userName,
+          ithAnswer: ithAnswer,
+          event: 'ACER_EVENT',
+          eventType: eventType,
+          eventStartTime: new Date().toISOString(),
+          eventNumber: this.eventNumber,
+          topSetting: "NULL",
+          centralSetting: "NULL",
+          bottomSetting: "NULL",
+          tempValue: "NULL",
+          humidValue: "NULL",
+          diagramState: "NULL",
+          network: null,
+          fareType: null,
+          ticketType: null,
+          numberTrips: null,
+        };
+
+        if (eventType === 'reset' || eventType === 'apply') {
+            const upComponent = this.$refs.upComponentRef;
+            data.topSetting = upComponent.topControl.toString();
+            data.centralSetting = upComponent.centralControl.toString();
+            data.bottomSetting = upComponent.bottomControl.toString();
+            data.tempValue = upComponent.temperature.toString();
+            data.humidValue = upComponent.humidity.toString();
+        } else if (eventType === 'diagram') {
+            data.diagramState = this.getDiagramState();
+        }
+  
+        this.axios.post('/api/test/exploreData', data)
+          .then(response => {
+            if (response.data.code === '0') {
+                this.eventNumber++;
+            }
+          })
+          .catch(error => {
+            console.error('刚才的操作失效，请重新操作！', error);
+          });
+      },
+      isControl(type) {
+        return ['top', 'central', 'bottom'].includes(type);
+      },
+      isInfluence(type) {
+        return ['temperature', 'humidity'].includes(type);
+      },
+      getDiagramState() {
+        const state = this.connections.map(conn => {
+            const start = conn.start === 'top' ? 'top' : conn.start === 'central' ? 'central' : 'bottom';
+            const end = conn.end === 'temperature' ? 'temp' : 'humid';
+            return `${start}->${end}`;
+        }).join(', ');
+        return state;
       },
       drawLines() {
         const svg = this.$refs.svgContainer;
-        svg.innerHTML = ''; // Clear existing lines
+        svg.innerHTML = ''; // 清除现有连线
   
         this.connections.forEach(connection => {
           const startElement = this.$el.querySelector(`[data-type=${connection.start}]`);
@@ -104,7 +185,7 @@
       }
     },
     mounted() {
-      // Initialize the data attributes
+      // 初始化 data-type 属性
       this.$el.querySelectorAll('.control-box').forEach(el => {
         el.setAttribute('data-type', el.textContent.trim().toLowerCase().replace(' control', ''));
       });

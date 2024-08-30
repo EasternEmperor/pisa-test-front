@@ -62,6 +62,8 @@
         // 更新湿度
         const newHumidity = this.humidity + this.centralControl + this.bottomControl;
         this.humidity = Math.min(30, Math.max(0, newHumidity));
+
+        this.$emit('applyChanges');
       },
       resetChanges() {
         this.topControl = 0;
@@ -69,6 +71,8 @@
         this.bottomControl = 0;
         this.temperature = 25;
         this.humidity = 25;
+
+        this.$emit('resetChanges');
       }
     }
   };

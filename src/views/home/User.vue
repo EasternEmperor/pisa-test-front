@@ -51,6 +51,9 @@
                 testBegin: moment(item.testBegin).format('YYYY-MM-DD HH:mm:ss'),
                 testEnd: moment(item.testEnd).format('YYYY-MM-DD HH:mm:ss')
               }));
+              sessionStorage.setItem("ithAnswer", this.formattedHistory.reduce((max, item) => {
+                                                    return item.ithAnswer > max ? item.ithAnswer : max;
+                                                }, 0));
             } else {
               this.$message.error(response.data.message || '获取答题历史失败');
             }
