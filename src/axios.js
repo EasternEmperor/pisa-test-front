@@ -31,6 +31,7 @@ instance.interceptors.response.use(
   error => {
     if (error.response && error.response.status === 401) {
       // Token过期或未授权，重定向到登录页面
+      sessionStorage.clear();
       window.location.href = '/login';
     }
     return Promise.reject(error);

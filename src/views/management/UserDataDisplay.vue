@@ -46,13 +46,14 @@
         <el-col :span="8">
           <el-form-item style="width: 100%; text-align: right;">
             <el-button type="primary" @click="fetchAnswerData">确认</el-button>
+            <el-button type="primary" @click="downloadAnswerData">导出</el-button>
           </el-form-item>
         </el-col>
       </el-row>
     </el-form>
   
       <!-- 表格展示部分 -->
-      <el-table :data="answerData" style="width: 100%; margin-top: 20px;">
+      <el-table :data="displayData" style="width: 100%; margin-top: 20px;">
         <el-table-column v-for="column in tableColumns" :key="column.prop" :prop="column.prop" :label="column.label"></el-table-column>
       </el-table>
   
@@ -87,6 +88,7 @@
         selectedUserName: '全部',
         selectedIthAnswer: '全部',
         answerData: [],
+        displayData: [],
         tableColumns: [],
         totalItems: 0,
         pageSize: 10,
@@ -105,6 +107,11 @@
       this.fetchAnswerData();
     },
     methods: {
+      getDisplayData() {
+        const start = (this.currentPage - 1) * this.pageSize;
+        const end = start + Math.min(this.totalItems - start + 1, this.pageSize);
+        return this.answerData.slice(start, end);
+      },
       fetchQuestionNames() {
         return this.axios.get('/api/questionBank/getAllQuestionName')
           .then(response => {
@@ -151,14 +158,14 @@
           });
       },
       fetchAnswerData() {
-        const params = {
+        this.currentPage = 1;
+        const answerDataQuery = {
           htmlName: this.selectedHtmlName,
           userName: this.selectedUserName === '全部' ? '-1' : this.selectedUserName,
           ithAnswer: this.selectedIthAnswer === '全部' ? '-1' : this.selectedIthAnswer,
-          page: this.currentPage,
-          size: this.pageSize
+          downloadInfo: null
         };
-        this.axios.get('/api/answerData/getAnswerData', { params })
+        this.axios.post('/api/answerData/getAnswerData', answerDataQuery)
         .then(response => {
           if (response.data.code === '0') {
             this.answerData = response.data.data.map(item => ({
@@ -166,10 +173,56 @@
               eventStartTime: moment(item.eventStartTime).format('YYYY-MM-DD HH:mm:ss')
             }));
             this.totalItems = response.data.total || this.answerData.length;
+            this.displayData = this.getDisplayData();
             this.setupTableColumns(this.answerData[0]?.tableName);
           } else {
             this.$message.error(response.data.message || '获取答题数据失败');
           }
+        })
+        .catch(error => {
+          console.error(error);
+          this.$message.error('获取答题数据失败');
+        });
+      },
+      downloadAnswerData() {
+        const answerDataQuery = {
+          htmlName: this.selectedHtmlName,
+          userName: this.selectedUserName === '全部' ? '-1' : this.selectedUserName,
+          ithAnswer: this.selectedIthAnswer === '全部' ? '-1' : this.selectedIthAnswer,
+          downloadInfo: {
+            headers: this.tableColumns.reduce((acc, column) => {
+                      acc[column.label] = column.prop;
+                      return acc;
+                    }, {}),
+            fileName: `答题数据_${moment().format('YYYYMMDDHHmmss')}`,
+            fileType: 'xlsx'
+          }
+        };
+        this.axios.post('/api/answerData/getAnswerData', answerDataQuery,
+          { responseType: 'blob' }
+        ).then(response => {
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const link = document.createElement('a');
+          link.href = url;
+
+          let fileName = "download.xlsx";
+          const contentDisposition = response.headers['content-disposition'];
+          if (contentDisposition) {
+            const fileNameMatch = contentDisposition.match(/filename\*=UTF-8''(.+)/);
+            if (fileNameMatch && fileNameMatch.length === 2) {
+              fileName = decodeURIComponent(fileNameMatch[1]); // 解码文件名
+            } else {
+              const fallbackFileNameMatch = contentDisposition.match(/filename="?([^"]+)"?/);
+              if (fallbackFileNameMatch && fallbackFileNameMatch.length === 2) {
+                  fileName = decodeURIComponent(fallbackFileNameMatch[1]); // 解码文件名
+              }
+            }
+          }
+          link.setAttribute('download', fileName);
+
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
         })
         .catch(error => {
           console.error(error);
@@ -211,12 +264,11 @@
       },
       handlePageChange(page) {
         this.currentPage = page;
-        this.fetchAnswerData();
+        this.displayData = this.getDisplayData();
       },
       handleSizeChange(size) {
         this.pageSize = size;
         this.currentPage = 1; // 重置当前页为1
-        this.fetchAnswerData();
       }
     }
   };

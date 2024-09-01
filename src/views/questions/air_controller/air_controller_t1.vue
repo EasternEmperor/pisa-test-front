@@ -11,12 +11,12 @@
       <!-- 题目部分 -->
       <div class="container-box question-section">
         <div class="question-text">
-          <h3>Question 1: CLIMATE CONTROL CPO25Q01</h3>
+          <h3>问题1: 控件作用</h3>
           <p>
-            Find whether each control influences temperature and humidity by changing the sliders.<br/>
-            You can start again by clicking RESET.<br/>
-            Draw lines in the diagram on the right to show what each control influences.<br/>
-            To draw a line, click on a control and then click on either Temperature or Humidity. You can remove any line by clicking on it.
+            通过改变滑块并应用，弄清楚每个控件控制的是温度还是湿度。<br/>
+            你可以通过"RESET"键来重置所有组件。<br/>
+            在下方将你认为控件对应控制的对象连上线。<br/>
+            连线的操作是：点击一个控件，然后点击另一个温度/湿度键。分别点击已连线的两个方块可取消它们之间的连线。
           </p>
         </div>
         <div class="diagram-section">
@@ -31,7 +31,11 @@
             <div class="influence-box" @click="handleBoxClick('humidity')">Humidity</div>
           </div>
         </div>
+        <el-row style="margin-top: 20px;" type="flex" justify="center">
+          <el-button type="primary" @click="submitAnswer">提交</el-button>
+        </el-row>
       </div>
+
     </div>
   </template>
   
@@ -43,6 +47,7 @@
     name: 'AirControllerT1',
     components: {
       AirControllerUpComponent,
+      HeaderComponent,
     },
     data() {
       return {
@@ -56,8 +61,16 @@
     created() {
         this.userName = JSON.parse(sessionStorage.getItem('userInfo')).userName;
         this.ithAnswer = sessionStorage.getItem('ithAnswer');
+        this.no = parseInt(sessionStorage.getItem('no'));
     },
     methods: {
+      startAnswer() {
+        this.sendEvent('start');
+      },
+      submitAnswer() {
+        this.sendEvent('submit');
+        this.$getQuestion(this.no + 1);
+      },
       handleApply() {
         this.sendEvent('apply');
       },
@@ -119,14 +132,23 @@
         };
 
         if (eventType === 'reset' || eventType === 'apply') {
-            const upComponent = this.$refs.upComponentRef;
-            data.topSetting = upComponent.topControl.toString();
-            data.centralSetting = upComponent.centralControl.toString();
-            data.bottomSetting = upComponent.bottomControl.toString();
-            data.tempValue = upComponent.temperature.toString();
-            data.humidValue = upComponent.humidity.toString();
+          const upComponent = this.$refs.upComponentRef;
+          data.topSetting = upComponent.topControl.toString();
+          data.centralSetting = upComponent.centralControl.toString();
+          data.bottomSetting = upComponent.bottomControl.toString();
+          data.tempValue = upComponent.temperature.toString();
+          data.humidValue = upComponent.humidity.toString();
         } else if (eventType === 'diagram') {
-            data.diagramState = this.getDiagramState();
+          data.diagramState = this.getDiagramState();
+        } else if (eventType === 'start') {
+          data.event = 'START_ITEM';
+          data.eventType = 'NULL';
+        } else if (eventType === 'submit') {
+          data.event = 'END_ITEM';
+          data.eventType = 'NULL';
+        } else {
+          console.error('未知的动作！');
+          return;
         }
   
         this.axios.post('/api/test/exploreData', data)
@@ -185,6 +207,8 @@
       }
     },
     mounted() {
+      // 开始答题
+      this.startAnswer();
       // 初始化 data-type 属性
       this.$el.querySelectorAll('.control-box').forEach(el => {
         el.setAttribute('data-type', el.textContent.trim().toLowerCase().replace(' control', ''));

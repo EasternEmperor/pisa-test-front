@@ -21,7 +21,7 @@
           .then(response => {
             if (response.data.code === "0") {
               // 清理用户信息
-              sessionStorage.removeItem('userInfo');
+              sessionStorage.clear();
               // 重定向到登录页面
               this.$router.push('/login');
               this.$message.success('成功登出');

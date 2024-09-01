@@ -8,13 +8,14 @@ import Register from '../views/register/Register'
 import Home from '../views/home/Home'
 import Admin from '../views/home/Admin'
 // import User from '../views/user/User'
-import { Message } from "element-ui";
+import { Message } from "element-ui"
 import User from "../views/home/User.vue"
-import AirControllerT1 from '../views/questions/air_controller/air_controller_t1';
-import AirControllerT2 from '../views/questions/air_controller/air_controller_t2';
-import TicketsSaleT1 from '../views/questions/tickets_sale/tickets_sale_t1';
-import TicketsSaleT2 from '../views/questions/tickets_sale/tickets_sale_t2';
-import TicketsSaleT3 from '../views/questions/tickets_sale/tickets_sale_t3';
+import FinishTest from '../views/home/FinishTest.vue'
+import AirControllerT1 from '../views/questions/air_controller/air_controller_t1'
+import AirControllerT2 from '../views/questions/air_controller/air_controller_t2'
+import TicketsSaleT1 from '../views/questions/tickets_sale/tickets_sale_t1'
+import TicketsSaleT2 from '../views/questions/tickets_sale/tickets_sale_t2'
+import TicketsSaleT3 from '../views/questions/tickets_sale/tickets_sale_t3'
 
 // 创建并暴露一个路由器
 const router = new VueRouter({
@@ -43,6 +44,10 @@ const router = new VueRouter({
         {
             path: "/user",      // 路径
             component: User     // 跳转到的组件
+        },
+        {
+            path: '/FinishTest',
+            component: FinishTest
         },
         {
             path: '/questions/air_controller/air_controller_t1',

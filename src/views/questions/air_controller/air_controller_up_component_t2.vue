@@ -31,9 +31,9 @@
   </template>
   
   <script>
-  import ControllerComponent from './components/ControllerComponent.vue';
-  import ChartComponent from './components/ChartComponent.vue';
-  import ButtonComponent from './components/ButtonComponent.vue';
+  import ControllerComponent from './componentsT2/ControllerComponentT2.vue';
+  import ChartComponent from './componentsT2/ChartComponentT2.vue';
+  import ButtonComponent from './componentsT2/ButtonComponentT2.vue';
   
   export default {
     name: 'AirControllerUpComponent',
@@ -50,20 +50,27 @@
         bottomControl: 0,
         // 温度和湿度值
         temperature: 25,
-        humidity: 25
+        humidity: 25,
+        applyTimes: 0,
       };
     },
     methods: {
       applyChanges() {
-        // 更新温度
-        const newTemperature = this.temperature + this.topControl;
-        this.temperature = Math.min(35, Math.max(0, newTemperature));
-  
-        // 更新湿度
-        const newHumidity = this.humidity + this.centralControl + this.bottomControl;
-        this.humidity = Math.min(35, Math.max(0, newHumidity));
+        if (this.applyTimes < 4) {
+            this.applyTimes++;
+            // 更新温度
+            const newTemperature = this.temperature + this.topControl;
+            this.temperature = Math.min(35, Math.max(0, newTemperature));
+    
+            // 更新湿度
+            const newHumidity = this.humidity + this.centralControl + this.bottomControl;
+            this.humidity = Math.min(35, Math.max(0, newHumidity));
 
-        this.$emit('applyChanges');
+            this.$emit('applyChanges');
+        } else {
+            this.$message.error('APPLY次数已达上限，请提交作答～');
+        }
+        
       },
       resetChanges() {
         this.topControl = 0;

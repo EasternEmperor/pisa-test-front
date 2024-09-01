@@ -24,12 +24,30 @@
           ></div>
         </div>
       </div>
+      <div class="question-text">
+          <h3>请调整空调至下述温度和湿度</h3>
+          <p>
+            温度：{{ randomTemperature }}<br/>
+            湿度：{{ randomHumidity }}<br/>
+          </p>
+        </div>
     </div>
   </template>
   
   <script>
   export default {
     name: 'ChartComponent',
+    data() {
+        return {
+            randomTemperature: this.generateRandomNumber(17, 33),
+            randomHumidity: this.generateRandomNumber(9, 35),
+        };
+    },
+    methods: {
+        generateRandomNumber(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        },
+    },
     props: {
       temperature: {
         type: Number,
@@ -89,6 +107,10 @@
   
   .humidity-bar {
     background-color: #40a9ff;
+  }
+
+  .question-text {
+    margin-bottom: 20px;
   }
   </style>
   
