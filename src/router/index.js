@@ -69,7 +69,15 @@ const router = new VueRouter({
             path: '/questions/tickets_sale/tickets_sale_t3',
             component: TicketsSaleT3
         }
-    ]
+    ],
+    scrollBehavior(to, from, savedPosition) {
+        // 如果存在 savedPosition，则表示用户使用了浏览器的前进/后退按钮，保持原有位置
+        if (savedPosition) {
+          return savedPosition;
+        } else {
+          return { x: 0, y: 0 }; // 否则滚动到页面顶部
+        }
+    }
 })
 
 // 导航守卫，前置处理

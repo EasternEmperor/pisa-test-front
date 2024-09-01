@@ -53,6 +53,7 @@
       return {
         userName: '',
         ithAnswer: -1,
+        no: -1,
         selectedControl: null,
         connections: [],
         eventNumber: 1, // 用于记录事件次数
@@ -69,6 +70,10 @@
       },
       submitAnswer() {
         this.sendEvent('submit');
+        this.$message({
+          message: "提交成功，进入下一题～",
+          type: "success",
+        });
         this.$getQuestion(this.no + 1);
       },
       handleApply() {

@@ -2,10 +2,10 @@
 export default {
     install(Vue) {
       Vue.prototype.$getQuestion = function(no) {
-        sessionStorage.setItem("no", no);
         this.axios.get('/api/test/getQuestion', { params: { no } })
           .then(response => {
             if (response.data.code === '0') {
+              sessionStorage.setItem("no", response.data.data.no);
               const { htmlName } = response.data.data;
               if (htmlName === 'air_controller_t1') {
                 this.$router.push('/questions/air_controller/air_controller_t1');

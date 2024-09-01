@@ -76,6 +76,10 @@
       },
       submitAnswer() {
         this.sendEvent('submit');
+        this.$message({
+          message: "提交成功，进入下一题～",
+          type: "success",
+        });
         this.$getQuestion(this.no + 1);
       },
       handleApply() {
