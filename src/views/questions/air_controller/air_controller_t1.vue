@@ -11,24 +11,24 @@
       <!-- 题目部分 -->
       <div class="container-box question-section">
         <div class="question-text">
-          <h3>问题1: 控件作用</h3>
+          <h3>问题1: 控制器功能</h3>
           <p>
-            通过改变滑块并应用，弄清楚每个控件控制的是温度还是湿度。<br/>
-            你可以通过"RESET"键来重置所有组件。<br/>
-            在下方将你认为控件对应控制的对象连上线。<br/>
-            连线的操作是：点击一个控件，然后点击另一个温度/湿度键。分别点击已连线的两个方块可取消它们之间的连线。
+            通过改变滑块并应用，弄清楚每个控制器控制的是温度还是湿度。<br/>
+            你可以通过"重置"键来重置所有组件。<br/>
+            在下方将控制器和你认为其控制的对象连上线。<br/>
+            连线的操作是：点击一个控制器键，然后点击另一个温度/湿度键。分别点击已连线的两个方块可取消它们之间的连线。
           </p>
         </div>
         <div class="diagram-section">
           <svg class="lines-svg" ref="svgContainer"></svg>
           <div class="controls-column">
-            <div class="control-box" @click="handleBoxClick('top')">Top Control</div>
-            <div class="control-box" @click="handleBoxClick('central')">Central Control</div>
-            <div class="control-box" @click="handleBoxClick('bottom')">Bottom Control</div>
+            <div class="control-box" @click="handleBoxClick('top')">顶部控制器</div>
+            <div class="control-box" @click="handleBoxClick('central')">中间控制器</div>
+            <div class="control-box" @click="handleBoxClick('bottom')">底部控制器</div>
           </div>
           <div class="influences-column">
-            <div class="influence-box" @click="handleBoxClick('temperature')">Temperature</div>
-            <div class="influence-box" @click="handleBoxClick('humidity')">Humidity</div>
+            <div class="influence-box" @click="handleBoxClick('temperature')">温度</div>
+            <div class="influence-box" @click="handleBoxClick('humidity')">湿度</div>
           </div>
         </div>
         <el-row style="margin-top: 20px;" type="flex" justify="center">
@@ -68,13 +68,23 @@
       startAnswer() {
         this.sendEvent('start');
       },
+      checkAnswer() {
+        return this.connections.length >= 3;
+      },
       submitAnswer() {
-        this.sendEvent('submit');
-        this.$message({
-          message: "提交成功，进入下一题～",
-          type: "success",
-        });
-        this.$getQuestion(this.no + 1);
+        if (this.checkAnswer()) {
+            this.sendEvent('submit');
+            this.$message({
+                message: "提交成功，进入下一题～",
+                type: "success",
+            });
+            this.$getQuestion(this.no + 1);
+        } else {
+            this.$message({
+                message: "请完成连线作答再提交！",
+                type: "warning",
+            });
+        }
       },
       handleApply() {
         this.sendEvent('apply');
@@ -216,11 +226,14 @@
       this.startAnswer();
       // 初始化 data-type 属性
       this.$el.querySelectorAll('.control-box').forEach(el => {
-        el.setAttribute('data-type', el.textContent.trim().toLowerCase().replace(' control', ''));
+        let text = el.textContent.trim();
+        text = text.replace('顶部', 'top').replace('中间', 'central').replace('底部', 'bottom');
+        el.setAttribute('data-type', text.toLowerCase().replace('控制器', ''));
       });
-  
       this.$el.querySelectorAll('.influence-box').forEach(el => {
-        el.setAttribute('data-type', el.textContent.trim().toLowerCase());
+        let text = el.textContent.trim();
+        text = text.replace('温度', 'temperature').replace('湿度', 'humidity');
+        el.setAttribute('data-type', text);
       });
     }
   };

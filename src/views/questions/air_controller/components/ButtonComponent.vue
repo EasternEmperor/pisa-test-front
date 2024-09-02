@@ -1,8 +1,8 @@
 <template>
     <div class="button-component">
-      <button @click="$emit('apply')">APPLY</button>
+      <button @click="$emit('apply')">调控</button>
       <img src="@/assets/air_conditioner.png" alt="Air Conditioner" style="width: 200px; height: 200px;"/>
-      <button @click="$emit('reset')">RESET</button>
+      <button @click="$emit('reset')">重置</button>
     </div>
   </template>
   

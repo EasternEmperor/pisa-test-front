@@ -2,7 +2,7 @@
     <div class="chart-component">
       <div class="chart-item">
         <div class="chart-label">
-          <span>Temperature:</span>
+          <span>温度:</span>
           <span class="chart-value">{{ temperature }}</span>
         </div>
         <div class="chart-bar">
@@ -14,7 +14,7 @@
       </div>
       <div class="chart-item">
         <div class="chart-label">
-          <span>Humidity:</span>
+          <span>湿度:</span>
           <span class="chart-value">{{ humidity }}</span>
         </div>
         <div class="chart-bar">

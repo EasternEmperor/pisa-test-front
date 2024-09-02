@@ -1,7 +1,7 @@
 <template>
     <div class="controller-component">
       <div class="control-item">
-        <label for="top-control">Top Control</label>
+        <label for="top-control">顶部控制器</label>
         <input
           id="top-control"
           type="range"
@@ -19,7 +19,7 @@
         </div>
       </div>
       <div class="control-item">
-        <label for="central-control">Central Control</label>
+        <label for="central-control">中间控制器</label>
         <input
           id="central-control"
           type="range"
@@ -37,7 +37,7 @@
         </div>
       </div>
       <div class="control-item">
-        <label for="bottom-control">Bottom Control</label>
+        <label for="bottom-control">底部控制器</label>
         <input
           id="bottom-control"
           type="range"

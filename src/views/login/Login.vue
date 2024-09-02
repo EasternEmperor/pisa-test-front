@@ -12,9 +12,15 @@
         label-width="70px"
         class="login-form"
       >
-        <el-form-item label="用户名" prop="userName">
-          <el-input v-model="ruleForm.userName"></el-input>
-        </el-form-item>
+      <el-form-item label="用户名" prop="userName">
+        <el-input v-model="ruleForm.userName"></el-input>
+      </el-form-item>
+
+      <div style="font-size: 12px; color: #606266; text-align: left;">
+          注：用户名填写姓名拼音+出生日期。如：wangxiaoming19700101 <br/>
+          <br/>
+      </div>
+
       </el-form>
       <div class="btnGroup">
         <el-button

@@ -21,13 +21,13 @@
         <div class="diagram-section">
           <svg class="lines-svg" ref="svgContainer"></svg>
           <div class="controls-column">
-            <div class="control-box" >Top Control</div>
-            <div class="control-box" >Central Control</div>
-            <div class="control-box" >Bottom Control</div>
+            <div class="control-box" >顶部控制器</div>
+            <div class="control-box" >中间控制器</div>
+            <div class="control-box" >底部控制器</div>
           </div>
           <div class="influences-column">
-            <div class="influence-box" >Temperature</div>
-            <div class="influence-box" >Humidity</div>
+            <div class="influence-box" >温度</div>
+            <div class="influence-box" >湿度</div>
           </div>
         </div>
         <el-row style="margin-top: 20px;" type="flex" justify="center">
@@ -222,11 +222,14 @@
       this.startAnswer();
       // 初始化 data-type 属性
       this.$el.querySelectorAll('.control-box').forEach(el => {
-        el.setAttribute('data-type', el.textContent.trim().toLowerCase().replace(' control', ''));
+        let text = el.textContent.trim();
+        text = text.replace('顶部', 'top').replace('中间', 'central').replace('底部', 'bottom');
+        el.setAttribute('data-type', text.toLowerCase().replace('控制器', ''));
       });
-  
       this.$el.querySelectorAll('.influence-box').forEach(el => {
-        el.setAttribute('data-type', el.textContent.trim().toLowerCase());
+        let text = el.textContent.trim();
+        text = text.replace('温度', 'temperature').replace('湿度', 'humidity');
+        el.setAttribute('data-type', text);
       });
       // 画线
       this.drawExample();
