@@ -215,11 +215,26 @@
   
           svg.appendChild(line);
         });
+      },
+      preventBack() {
+        // 阻止用户后退
+        history.pushState(null, null, location.href);
+        this.$message({
+          message: "不能返回上一题，请点击提交或继续答题！",
+          type: "warning",
+        });
+      },
+      initPreventBack() {
+        // 初始化防止后退逻辑
+        history.pushState(null, null, location.href); // 首次向历史记录栈添加当前页面
+        window.addEventListener('popstate', this.preventBack); // 监听后退事件
       }
     },
     mounted() {
       // 开始答题
       this.startAnswer();
+      // 初始化防止后退
+      this.initPreventBack();
       // 初始化 data-type 属性
       this.$el.querySelectorAll('.control-box').forEach(el => {
         let text = el.textContent.trim();
@@ -233,6 +248,9 @@
       });
       // 画线
       this.drawExample();
+    },
+    beforeDestroy() {
+      window.removeEventListener('popstate', this.preventBack);
     }
   };
   </script>

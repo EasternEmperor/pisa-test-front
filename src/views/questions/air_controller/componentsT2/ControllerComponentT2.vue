@@ -11,11 +11,11 @@
           @input="$emit('update:top-control', Number($event.target.value))"
         />
         <div class="control-labels">
-          <span>--</span>
-          <span>-</span>
-          <span>▲</span>
-          <span>+</span>
-          <span>++</span>
+        <span>-2</span>
+        <span>-1</span>
+        <span>▲</span>
+        <span>+1</span>
+        <span>+2</span>
         </div>
       </div>
       <div class="control-item">
@@ -29,11 +29,11 @@
           @input="$emit('update:central-control', Number($event.target.value))"
         />
         <div class="control-labels">
-          <span>--</span>
-          <span>-</span>
-          <span>▲</span>
-          <span>+</span>
-          <span>++</span>
+        <span>-2</span>
+        <span>-1</span>
+        <span>▲</span>
+        <span>+1</span>
+        <span>+2</span>
         </div>
       </div>
       <div class="control-item">
@@ -47,11 +47,11 @@
           @input="$emit('update:bottom-control', Number($event.target.value))"
         />
         <div class="control-labels">
-          <span>--</span>
-          <span>-</span>
-          <span>▲</span>
-          <span>+</span>
-          <span>++</span>
+        <span>-2</span>
+        <span>-1</span>
+        <span>▲</span>
+        <span>+1</span>
+        <span>+2</span>
         </div>
       </div>
     </div>

@@ -193,22 +193,32 @@
       drawLines() {
         const svg = this.$refs.svgContainer;
         svg.innerHTML = ''; // 清除现有连线
-  
+
         this.connections.forEach(connection => {
           const startElement = this.$el.querySelector(`[data-type=${connection.start}]`);
           const endElement = this.$el.querySelector(`[data-type=${connection.end}]`);
-  
+
           const startRect = startElement.getBoundingClientRect();
           const endRect = endElement.getBoundingClientRect();
-  
           const svgRect = svg.getBoundingClientRect();
-  
-          const startX = startRect.left + startRect.width / 2 - svgRect.left;
-          const startY = startRect.top + startRect.height / 2 - svgRect.top;
-  
-          const endX = endRect.left + endRect.width / 2 - svgRect.left;
-          const endY = endRect.top + endRect.height / 2 - svgRect.top;
-  
+
+          // 根据元素相对位置，决定连线从哪条边出发
+          const startX = startRect.left > endRect.left
+            ? startRect.left - svgRect.left // 如果 start 在 end 右边，从 start 的左边出发
+            : startRect.right - svgRect.left; // 否则，从 start 的右边出发
+
+          const startY = startRect.top > endRect.top
+            ? startRect.top + startRect.height / 2 - svgRect.top // 从 start 的中间靠上部分
+            : startRect.bottom - startRect.height / 2 - svgRect.top;
+
+          const endX = endRect.left > startRect.left
+            ? endRect.left - svgRect.left // 如果 end 在 start 右边，从 end 的左边出发
+            : endRect.right - svgRect.left; // 否则，从 end 的右边出发
+
+          const endY = endRect.top > startRect.top
+            ? endRect.top + endRect.height / 2 - svgRect.top // 从 end 的中间靠上部分
+            : endRect.bottom - endRect.height / 2 - svgRect.top;
+
           const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
           line.setAttribute('x1', startX);
           line.setAttribute('y1', startY);
@@ -216,14 +226,29 @@
           line.setAttribute('y2', endY);
           line.setAttribute('stroke', 'black');
           line.setAttribute('stroke-width', '2');
-  
+
           svg.appendChild(line);
         });
+      },
+      preventBack() {
+        // 阻止用户后退
+        history.pushState(null, null, location.href);
+        this.$message({
+          message: "不能返回上一题，请点击提交或继续答题！",
+          type: "warning",
+        });
+      },
+      initPreventBack() {
+        // 初始化防止后退逻辑
+        history.pushState(null, null, location.href); // 首次向历史记录栈添加当前页面
+        window.addEventListener('popstate', this.preventBack); // 监听后退事件
       }
     },
     mounted() {
       // 开始答题
       this.startAnswer();
+      // 初始化防止后退
+      this.initPreventBack();
       // 初始化 data-type 属性
       this.$el.querySelectorAll('.control-box').forEach(el => {
         let text = el.textContent.trim();
@@ -235,6 +260,11 @@
         text = text.replace('温度', 'temperature').replace('湿度', 'humidity');
         el.setAttribute('data-type', text);
       });
+      // 监听popstate事件，阻止浏览器前进后退
+      window.addEventListener('popstate', this.preventBack);
+    },
+    beforeDestroy() {
+      window.removeEventListener('popstate', this.preventBack);
     }
   };
   </script>
