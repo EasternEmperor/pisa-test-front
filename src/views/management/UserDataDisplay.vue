@@ -269,6 +269,7 @@
       handleSizeChange(size) {
         this.pageSize = size;
         this.currentPage = 1; // 重置当前页为1
+        this.displayData = this.getDisplayData();
       }
     }
   };
