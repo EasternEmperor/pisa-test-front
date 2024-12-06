@@ -260,8 +260,6 @@
         text = text.replace('温度', 'temperature').replace('湿度', 'humidity');
         el.setAttribute('data-type', text);
       });
-      // 监听popstate事件，阻止浏览器前进后退
-      window.addEventListener('popstate', this.preventBack);
     },
     beforeDestroy() {
       window.removeEventListener('popstate', this.preventBack);

@@ -17,6 +17,7 @@
             @update:bottom-control="bottomControl = $event"
           />
           <chart-component
+            ref="chartComponent"
             :temperature="temperature"
             :humidity="humidity"
           />
@@ -60,10 +61,14 @@
             // 更新温度
             const newTemperature = this.temperature + this.topControl;
             this.temperature = Math.min(35, Math.max(0, newTemperature));
+            // 更新曲线图
+            this.$refs.chartComponent.addData('temperature', this.temperature);
     
             // 更新湿度
             const newHumidity = this.humidity + this.centralControl + this.bottomControl;
             this.humidity = Math.min(35, Math.max(0, newHumidity));
+            // 更新曲线图
+            this.$refs.chartComponent.addData('humidity', this.humidity);
 
             this.$emit('applyChanges');
         } else {
@@ -77,6 +82,9 @@
         this.bottomControl = 0;
         this.temperature = 25;
         this.humidity = 25;
+
+        // 调用 ChartComponent 的 resetChart 方法
+        this.$refs.chartComponent.resetChart();
 
         this.$emit('resetChanges');
       }

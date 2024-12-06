@@ -4,7 +4,7 @@
       <p>
         你的新空调没有说明书，需要你通过探索如何使用它。<br/>
         你可以使用左侧的滑块（-o-）更改顶部、中心和底部控制器。每个控制器的初始设置在▲的位置。<br/>
-        点击"调控"键，你将在温度计和湿度计中看到房间温度和湿度的任何变化。<br/>
+        点击"调控"键，你将在温度图和湿度图中看到房间温度和湿度的任何变化。<br/>
         点击"重置"键，你可以将所有控制器重置到初始设置，温度计和湿度计数字也将变回初始值。<br/>
       </p>
       <div class="control-and-chart">
@@ -18,8 +18,9 @@
             @update:bottom-control="bottomControl = $event"
           />
           <chart-component
-            :temperature="temperature"
-            :humidity="humidity"
+            ref="chartComponent"
+          :temperature="temperature"
+          :humidity="humidity"
           />
         </div>
         <button-component
@@ -58,10 +59,14 @@
         // 更新温度
         const newTemperature = this.temperature + this.topControl;
         this.temperature = Math.min(35, Math.max(0, newTemperature));
+        // 更新曲线图
+        this.$refs.chartComponent.addData('temperature', this.temperature);
   
         // 更新湿度
         const newHumidity = this.humidity + this.centralControl + this.bottomControl;
         this.humidity = Math.min(35, Math.max(0, newHumidity));
+        // 更新曲线图
+        this.$refs.chartComponent.addData('humidity', this.humidity);
 
         this.$emit('applyChanges');
       },
@@ -71,6 +76,9 @@
         this.bottomControl = 0;
         this.temperature = 25;
         this.humidity = 25;
+
+        // 调用 ChartComponent 的 resetChart 方法
+        this.$refs.chartComponent.resetChart();
 
         this.$emit('resetChanges');
       }
