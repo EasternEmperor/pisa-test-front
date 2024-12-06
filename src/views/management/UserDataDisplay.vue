@@ -110,7 +110,7 @@
       getDisplayData() {
         const start = (this.currentPage - 1) * this.pageSize;
         const end = start + Math.min(this.totalItems - start + 1, this.pageSize);
-        return this.answerData.slice(start, end);
+        this.displayData = this.answerData.slice(start, end);
       },
       fetchQuestionNames() {
         return this.axios.get('/api/questionBank/getAllQuestionName')
@@ -173,7 +173,7 @@
               eventStartTime: moment(item.eventStartTime).format('YYYY-MM-DD HH:mm:ss')
             }));
             this.totalItems = response.data.total || this.answerData.length;
-            this.displayData = this.getDisplayData();
+            this.getDisplayData();
             this.setupTableColumns(this.answerData[0]?.tableName);
           } else {
             this.$message.error(response.data.message || '获取答题数据失败');
@@ -264,12 +264,12 @@
       },
       handlePageChange(page) {
         this.currentPage = page;
-        this.displayData = this.getDisplayData();
+        this.getDisplayData();
       },
       handleSizeChange(size) {
         this.pageSize = size;
         this.currentPage = 1; // 重置当前页为1
-        this.displayData = this.getDisplayData();
+        this.getDisplayData();
       }
     }
   };

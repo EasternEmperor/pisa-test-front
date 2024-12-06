@@ -1,5 +1,5 @@
 <template>
-    <el-tabs v-model="activeTab" type="card" @tab-remove="removeTab" closable>
+    <el-tabs v-model="activeTab" type="card" @tab-remove="removeTab" @input="handleTabChange" closable>
       <el-tab-pane v-for="tab in tabs" :key="tab.name" :label="tab.label" :name="tab.name">
         <component :is="tab.component"></component>
       </el-tab-pane>
@@ -37,6 +37,10 @@
         }
         this.activeTab = activeTab;
         this.tabs = tabs.filter(tab => tab.name !== targetName);
+        this.$emit('remove-tab', activeTab);
+      },
+      handleTabChange(newTabName) {
+        this.$emit('change-tab', newTabName);
       }
     }
   };

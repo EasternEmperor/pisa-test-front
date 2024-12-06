@@ -20,6 +20,9 @@
       handleSelect(key, keyPath) {
         this.$emit('menu-selected', key);
         this.activeMenu = key;
+      },
+      setActiveTab(key) {
+        this.activeMenu = key;
       }
     }
   };

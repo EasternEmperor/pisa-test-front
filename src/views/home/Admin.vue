@@ -5,10 +5,10 @@
       </el-header>
       <el-container>
         <el-aside width="200px">
-          <Sidebar @menu-selected="handleMenuSelected" />
+          <Sidebar ref ="sidebar" @menu-selected="handleMenuSelected" />
         </el-aside>
         <el-main>
-          <TabContent ref="tabContent" />
+          <TabContent ref="tabContent" @remove-tab="handleActiveTab" @change-tab="handleActiveTab" />
         </el-main>
       </el-container>
     </el-container>
@@ -60,6 +60,9 @@
             return;
         }
         this.$refs.tabContent.addTab(label, key, component);
+      },
+      handleActiveTab(key) {
+        this.$refs.sidebar.setActiveTab(key);
       }
     }
   };
