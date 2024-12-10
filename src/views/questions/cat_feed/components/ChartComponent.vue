@@ -2,10 +2,10 @@
   <div class="chart-component">
     <div class="chart-row">
       <div class="chart-item">
-        <canvas ref="temperatureChart"></canvas>
+        <canvas ref="foodChart"></canvas>
       </div>
       <div class="chart-item">
-        <canvas ref="humidityChart"></canvas>
+        <canvas ref="waterChart"></canvas>
       </div>
     </div>
   </div>
@@ -17,21 +17,21 @@ import { Chart } from 'chart.js';
 export default {
   name: 'ChartComponent',
   props: {
-    temperature: {
+    food: {
       type: Number,
       required: true
     },
-    humidity: {
+    water: {
       type: Number,
       required: true
     }
   },
   data() {
     return {
-      temperatureData: [25, 25],
-      tempOpIdx: [0, 0],
-      humidityData: [25, 25],
-      humidityOpIdx: [0, 0],
+      foodData: [25, 25],
+      foodOpIdx: [0, 0],
+      waterData: [25, 25],
+      waterOpIdx: [0, 0],
       chart: null // Chart.js实例
     };
   },
@@ -41,18 +41,18 @@ export default {
   },
   methods: {
     initializeChart() {
-      const ctxTemperature = this.$refs.temperatureChart.getContext('2d');
-      const ctxHumidity = this.$refs.humidityChart.getContext('2d');
+      const ctxFood = this.$refs.foodChart.getContext('2d');
+      const ctxWater = this.$refs.waterChart.getContext('2d');
 
       // 初始化两个图表
       this.chart = {
-        temperature: new Chart(ctxTemperature, {
+        food: new Chart(ctxFood, {
           type: 'line',
           data: {
-            labels: [0, 0],
+            labels: ['调控: 0', '调控: 0'],
             datasets: [{
-              label: '温度',
-              data: this.temperatureData,
+              label: '食物量',
+              data: this.foodData,
               borderColor: 'red',
               borderWidth: 2,
               fill: false,
@@ -68,7 +68,7 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '操作次数',
+                  text: '调控',
                   font: { size: 14, weight: 'bold' }
                 }
               },
@@ -77,20 +77,20 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '温度值',
+                  text: '食物量',
                   font: { size: 14, weight: 'bold' }
                 }
               }
             }
           }
         }),
-        humidity: new Chart(ctxHumidity, {
+        water: new Chart(ctxWater, {
           type: 'line',
           data: {
-            labels: [0, 0],
+            labels: ['调控: 0', '调控: 0'],
             datasets: [{
-              label: '湿度',
-              data: this.humidityData,
+              label: '出水量',
+              data: this.waterData,
               borderColor: 'blue',
               borderWidth: 2,
               fill: false,
@@ -106,7 +106,7 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '操作次数',
+                  text: '调控',
                   font: { size: 14, weight: 'bold' }
                 }
               },
@@ -115,7 +115,7 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '湿度值',
+                  text: '出水量',
                   font: { size: 14, weight: 'bold' }
                 }
               }
@@ -126,44 +126,50 @@ export default {
     },
     addData(type, value) {
       // 限制最多6个数据点
-      if (this.temperatureData.length >= 6) {
-        this.temperatureData.shift();
-        this.tempOpIdx.shift();
+      if (this.foodData.length >= 6) {
+        this.foodData.shift();
+        this.foodOpIdx.shift();
       }
-      if (this.humidityData.length >= 6) {
-        this.humidityData.shift();
-        this.humidityOpIdx.shift();
+      if (this.waterData.length >= 6) {
+        this.waterData.shift();
+        this.waterOpIdx.shift();
       }
 
-      if (type === 'temperature') {
-        this.temperatureData.push(value);
-        this.tempOpIdx.push(this.tempOpIdx[this.tempOpIdx.length - 1] + 1);
-      } else if (type === 'humidity') {
-        this.humidityData.push(value);
-        this.humidityOpIdx.push(this.humidityOpIdx[this.humidityOpIdx.length - 1] + 1);
+      if (type === 'food') {
+        this.foodData.push(value);
+        this.foodOpIdx.push(this.foodOpIdx[this.foodOpIdx.length - 1] + 1);
+      } else if (type === 'water') {
+        this.waterData.push(value);
+        this.waterOpIdx.push(this.waterOpIdx[this.waterOpIdx.length - 1] + 1);
       }
 
       // 更新图表
       this.updateChart();
     },
     updateChart() {
-      this.chart.temperature.data.labels = this.tempOpIdx;
-      this.chart.temperature.data.datasets[0].data = this.temperatureData;
-      this.chart.humidity.data.labels = this.humidityOpIdx;
-      this.chart.humidity.data.datasets[0].data = this.humidityData;
+      this.chart.food.data.labels = this.foodOpIdx.map(i => `调控: ${i}`);
+      this.chart.food.data.datasets[0].data = this.foodData;
+      this.chart.water.data.labels = this.waterOpIdx.map(i => `调控: ${i}`);
+      this.chart.water.data.datasets[0].data = this.waterData;
 
-      this.chart.temperature.update();
-      this.chart.humidity.update();
+      this.chart.food.update();
+      this.chart.water.update();
     },
     resetChart() {
       // 清空数据并重置图表
-      this.temperatureData = [25, 25];
-      this.tempOpIdx = [0, 0];
-      this.humidityData = [25, 25];
-      this.humidityOpIdx = [0, 0];
+      this.foodData = [25, 25];
+      this.foodOpIdx = [0, 0];
+      this.waterData = [25, 25];
+      this.waterOpIdx = [0, 0];
 
       this.updateChart();
-    }
+    },
+    beforeDestroy() {
+      if (this.chart) {
+        this.chart.food.destroy();
+        this.chart.water.destroy();
+      }
+    },
   }
 };
 </script>

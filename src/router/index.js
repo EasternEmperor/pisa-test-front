@@ -16,6 +16,8 @@ import AirControllerT2 from '../views/questions/air_controller/air_controller_t2
 import TicketsSaleT1 from '../views/questions/tickets_sale/tickets_sale_t1'
 import TicketsSaleT2 from '../views/questions/tickets_sale/tickets_sale_t2'
 import TicketsSaleT3 from '../views/questions/tickets_sale/tickets_sale_t3'
+import CatFeedT1 from '../views/questions/cat_feed/cat_feed_t1'
+import CatFeedT2 from '../views/questions/cat_feed/cat_feed_t2'
 
 // 创建并暴露一个路由器
 const router = new VueRouter({
@@ -68,6 +70,14 @@ const router = new VueRouter({
         {
             path: '/questions/tickets_sale/tickets_sale_t3',
             component: TicketsSaleT3
+        },
+        {
+            path: '/questions/cat_feed/cat_feed_t1',
+            component: CatFeedT1
+        },
+        {
+            path: '/questions/cat_feed/cat_feed_t2',
+            component: CatFeedT2
         }
     ],
     scrollBehavior(to, from, savedPosition) {

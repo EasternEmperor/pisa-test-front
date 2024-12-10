@@ -1,6 +1,6 @@
 <template>
     <div class="finish-test-container">
-      <p class="message">你已完成所有试题，点击确定返回主页。</p>
+      <p class="message">你已完成所有试题，请务必点击确定完成测试，并将返回主页。</p>
       <el-button type="primary" @click="goHome">确定</el-button>
     </div>
   </template>
@@ -36,8 +36,8 @@
           });
       },
       goHome() {
-        this.finishTest();
         this.$router.push('/user');
+        this.finishTest();
       }
     }
   }

@@ -17,6 +17,10 @@ export default {
                 this.$router.push('/questions/tickets_sale/tickets_sale_t2');
               } else if (htmlName === 'tickets_sale_t3') {
                 this.$router.push('/questions/tickets_sale/tickets_sale_t3');
+              } else if (htmlName === 'cat_feed_t1') {
+                this.$router.push('/questions/cat_feed/cat_feed_t1');
+              } else if (htmlName === 'cat_feed_t2') {
+                this.$router.push('/questions/cat_feed/cat_feed_t2');
               } else if (htmlName === 'finished') {
                 this.$router.push('/FinishTest');
               } else {

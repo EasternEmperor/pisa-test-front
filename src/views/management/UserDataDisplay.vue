@@ -260,6 +260,22 @@
             { label: '票种', prop: 'ticketType' },
             { label: '乘车次数', prop: 'numberTrips' }
           ];
+        } else if (tableName === 3) {
+          this.tableColumns = [
+            { label: '问题名称', prop: 'htmlName' },
+            { label: '用户名', prop: 'userName' },
+            { label: '答题次序', prop: 'ithAnswer' },
+            { label: '操作事件', prop: 'event' },
+            { label: '事件类型', prop: 'eventType' },
+            { label: '事件开始时间', prop: 'eventStartTime' },
+            { label: '事件顺序', prop: 'eventNumber' },
+            { label: 'top control设置', prop: 'topSetting' },
+            { label: 'central control设置', prop: 'centralSetting' },
+            { label: 'bottom control设置', prop: 'bottomSetting' },
+            { label: '食物量', prop: 'foodValue' },
+            { label: '出水量', prop: 'waterValue' },
+            { label: '连线答案', prop: 'diagramState' }
+          ];
         }
       },
       handlePageChange(page) {

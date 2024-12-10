@@ -1,34 +1,33 @@
 <template>
-    <div class="air-controller-t1">
+    <div class="cat-feed-t2">
       <!-- 使用 Header 组件 -->
       <header-component :userName="userName" />
 
       <!-- 题干部分 -->
       <div class="container-box">
-        <air-controller-up-component ref="upComponentRef" @applyChanges="handleApply" @resetChanges="handleReset" />
+        <cat-feed-up-component ref="upComponentRef" @applyChanges="handleApply" @resetChanges="handleReset" @control="handleControl"/>
       </div>
   
       <!-- 题目部分 -->
       <div class="container-box question-section">
         <div class="question-text">
-          <h3>问题1: 控制器功能</h3>
+          <h3>问题2: 调控食物量和出水量</h3>
           <p>
-            通过改变滑块并应用，弄清楚每个控制器控制的是温度还是湿度。<br/>
-            你可以通过"重置"键来重置所有组件。<br/>
-            在下方将控制器和你认为其控制的对象连上线。<br/>
-            连线的操作是：点击一个控制器方块，然后点击另一个温度/湿度方块。依次点击已连线的两个方块可取消它们之间的连线。
+            三个控制器及其控制的对象如下图连线所示。<br/>
+            灵活运用控制器，将食物量和出水量调整到目标数值。目标数值如<b>曲线图上方所示。</b><br/>
+            你需要在尽可能少的鼠标点击次数中完成目标，且没有重置按钮可供使用。<br/>
           </p>
         </div>
         <div class="diagram-section">
           <svg class="lines-svg" ref="svgContainer"></svg>
           <div class="controls-column">
-            <div class="control-box" @click="handleBoxClick('top')">顶部控制器</div>
-            <div class="control-box" @click="handleBoxClick('central')">中间控制器</div>
-            <div class="control-box" @click="handleBoxClick('bottom')">底部控制器</div>
+            <div class="control-box" >顶部控制器</div>
+            <div class="control-box" >中间控制器</div>
+            <div class="control-box" >底部控制器</div>
           </div>
           <div class="influences-column">
-            <div class="influence-box" @click="handleBoxClick('temperature')">温度</div>
-            <div class="influence-box" @click="handleBoxClick('humidity')">湿度</div>
+            <div class="influence-box" >食物量</div>
+            <div class="influence-box" >出水量</div>
           </div>
         </div>
         <el-row style="margin-top: 20px;" type="flex" justify="center">
@@ -40,20 +39,19 @@
   </template>
   
   <script>
-  import AirControllerUpComponent from './air_controller_up_component.vue';
+  import CatFeedUpComponent from './cat_feed_up_component_t2.vue';
   import HeaderComponent from '@/components/Header.vue';
   
   export default {
-    name: 'AirControllerT1',
+    name: 'CatFeedT1',
     components: {
-      AirControllerUpComponent,
+      CatFeedUpComponent,
       HeaderComponent,
     },
     data() {
       return {
         userName: '',
         ithAnswer: -1,
-        no: -1,
         selectedControl: null,
         connections: [],
         eventNumber: 1, // 用于记录事件次数
@@ -65,37 +63,33 @@
         this.no = parseInt(sessionStorage.getItem('no'));
     },
     methods: {
+      drawExample() {
+        this.handleBoxClick('top');
+        this.handleBoxClick('food');
+        this.handleBoxClick('central');
+        this.handleBoxClick('water');
+        this.handleBoxClick('bottom');
+        this.handleBoxClick('water');
+      },
       startAnswer() {
         this.sendEvent('start');
       },
-      checkAnswer() {
-        // 判断 connections 中是否包含 start 为 'top', 'central', 'bottom' 的元素
-        const hasTop = this.connections.some(conn => conn.start === 'top');
-        const hasCentral = this.connections.some(conn => conn.start === 'central');
-        const hasBottom = this.connections.some(conn => conn.start === 'bottom');
-        
-        return hasTop && hasCentral && hasBottom;
-      },
       submitAnswer() {
-        if (this.checkAnswer()) {
-            this.sendEvent('submit');
-            this.$message({
-                message: "提交成功，进入下一题～",
-                type: "success",
-            });
-            this.$getQuestion(this.no + 1);
-        } else {
-            this.$message({
-                message: "请完成连线作答再提交！",
-                type: "warning",
-            });
-        }
+        this.sendEvent('submit');
+        this.$message({
+          message: "提交成功，进入下一题～",
+          type: "success",
+        });
+        this.$getQuestion(this.no + 1);
       },
       handleApply() {
         this.sendEvent('apply');
       },
       handleReset() {
         this.sendEvent('reset');
+      },
+      handleControl(control) {
+        this.sendEvent('control');
       },
       handleBoxClick(type) {
         if (this.selectedControl) {
@@ -115,17 +109,13 @@
               conn => conn !== existingConnection
             );
           } else {
-            if (this.isInfluence(this.selectedControl)) {
-              this.connections.push({ start: type, end: this.selectedControl });
-            } else {
-              this.connections.push({ start: this.selectedControl, end: type });
-            }
+            this.connections.push({ start: this.selectedControl, end: type });
           }
   
           this.selectedControl = null;
           this.drawLines();
   
-          this.sendEvent('diagram');
+        //   this.sendEvent('diagram');
         } else {
           this.selectedControl = type;
         }
@@ -136,7 +126,7 @@
   
         const data = {
           tableName: 1,
-          htmlName: 'air_controller_t1',
+          htmlName: 'cat_feed_t2',
           userName: userName,
           ithAnswer: ithAnswer,
           event: 'ACER_EVENT',
@@ -146,8 +136,8 @@
           topSetting: "NULL",
           centralSetting: "NULL",
           bottomSetting: "NULL",
-          tempValue: "NULL",
-          humidValue: "NULL",
+          foodValue: "NULL",
+          waterValue: "NULL",
           diagramState: "NULL",
           network: null,
           fareType: null,
@@ -155,13 +145,18 @@
           numberTrips: null,
         };
 
-        if (eventType === 'reset' || eventType === 'apply') {
+        if (eventType === 'control') {
           const upComponent = this.$refs.upComponentRef;
           data.topSetting = upComponent.topControl.toString();
           data.centralSetting = upComponent.centralControl.toString();
           data.bottomSetting = upComponent.bottomControl.toString();
-          data.tempValue = upComponent.temperature.toString();
-          data.humidValue = upComponent.humidity.toString();
+        } else if (eventType === 'reset' || eventType === 'apply') {
+          const upComponent = this.$refs.upComponentRef;
+          data.topSetting = upComponent.topControl.toString();
+          data.centralSetting = upComponent.centralControl.toString();
+          data.bottomSetting = upComponent.bottomControl.toString();
+          data.foodValue = upComponent.food.toString();
+          data.waterValue = upComponent.water.toString();
         } else if (eventType === 'diagram') {
           data.diagramState = this.getDiagramState();
         } else if (eventType === 'start') {
@@ -189,12 +184,12 @@
         return ['top', 'central', 'bottom'].includes(type);
       },
       isInfluence(type) {
-        return ['temperature', 'humidity'].includes(type);
+        return ['food', 'water'].includes(type);
       },
       getDiagramState() {
         const state = this.connections.map(conn => {
             const start = conn.start === 'top' ? 'top' : conn.start === 'central' ? 'central' : 'bottom';
-            const end = conn.end === 'temperature' ? 'temp' : 'humid';
+            const end = conn.end === 'food' ? 'food' : 'water';
             return `${start}->${end}`;
         }).join(', ');
         return state;
@@ -266,9 +261,11 @@
       });
       this.$el.querySelectorAll('.influence-box').forEach(el => {
         let text = el.textContent.trim();
-        text = text.replace('温度', 'temperature').replace('湿度', 'humidity');
+        text = text.replace('食物量', 'food').replace('出水量', 'water');
         el.setAttribute('data-type', text);
       });
+      // 画线
+      this.drawExample();
     },
     beforeDestroy() {
       window.removeEventListener('popstate', this.preventBack);
@@ -277,7 +274,7 @@
   </script>
   
   <style scoped>
-  .air-controller-t1 {
+  .cat-feed-t1 {
     display: flex;
     flex-direction: column;
     padding: 20px;
