@@ -174,7 +174,11 @@
             }));
             this.totalItems = response.data.total || this.answerData.length;
             this.getDisplayData();
-            this.setupTableColumns(this.answerData[0]?.tableName);
+            if (this.answerData.length > 0) {
+              this.setupTableColumns(this.answerData[0]?.tableName);
+            } else {
+              this.tableColumns = [];
+            }
           } else {
             this.$message.error(response.data.message || '获取答题数据失败');
           }

@@ -43,7 +43,7 @@
   import HeaderComponent from '@/components/Header.vue';
   
   export default {
-    name: 'AirControllerT1',
+    name: 'AirControllerT2',
     components: {
       AirControllerUpComponent,
       HeaderComponent,
@@ -266,7 +266,7 @@
   </script>
   
   <style scoped>
-  .air-controller-t1 {
+  .air-controller-t2 {
     display: flex;
     flex-direction: column;
     padding: 20px;

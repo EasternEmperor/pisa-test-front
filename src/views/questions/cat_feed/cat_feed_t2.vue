@@ -43,7 +43,7 @@
   import HeaderComponent from '@/components/Header.vue';
   
   export default {
-    name: 'CatFeedT1',
+    name: 'CatFeedT2',
     components: {
       CatFeedUpComponent,
       HeaderComponent,
@@ -65,11 +65,11 @@
     methods: {
       drawExample() {
         this.handleBoxClick('top');
-        this.handleBoxClick('food');
+        this.handleBoxClick('water');
         this.handleBoxClick('central');
-        this.handleBoxClick('water');
+        this.handleBoxClick('food');
         this.handleBoxClick('bottom');
-        this.handleBoxClick('water');
+        this.handleBoxClick('food');
       },
       startAnswer() {
         this.sendEvent('start');
@@ -274,7 +274,7 @@
   </script>
   
   <style scoped>
-  .cat-feed-t1 {
+  .cat-feed-t2 {
     display: flex;
     flex-direction: column;
     padding: 20px;
