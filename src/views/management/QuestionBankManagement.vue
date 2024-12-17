@@ -5,6 +5,7 @@
       <el-col>
         <el-button v-if="!isEditing" type="primary" @click="startEditing">批量修改</el-button>
         <el-button v-if="isEditing" type="danger" @click="confirmEdit">确认</el-button>
+        <el-button v-if="isEditing" type="primary" @click="cancelEdit">取消</el-button>
       </el-col>
     </el-row>
 
@@ -109,6 +110,10 @@ export default {
           this.$message.error('修改失败');
           this.isEditing = false;
         });
+    },
+    cancelEdit() {
+      this.isEditing = false;
+      this.fetchQuestions(); // 刷新列表
     },
     deleteQuestion(question) {
       this.axios.post('/api/questionBank/deleteQuestion', question)

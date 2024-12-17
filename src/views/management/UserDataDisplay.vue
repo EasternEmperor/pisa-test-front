@@ -103,8 +103,26 @@
     async created() {
       await this.fetchQuestionNames();
       await this.fetchUserNames();
-      await this.fetchIthAnswers();
+      await this.fetchIthAnswers('-1');
       this.fetchAnswerData();
+    },
+    watch: {
+      // 监听题目名称变化，重新获取答题数据
+      selectedHtmlName: {
+        handler(newVal, oldVal) {
+          if (newVal !== oldVal) {
+            this.fetchUserNames();
+          }
+        }
+      },
+      // 监听用户名称变化，重新获取答题数据
+      selectedUserName: {
+        handler(newVal, oldVal) {
+          if (newVal !== oldVal) {
+            this.fetchIthAnswers(this.selectedUserName == '全部' ? '-1' : this.selectedUserName);
+          }
+        }
+      },
     },
     methods: {
       getDisplayData() {
@@ -142,8 +160,8 @@
             this.$message.error('获取用户名失败');
           });
       },
-      fetchIthAnswers() {
-        return this.axios.get('/api/admin/getAllAnswerNo')
+      fetchIthAnswers(userName) {
+        return this.axios.get('/api/admin/getAllAnswerNo', {params: { userName: userName }})
           .then(response => {
             if (response.data.code === '0') {
               this.ithAnswers = response.data.data.map(ith => (ith === '-1' ? '全部' : ith));
@@ -278,6 +296,22 @@
             { label: 'bottom control设置', prop: 'bottomSetting' },
             { label: '食物量', prop: 'foodValue' },
             { label: '出水量', prop: 'waterValue' },
+            { label: '连线答案', prop: 'diagramState' }
+          ];
+        } else if (tableName === 4) {
+          this.tableColumns = [
+            { label: '问题名称', prop: 'htmlName' },
+            { label: '用户名', prop: 'userName' },
+            { label: '答题次序', prop: 'ithAnswer' },
+            { label: '操作事件', prop: 'event' },
+            { label: '事件类型', prop: 'eventType' },
+            { label: '事件开始时间', prop: 'eventStartTime' },
+            { label: '事件顺序', prop: 'eventNumber' },
+            { label: 'top control设置', prop: 'topSetting' },
+            { label: 'central control设置', prop: 'centralSetting' },
+            { label: 'bottom control设置', prop: 'bottomSetting' },
+            { label: '浓度', prop: 'concentrationValue' },
+            { label: '留存时间', prop: 'lastTimeValue' },
             { label: '连线答案', prop: 'diagramState' }
           ];
         }
