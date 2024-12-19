@@ -59,14 +59,14 @@
       applyChanges() {
         this.applyTimes++;
         // 更新浓度
-        this.concentration = this.concentration + this.topControl + 1.5 * this.bottomControl;
-        // this.concentration = Math.min(35, Math.max(0, newConcentration));
+        const newConcentration = this.concentration + this.topControl + 1.5 * this.bottomControl;
+        this.concentration = Math.max(0, newConcentration);
         // 更新曲线图
         this.$refs.chartComponent.addData('concentration', this.concentration);
 
         // 更新留存时间
-        this.lastTime = this.lastTime + 1.5 * this.centralControl;
-        // this.lastTime = Math.min(35, Math.max(0, newLastTime));
+        const newLastTime = this.lastTime + 1.5 * this.centralControl;
+        this.lastTime = Math.max(0, newLastTime);
         // 更新曲线图
         this.$refs.chartComponent.addData('lastTime', this.lastTime);
 

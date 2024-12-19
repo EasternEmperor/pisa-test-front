@@ -314,6 +314,186 @@
             { label: '留存时间', prop: 'lastTimeValue' },
             { label: '连线答案', prop: 'diagramState' }
           ];
+        } else if (tableName === 5) {
+          this.tableColumns = [
+          { label: '问题名称', prop: 'htmlName' },
+            { label: '用户名', prop: 'userName' },
+            { label: '答题次序', prop: 'ithAnswer' },
+            { label: '操作事件', prop: 'event' },
+            { label: '事件类型', prop: 'eventType' },
+            { label: '事件开始时间', prop: 'eventStartTime' },
+            { label: '事件顺序', prop: 'eventNumber' },
+            { label: 'top control设置', prop: 'topSetting' },
+            { label: 'central control设置', prop: 'centralSetting' },
+            { label: 'bottom control设置', prop: 'bottomSetting' },
+            { label: '清晰度', prop: 'definationValue' },
+            { label: '画片大小', prop: 'projectionValue' },
+            { label: '连线答案', prop: 'diagramState' }
+          ];
+        } else if (tableName === 6) {
+          this.tableColumns = [
+            { label: '问题名称', prop: 'htmlName' },
+            { label: '用户名', prop: 'userName' },
+            { label: '答题次序', prop: 'ithAnswer' },
+            { label: '操作事件', prop: 'event' },
+            { label: '事件类型', prop: 'eventType' },
+            { label: '事件开始时间', prop: 'eventStartTime' },
+            { label: '事件顺序', prop: 'eventNumber' },
+            { label: 'top control设置', prop: 'topSetting' },
+            { label: 'central control设置', prop: 'centralSetting' },
+            { label: 'bottom control设置', prop: 'bottomSetting' },
+            { label: '出水总量', prop: 'volumeValue' },
+            { label: '出水温度', prop: 'tempValue' },
+            { label: '出水速度', prop: 'speedValue' },
+            { label: '连线答案', prop: 'diagramState' }
+          ];
+        } else if (tableName === 7) {
+          this.tableColumns = [
+            { label: '问题名称', prop: 'htmlName' },
+            { label: '用户名', prop: 'userName' },
+            { label: '答题次序', prop: 'ithAnswer' },
+            { label: '操作事件', prop: 'event' },
+            { label: '事件类型', prop: 'eventType' },
+            { label: '事件开始时间', prop: 'eventStartTime' },
+            { label: '事件顺序', prop: 'eventNumber' },
+            { label: 'top control设置', prop: 'topSetting' },
+            { label: 'central control设置', prop: 'centralSetting' },
+            { label: 'bottom control设置', prop: 'bottomSetting' },
+            { label: '播放速度', prop: 'speedValue' },
+            { label: '音量', prop: 'volumeValue' },
+            { label: '画质', prop: 'qualityValue' },
+            { label: '连线答案', prop: 'diagramState' }
+          ];
+        } else if (tableName === 8) {
+          this.tableColumns = [
+            { label: '问题名称', prop: 'htmlName' },
+            { label: '用户名', prop: 'userName' },
+            { label: '答题次序', prop: 'ithAnswer' },
+            { label: '操作事件', prop: 'event' },
+            { label: '事件类型', prop: 'eventType' },
+            { label: '事件开始时间', prop: 'eventStartTime' },
+            { label: '事件顺序', prop: 'eventNumber' },
+            { label: 'top control设置', prop: 'topSetting' },
+            { label: 'central control设置', prop: 'centralSetting' },
+            { label: 'bottom control设置', prop: 'bottomSetting' },
+            { label: '温度', prop: 'tempValue' },
+            { label: '湿度', prop: 'humidValue' },
+            { label: '风量', prop: 'windValue' },
+            { label: '连线答案', prop: 'diagramState' }
+          ];
+        } else if (tableName === 9) {
+          this.tableColumns = [
+            { label: '问题名称', prop: 'htmlName' },
+            { label: '用户名', prop: 'userName' },
+            { label: '答题次序', prop: 'ithAnswer' },
+            { label: '操作事件', prop: 'event' },
+            { label: '事件类型', prop: 'eventType' },
+            { label: '事件开始时间', prop: 'eventStartTime' },
+            { label: '事件顺序', prop: 'eventNumber' },
+            { label: 'top control设置', prop: 'topSetting' },
+            { label: 'central control设置', prop: 'centralSetting' },
+            { label: 'bottom control设置', prop: 'bottomSetting' },
+            { label: 'last control设置', prop: 'lastSetting' },
+            { label: '温度', prop: 'tmepValue' },
+            { label: '水分', prop: 'waterValue' },
+            { label: '养料', prop: 'fertilizerValue' },
+            { label: '连线答案', prop: 'diagramState' }
+          ];
+        } else if (tableName === 10) {
+          this.tableColumns = [
+            { label: '问题名称', prop: 'htmlName' },
+            { label: '用户名', prop: 'userName' },
+            { label: '答题次序', prop: 'ithAnswer' },
+            { label: '操作事件', prop: 'event' },
+            { label: '事件类型', prop: 'eventType' },
+            { label: '事件开始时间', prop: 'eventStartTime' },
+            { label: '事件顺序', prop: 'eventNumber' },
+            { label: 'top control设置', prop: 'topSetting' },
+            { label: 'central control设置', prop: 'centralSetting' },
+            { label: 'bottom control设置', prop: 'bottomSetting' },
+            { label: 'last control设置', prop: 'lastSetting' },
+            { label: '照射距离', prop: 'distanceValue' },
+            { label: '亮度', prop: 'brightnessValue' },
+            { label: '照射范围', prop: 'areaValue' },
+            { label: '连线答案', prop: 'diagramState' }
+          ];
+        } else if (tableName === 11) {
+          this.tableColumns = [
+            { label: '问题名称', prop: 'htmlName' },
+            { label: '用户名', prop: 'userName' },
+            { label: '答题次序', prop: 'ithAnswer' },
+            { label: '操作事件', prop: 'event' },
+            { label: '事件类型', prop: 'eventType' },
+            { label: '事件开始时间', prop: 'eventStartTime' },
+            { label: '事件顺序', prop: 'eventNumber' },
+            { label: 'top control设置', prop: 'topSetting' },
+            { label: 'central control设置', prop: 'centralSetting' },
+            { label: 'bottom control设置', prop: 'bottomSetting' },
+            { label: 'last control设置', prop: 'lastSetting' },
+            { label: '硬度', prop: 'hardnessValue' },
+            { label: '香甜度', prop: 'sweetnessValue' },
+            { label: '煮饭时间', prop: 'cookTimeValue' },
+            { label: '连线答案', prop: 'diagramState' }
+          ];
+        } else if (tableName === 12) {
+          this.tableColumns = [
+            { label: '问题名称', prop: 'htmlName' },
+            { label: '用户名', prop: 'userName' },
+            { label: '答题次序', prop: 'ithAnswer' },
+            { label: '操作事件', prop: 'event' },
+            { label: '事件类型', prop: 'eventType' },
+            { label: '事件开始时间', prop: 'eventStartTime' },
+            { label: '事件顺序', prop: 'eventNumber' },
+            { label: 'top control设置', prop: 'topSetting' },
+            { label: 'central control设置', prop: 'centralSetting' },
+            { label: 'bottom control设置', prop: 'bottomSetting' },
+            { label: 'last control设置', prop: 'lastSetting' },
+            { label: '容量', prop: 'capacityValue' },
+            { label: '苦涩度', prop: 'bitternessValue' },
+            { label: '甜度', prop: 'sweetnessValue' },
+            { label: '浓稠度', prop: 'consistenceValue' },
+            { label: '连线答案', prop: 'diagramState' }
+          ];
+        } else if (tableName === 13) {
+          this.tableColumns = [
+            { label: '问题名称', prop: 'htmlName' },
+            { label: '用户名', prop: 'userName' },
+            { label: '答题次序', prop: 'ithAnswer' },
+            { label: '操作事件', prop: 'event' },
+            { label: '事件类型', prop: 'eventType' },
+            { label: '事件开始时间', prop: 'eventStartTime' },
+            { label: '事件顺序', prop: 'eventNumber' },
+            { label: 'top control设置', prop: 'topSetting' },
+            { label: 'central control设置', prop: 'centralSetting' },
+            { label: 'bottom control设置', prop: 'bottomSetting' },
+            { label: 'last control设置', prop: 'lastSetting' },
+            { label: '容量', prop: 'capacityValue' },
+            { label: '温度', prop: 'tempValue' },
+            { label: '甜度', prop: 'sweetnessValue' },
+            { label: '果肉数量', prop: 'pulpValue' },
+            { label: '连线答案', prop: 'diagramState' }
+          ];
+        } else if (tableName === 14) {
+          this.tableColumns = [
+            { label: '问题名称', prop: 'htmlName' },
+            { label: '用户名', prop: 'userName' },
+            { label: '答题次序', prop: 'ithAnswer' },
+            { label: '操作事件', prop: 'event' },
+            { label: '事件类型', prop: 'eventType' },
+            { label: '事件开始时间', prop: 'eventStartTime' },
+            { label: '事件顺序', prop: 'eventNumber' },
+            { label: 'top control设置', prop: 'topSetting' },
+            { label: 'central control设置', prop: 'centralSetting' },
+            { label: 'bottom control设置', prop: 'bottomSetting' },
+            { label: 'last control设置', prop: 'lastSetting' },
+            { label: '亮度', prop: 'brightnessValue' },
+            { label: '清晰度', prop: 'definationValue' },
+            { label: '虚化程度', prop: 'virtualizationValue' },
+            { label: '取景范围', prop: 'rangeValue' },
+            { label: '连线答案', prop: 'diagramState' }
+          ];
+        } else {
+          this.tableColumns = [];
         }
       },
       handlePageChange(page) {

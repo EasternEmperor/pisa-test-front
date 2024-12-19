@@ -1,11 +1,11 @@
 <template>
-    <div class="cat-feed-t1">
+    <div class="projection-controller-t1">
       <!-- 使用 Header 组件 -->
       <header-component :userName="userName" />
 
       <!-- 题干部分 -->
       <div class="container-box">
-        <cat-feed-up-component ref="upComponentRef" @applyChanges="handleApply" @resetChanges="handleReset" @control="handleControl"/>
+        <projection-controller-up-component ref="upComponentRef" @applyChanges="handleApply" @resetChanges="handleReset" @control="handleControl"/>
       </div>
   
       <!-- 题目部分 -->
@@ -13,22 +13,54 @@
         <div class="question-text">
           <h3>问题1: 控制器功能</h3>
           <p>
-            通过改变滑块并应用，弄清楚每个控制器控制的是食物量还是出水量。<br/>
+            通过改变滑块并调控，弄清楚每个控制器控制的是清晰度还是画片大小。<br/>
             你可以通过"重置"键来重置所有组件。<br/>
             在下方将控制器和你认为其控制的对象连上线。<br/>
-            连线的操作是：点击一个控制器方块，然后点击另一个食物量/出水量方块。分别点击已连线的两个方块可取消它们之间的连线。
+            <b>连线的操作是</b>：点击一个控制器方块，然后点击另一个清晰度/画片大小方块。<br/>
+            <b>取消方块选择</b>：再次点击已选中的方块即可取消选择。<br/>
+            <b>取消连线</b>：分别点击已连线的两个方块可取消它们之间的连线。
           </p>
         </div>
         <div class="diagram-section">
           <svg class="lines-svg" ref="svgContainer"></svg>
           <div class="controls-column">
-            <div class="control-box" @click="handleBoxClick('top')">顶部控制器</div>
-            <div class="control-box" @click="handleBoxClick('central')">中间控制器</div>
-            <div class="control-box" @click="handleBoxClick('bottom')">底部控制器</div>
+            <div
+              class="control-box"
+              :class="{ 'selected-box': selectedControl === 'top' }"
+              @click="handleBoxClick('top')"
+            >
+              顶部控制器
+            </div>
+            <div
+              class="control-box"
+              :class="{ 'selected-box': selectedControl === 'central' }"
+              @click="handleBoxClick('central')"
+            >
+              中间控制器
+            </div>
+            <div
+              class="control-box"
+              :class="{ 'selected-box': selectedControl === 'bottom' }"
+              @click="handleBoxClick('bottom')"
+            >
+              底部控制器
+            </div>
           </div>
           <div class="influences-column">
-            <div class="influence-box" @click="handleBoxClick('food')">食物量</div>
-            <div class="influence-box" @click="handleBoxClick('water')">出水量</div>
+            <div
+              class="influence-box"
+              :class="{ 'selected-box': selectedControl === 'definition' }"
+              @click="handleBoxClick('definition')"
+            >
+              清晰度
+            </div>
+            <div
+              class="influence-box"
+              :class="{ 'selected-box': selectedControl === 'projection' }"
+              @click="handleBoxClick('projection')"
+            >
+              画片大小
+            </div>
           </div>
         </div>
         <el-row style="margin-top: 20px;" type="flex" justify="center">
@@ -40,13 +72,13 @@
   </template>
   
   <script>
-  import CatFeedUpComponent from './projection_controller_up_component.vue';
+  import ProjectionControllerUpComponent from './projection_controller_up_component.vue';
   import HeaderComponent from '@/components/Header.vue';
   
   export default {
     name: 'ProjectionControllerT1',
     components: {
-      CatFeedUpComponent,
+      ProjectionControllerUpComponent,
       HeaderComponent,
     },
     data() {
@@ -139,7 +171,7 @@
   
         const data = {
           tableName: 1,
-          htmlName: 'cat_feed_t1',
+          htmlName: 'projection_controller_t1',
           userName: userName,
           ithAnswer: ithAnswer,
           event: 'ACER_EVENT',
@@ -149,8 +181,8 @@
           topSetting: "NULL",
           centralSetting: "NULL",
           bottomSetting: "NULL",
-          foodValue: "NULL",
-          waterValue: "NULL",
+          definitionValue: "NULL",
+          projectionValue: "NULL",
           diagramState: "NULL",
           network: null,
           fareType: null,
@@ -168,8 +200,8 @@
           data.topSetting = upComponent.topControl.toString();
           data.centralSetting = upComponent.centralControl.toString();
           data.bottomSetting = upComponent.bottomControl.toString();
-          data.foodValue = upComponent.food.toString();
-          data.waterValue = upComponent.water.toString();
+          data.definitionValue = upComponent.definition.toString();
+          data.projectionValue = upComponent.projection.toString();
         } else if (eventType === 'diagram') {
           data.diagramState = this.getDiagramState();
         } else if (eventType === 'start') {
@@ -197,14 +229,20 @@
         return ['top', 'central', 'bottom'].includes(type);
       },
       isInfluence(type) {
-        return ['food', 'water'].includes(type);
+        return ['definition', 'projection'].includes(type);
       },
       getDiagramState() {
-        const state = this.connections.map(conn => {
-            const start = conn.start === 'top' ? 'top' : conn.start === 'central' ? 'central' : 'bottom';
-            const end = conn.end === 'food' ? 'food' : 'water';
-            return `${start}->${end}`;
+        const sortedConnections = this.connections.sort((a, b) => {
+          const order = { top: 1, central: 2, bottom: 3 };
+          return order[a.start] - order[b.start];
+        });
+
+        const state = sortedConnections.map(conn => {
+          const start = conn.start === 'top' ? 'top' : conn.start === 'central' ? 'central' : 'bottom';
+          const end = conn.end === 'definition' ? 'definition' : 'projection';
+          return `${start}->${end}`;
         }).join(', ');
+
         return state;
       },
       drawLines() {
@@ -274,7 +312,7 @@
       });
       this.$el.querySelectorAll('.influence-box').forEach(el => {
         let text = el.textContent.trim();
-        text = text.replace('食物量', 'food').replace('出水量', 'water');
+        text = text.replace('清晰度', 'definition').replace('画片大小', 'projection');
         el.setAttribute('data-type', text);
       });
     },
@@ -285,7 +323,7 @@
   </script>
   
   <style scoped>
-  .cat-feed-t1 {
+  .projection-controller-t1 {
     display: flex;
     flex-direction: column;
     padding: 20px;
@@ -352,6 +390,11 @@
   .control-box:hover,
   .influence-box:hover {
     background-color: #d0d0d0;
+  }
+
+  .selected-box {
+    background-color: #007bff; /* 蓝色背景 */
+    color: white; /* 改变文字颜色以便在蓝色背景上显示清晰 */
   }
   </style>
   

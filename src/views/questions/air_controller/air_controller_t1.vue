@@ -16,19 +16,51 @@
             通过改变滑块并应用，弄清楚每个控制器控制的是温度还是湿度。<br/>
             你可以通过"重置"键来重置所有组件。<br/>
             在下方将控制器和你认为其控制的对象连上线。<br/>
-            连线的操作是：点击一个控制器方块，然后点击另一个温度/湿度方块。依次点击已连线的两个方块可取消它们之间的连线。
+            <b>连线的操作是</b>：点击一个控制器方块，然后点击另一个温度/湿度方块。<br/>
+            <b>取消方块选择</b>：再次点击已选中的方块即可取消选择。<br/>
+            <b>取消连线</b>：分别点击已连线的两个方块可取消它们之间的连线。
           </p>
         </div>
         <div class="diagram-section">
           <svg class="lines-svg" ref="svgContainer"></svg>
           <div class="controls-column">
-            <div class="control-box" @click="handleBoxClick('top')">顶部控制器</div>
-            <div class="control-box" @click="handleBoxClick('central')">中间控制器</div>
-            <div class="control-box" @click="handleBoxClick('bottom')">底部控制器</div>
+            <div
+              class="control-box"
+              :class="{ 'selected-box': selectedControl === 'top' }"
+              @click="handleBoxClick('top')"
+            >
+              顶部控制器
+            </div>
+            <div
+              class="control-box"
+              :class="{ 'selected-box': selectedControl === 'central' }"
+              @click="handleBoxClick('central')"
+            >
+              中间控制器
+            </div>
+            <div
+              class="control-box"
+              :class="{ 'selected-box': selectedControl === 'bottom' }"
+              @click="handleBoxClick('bottom')"
+            >
+              底部控制器
+            </div>
           </div>
           <div class="influences-column">
-            <div class="influence-box" @click="handleBoxClick('temperature')">温度</div>
-            <div class="influence-box" @click="handleBoxClick('humidity')">湿度</div>
+            <div
+              class="influence-box"
+              :class="{ 'selected-box': selectedControl === 'definition' }"
+              @click="handleBoxClick('definition')"
+            >
+              清晰度
+            </div>
+            <div
+              class="influence-box"
+              :class="{ 'selected-box': selectedControl === 'projection' }"
+              @click="handleBoxClick('projection')"
+            >
+              画片大小
+            </div>
           </div>
         </div>
         <el-row style="margin-top: 20px;" type="flex" justify="center">
@@ -344,6 +376,11 @@
   .control-box:hover,
   .influence-box:hover {
     background-color: #d0d0d0;
+  }
+
+  .selected-box {
+    background-color: #007bff; /* 蓝色背景 */
+    color: white; /* 改变文字颜色以便在蓝色背景上显示清晰 */
   }
   </style>
   

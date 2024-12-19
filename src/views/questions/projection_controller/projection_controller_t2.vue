@@ -1,20 +1,20 @@
 <template>
-    <div class="cat-feed-t2">
+    <div class="projection-controller-t2">
       <!-- 使用 Header 组件 -->
       <header-component :userName="userName" />
 
       <!-- 题干部分 -->
       <div class="container-box">
-        <cat-feed-up-component ref="upComponentRef" @applyChanges="handleApply" @resetChanges="handleReset" @control="handleControl"/>
+        <projection-controller-up-component ref="upComponentRef" @applyChanges="handleApply" @resetChanges="handleReset" @control="handleControl"/>
       </div>
   
       <!-- 题目部分 -->
       <div class="container-box question-section">
         <div class="question-text">
-          <h3>问题2: 调控食物量和出水量</h3>
+          <h3>问题2: 调控清晰度和画片大小</h3>
           <p>
             三个控制器及其控制的对象如下图连线所示。<br/>
-            灵活运用控制器，将食物量和出水量调整到目标数值。目标数值如<b>曲线图上方所示。</b><br/>
+            灵活运用控制器，将清晰度和画片大小调整到目标数值。目标数值如<b>曲线图上方所示。</b><br/>
             你需要在尽可能少的鼠标点击次数中完成目标，且没有重置按钮可供使用。<br/>
           </p>
         </div>
@@ -26,8 +26,8 @@
             <div class="control-box" >底部控制器</div>
           </div>
           <div class="influences-column">
-            <div class="influence-box" >食物量</div>
-            <div class="influence-box" >出水量</div>
+            <div class="influence-box" >清晰度</div>
+            <div class="influence-box" >画片大小</div>
           </div>
         </div>
         <el-row style="margin-top: 20px;" type="flex" justify="center">
@@ -39,13 +39,13 @@
   </template>
   
   <script>
-  import CatFeedUpComponent from './projection_controller_up_component_t2.vue';
+  import ProjectionControllerUpComponent from './projection_controller_up_component_t2.vue';
   import HeaderComponent from '@/components/Header.vue';
   
   export default {
     name: 'ProjectionControllerT2',
     components: {
-      CatFeedUpComponent,
+      ProjectionControllerUpComponent,
       HeaderComponent,
     },
     data() {
@@ -65,11 +65,11 @@
     methods: {
       drawExample() {
         this.handleBoxClick('top');
-        this.handleBoxClick('food');
+        this.handleBoxClick('definition');
         this.handleBoxClick('central');
-        this.handleBoxClick('water');
+        this.handleBoxClick('projection');
         this.handleBoxClick('bottom');
-        this.handleBoxClick('water');
+        this.handleBoxClick('projection');
       },
       startAnswer() {
         this.sendEvent('start');
@@ -126,7 +126,7 @@
   
         const data = {
           tableName: 1,
-          htmlName: 'cat_feed_t2',
+          htmlName: 'projection_controller_t2',
           userName: userName,
           ithAnswer: ithAnswer,
           event: 'ACER_EVENT',
@@ -136,8 +136,8 @@
           topSetting: "NULL",
           centralSetting: "NULL",
           bottomSetting: "NULL",
-          foodValue: "NULL",
-          waterValue: "NULL",
+          definitionValue: "NULL",
+          projectionValue: "NULL",
           diagramState: "NULL",
           network: null,
           fareType: null,
@@ -155,8 +155,8 @@
           data.topSetting = upComponent.topControl.toString();
           data.centralSetting = upComponent.centralControl.toString();
           data.bottomSetting = upComponent.bottomControl.toString();
-          data.foodValue = upComponent.food.toString();
-          data.waterValue = upComponent.water.toString();
+          data.definitionValue = upComponent.definition.toString();
+          data.projectionValue = upComponent.projection.toString();
         } else if (eventType === 'diagram') {
           data.diagramState = this.getDiagramState();
         } else if (eventType === 'start') {
@@ -184,12 +184,12 @@
         return ['top', 'central', 'bottom'].includes(type);
       },
       isInfluence(type) {
-        return ['food', 'water'].includes(type);
+        return ['definition', 'projection'].includes(type);
       },
       getDiagramState() {
         const state = this.connections.map(conn => {
             const start = conn.start === 'top' ? 'top' : conn.start === 'central' ? 'central' : 'bottom';
-            const end = conn.end === 'food' ? 'food' : 'water';
+            const end = conn.end === 'definition' ? 'definition' : 'projection';
             return `${start}->${end}`;
         }).join(', ');
         return state;
@@ -261,7 +261,7 @@
       });
       this.$el.querySelectorAll('.influence-box').forEach(el => {
         let text = el.textContent.trim();
-        text = text.replace('食物量', 'food').replace('出水量', 'water');
+        text = text.replace('清晰度', 'definition').replace('画片大小', 'projection');
         el.setAttribute('data-type', text);
       });
       // 画线
@@ -274,7 +274,7 @@
   </script>
   
   <style scoped>
-  .cat-feed-t1 {
+  .projection-controller-t2 {
     display: flex;
     flex-direction: column;
     padding: 20px;

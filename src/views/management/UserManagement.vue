@@ -78,8 +78,15 @@ export default {
   },
   async created() {
     await this.fetchUsers();
-    await this.fetchQuestions();
+    await this.fetchIthAnswers('-1');
     this.fetchUserAnswers();
+  },
+  watch: {
+    selectedUser(newVal, oldVal) {
+      if (newVal != oldVal) {
+        this.fetchIthAnswers(newVal);
+      }
+    }
   },
   methods: {
     getDisplayData() {
@@ -101,8 +108,8 @@ export default {
           this.$message.error('获取用户名失败');
         });
     },
-    fetchQuestions() {
-      return this.axios.get('/api/admin/getAllAnswerNo')
+    fetchIthAnswers(userName) {
+      return this.axios.get('/api/admin/getAllAnswerNo', {params: { userName: userName }})
         .then(response => {
           if (response.data.code === '0') {
             this.questions = response.data.data;

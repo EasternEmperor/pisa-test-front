@@ -60,14 +60,14 @@
       applyChanges() {
         this.applyTimes++;
         // 更新食物量
-        this.food = this.food + 15 * this.centralControl + 8 * this.bottomControl + 2;
-        // this.food = Math.min(35, Math.max(0, newFood));
+        const newFood = this.food + 15 * this.centralControl + 8 * this.bottomControl + 2;
+        this.food = Math.max(0, newFood);
         // 更新曲线图
         this.$refs.chartComponent.addData('food', this.food);
 
         // 更新出水量
-        this.water = this.water + 50 * this.topControl + 20;
-        // this.water = Math.min(35, Math.max(0, newWater));
+        const newWater = this.water + 50 * this.topControl + 20;
+        this.water = Math.max(0, newWater);
         // 更新曲线图
         this.$refs.chartComponent.addData('water', this.water);
 

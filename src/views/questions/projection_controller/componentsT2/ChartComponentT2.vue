@@ -1,18 +1,18 @@
 <template>
   <div class="chart-component">
     <div class="question-text">
-      <h3>请调控自动喂猫机器至下述食物量和出水量</h3>
+      <h3>请调控投影仪至下述清晰度和画片大小</h3>
       <p>
-        食物量：35-45之间<br />
-        出水量：100-150之间<br />
+        清晰度：1.5<br />
+        画片：2.5<br />
       </p>
     </div>
     <div class="chart-row">
       <div class="chart-item">
-        <canvas ref="foodChart"></canvas>
+        <canvas ref="definitionChart"></canvas>
       </div>
       <div class="chart-item">
-        <canvas ref="waterChart"></canvas>
+        <canvas ref="projectionChart"></canvas>
       </div>
     </div>
   </div>
@@ -24,21 +24,21 @@ import { Chart } from "chart.js";
 export default {
   name: "ChartComponent",
   props: {
-    food: {
+    definition: {
       type: Number,
       required: true,
     },
-    water: {
+    projection: {
       type: Number,
       required: true,
     },
   },
   data() {
     return {
-      foodData: [25, 25],
-      foodOpIdx: [0, 0],
-      waterData: [25, 25],
-      waterOpIdx: [0, 0],
+      definitionData: [0, 0],
+      definitionOpIdx: [0, 0],
+      projectionData: [0, 0],
+      projectionOpIdx: [0, 0],
       chart: null, // Chart.js实例
     };
   },
@@ -47,18 +47,18 @@ export default {
   },
   methods: {
     initializeChart() {
-      const ctxFood = this.$refs.foodChart.getContext('2d');
-      const ctxWater = this.$refs.waterChart.getContext('2d');
+      const ctxDefinition = this.$refs.definitionChart.getContext('2d');
+      const ctxProjection = this.$refs.projectionChart.getContext('2d');
 
       // 初始化两个图表
       this.chart = {
-        food: new Chart(ctxFood, {
+        definition: new Chart(ctxDefinition, {
           type: 'line',
           data: {
             labels: ['调控: 0', '调控: 0'],
             datasets: [{
-              label: '食物量',
-              data: this.foodData,
+              label: '清晰度',
+              data: this.definitionData,
               borderColor: 'red',
               borderWidth: 2,
               fill: false,
@@ -83,20 +83,20 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '食物量',
+                  text: '清晰度',
                   font: { size: 14, weight: 'bold' }
                 }
               }
             }
           }
         }),
-        water: new Chart(ctxWater, {
+        projection: new Chart(ctxProjection, {
           type: 'line',
           data: {
             labels: ['调控: 0', '调控: 0'],
             datasets: [{
-              label: '出水量',
-              data: this.waterData,
+              label: '画片大小',
+              data: this.projectionData,
               borderColor: 'blue',
               borderWidth: 2,
               fill: false,
@@ -121,7 +121,7 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '出水量',
+                  text: '画片大小',
                   font: { size: 14, weight: 'bold' }
                 }
               }
@@ -132,48 +132,48 @@ export default {
     },
     addData(type, value) {
       // 限制最多6个数据点
-      if (this.foodData.length >= 6) {
-        this.foodData.shift();
-        this.foodOpIdx.shift();
+      if (this.definitionData.length >= 6) {
+        this.definitionData.shift();
+        this.definitionOpIdx.shift();
       }
-      if (this.waterData.length >= 6) {
-        this.waterData.shift();
-        this.waterOpIdx.shift();
+      if (this.projectionData.length >= 6) {
+        this.projectionData.shift();
+        this.projectionOpIdx.shift();
       }
 
-      if (type === 'food') {
-        this.foodData.push(value);
-        this.foodOpIdx.push(this.foodOpIdx[this.foodOpIdx.length - 1] + 1);
-      } else if (type === 'water') {
-        this.waterData.push(value);
-        this.waterOpIdx.push(this.waterOpIdx[this.waterOpIdx.length - 1] + 1);
+      if (type === 'definition') {
+        this.definitionData.push(value);
+        this.definitionOpIdx.push(this.definitionOpIdx[this.definitionOpIdx.length - 1] + 1);
+      } else if (type === 'projection') {
+        this.projectionData.push(value);
+        this.projectionOpIdx.push(this.projectionOpIdx[this.projectionOpIdx.length - 1] + 1);
       }
 
       // 更新图表
       this.updateChart();
     },
     updateChart() {
-      this.chart.food.data.labels = this.foodOpIdx.map(i => `调控: ${i}`);
-      this.chart.food.data.datasets[0].data = this.foodData;
-      this.chart.water.data.labels = this.waterOpIdx.map(i => `调控: ${i}`);
-      this.chart.water.data.datasets[0].data = this.waterData;
+      this.chart.definition.data.labels = this.definitionOpIdx.map(i => `调控: ${i}`);
+      this.chart.definition.data.datasets[0].data = this.definitionData;
+      this.chart.projection.data.labels = this.projectionOpIdx.map(i => `调控: ${i}`);
+      this.chart.projection.data.datasets[0].data = this.projectionData;
 
-      this.chart.food.update();
-      this.chart.water.update();
+      this.chart.definition.update();
+      this.chart.projection.update();
     },
     resetChart() {
       // 清空数据并重置图表
-      this.foodData = [25, 25];
-      this.foodOpIdx = [0, 0];
-      this.waterData = [25, 25];
-      this.waterOpIdx = [0, 0];
+      this.definitionData = [0, 0];
+      this.definitionOpIdx = [0, 0];
+      this.projectionData = [0, 0];
+      this.projectionOpIdx = [0, 0];
 
       this.updateChart();
     },
     beforeDestroy() {
       if (this.chart) {
-        this.chart.food.destroy();
-        this.chart.water.destroy();
+        this.chart.definition.destroy();
+        this.chart.projection.destroy();
       }
     },
   }

@@ -5,7 +5,7 @@
   
       <!-- 答题历史记录展示 -->
       <el-card class="box-card" v-if="answerHistory.length">
-        <h3>答题历史记录</h3>
+        <h3>历史答题记录</h3>
         <el-row v-for="(item, index) in formattedHistory" :key="index" style="margin-bottom: 10px;">
           <el-col :span="6">用户名: {{ item.userName }}</el-col>
           <el-col :span="6">答题次序: {{ item.ithAnswer }}</el-col>
@@ -13,6 +13,11 @@
           <el-col :span="6">答题结束时间: {{ item.testEnd }}</el-col>
         </el-row>
       </el-card>
+      <!-- 无答题记录展示 -->
+       <el-card class="box-card" v-else>
+        <h3>暂无答题记录</h3>
+        <p>您还没有答题记录，请点击下方按钮开始能力测试。</p>
+       </el-card>
   
       <!-- 进入能力测试按钮 -->
       <el-row style="margin-top: 20px;" type="flex" justify="center">
@@ -61,9 +66,13 @@
           });
       },
       startTest() {
-        sessionStorage.setItem("ithAnswer", this.formattedHistory.reduce((max, item) => {
+        if (this.answerHistory.length > 0) {
+          sessionStorage.setItem("ithAnswer", this.formattedHistory.reduce((max, item) => {
                                               return item.ithAnswer + 1 > max ? item.ithAnswer + 1 : max;
                                           }, -1));
+        } else {
+          sessionStorage.setItem("ithAnswer", 0);
+        }
         sessionStorage.setItem("testBegin", new Date().toISOString());
         this.$getQuestion(1);
       }
