@@ -51,7 +51,7 @@ export default {
           data: {
             labels: ['调控: 0', '调控: 0'],
             datasets: [{
-              label: '清晰度',
+              label: '清晰度(K)',
               data: this.definitionData,
               borderColor: 'red',
               borderWidth: 2,
@@ -77,7 +77,7 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '清晰度',
+                  text: '清晰度(K)',
                   font: { size: 14, weight: 'bold' }
                 }
               }

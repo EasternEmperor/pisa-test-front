@@ -1,18 +1,24 @@
 <template>
   <div class="chart-component">
     <div class="question-text">
-      <h3>请调控自动喂猫机器至下述食物量和出水量</h3>
+      <h3>请调控饮水机至下述出水总量、出水温度和出水速度</h3>
       <p>
-        食物量：35-45之间<br />
-        出水量：100-150之间<br />
+        出水总量：200-300ml<br />
+        出水温度：30<br />
+        出水速度：50ml/s
       </p>
     </div>
     <div class="chart-row">
       <div class="chart-item">
-        <canvas ref="foodChart"></canvas>
+        <canvas ref="volumeChart"></canvas>
       </div>
       <div class="chart-item">
-        <canvas ref="waterChart"></canvas>
+        <canvas ref="tempChart"></canvas>
+      </div>
+    </div>
+    <div class="chart-row">
+      <div class="chart-item">
+        <canvas ref="speedChart"></canvas>
       </div>
     </div>
   </div>
@@ -24,21 +30,27 @@ import { Chart } from "chart.js";
 export default {
   name: "ChartComponent",
   props: {
-    food: {
+    volume: {
       type: Number,
       required: true,
     },
-    water: {
+    temp: {
       type: Number,
       required: true,
     },
+    speed: {
+      type: Number,
+      required: true
+    }
   },
   data() {
     return {
-      foodData: [25, 25],
-      foodOpIdx: [0, 0],
-      waterData: [25, 25],
-      waterOpIdx: [0, 0],
+      volumeData: [150, 150],
+      volumeOpIdx: [0, 0],
+      tempData: [13, 13],
+      tempOpIdx: [0, 0],
+      speedData: [10, 10],
+      speedOpIdx: [0, 0],
       chart: null, // Chart.js实例
     };
   },
@@ -47,18 +59,19 @@ export default {
   },
   methods: {
     initializeChart() {
-      const ctxFood = this.$refs.foodChart.getContext('2d');
-      const ctxWater = this.$refs.waterChart.getContext('2d');
+      const ctxVolume = this.$refs.volumeChart.getContext('2d');
+      const ctxTemp = this.$refs.tempChart.getContext('2d');
+      const ctxSpeed = this.$refs.speedChart.getContext('2d');
 
       // 初始化两个图表
       this.chart = {
-        food: new Chart(ctxFood, {
+        volume: new Chart(ctxVolume, {
           type: 'line',
           data: {
             labels: ['调控: 0', '调控: 0'],
             datasets: [{
-              label: '食物量',
-              data: this.foodData,
+              label: '出水总量(ml)',
+              data: this.volumeData,
               borderColor: 'red',
               borderWidth: 2,
               fill: false,
@@ -83,20 +96,20 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '食物量',
+                  text: '出水总量(ml)',
                   font: { size: 14, weight: 'bold' }
                 }
               }
             }
           }
         }),
-        water: new Chart(ctxWater, {
+        temp: new Chart(ctxTemp, {
           type: 'line',
           data: {
             labels: ['调控: 0', '调控: 0'],
             datasets: [{
-              label: '出水量',
-              data: this.waterData,
+              label: '出水温度',
+              data: this.tempData,
               borderColor: 'blue',
               borderWidth: 2,
               fill: false,
@@ -121,7 +134,45 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '出水量',
+                  text: '出水温度',
+                  font: { size: 14, weight: 'bold' }
+                }
+              }
+            }
+          }
+        }),
+        speed: new Chart(ctxSpeed, {
+          type: 'line',
+          data: {
+            labels: ['调控: 0', '调控: 0'],
+            datasets: [{
+              label: '出水速度(ml/s)',
+              data: this.speedData,
+              borderColor: 'green',
+              borderWidth: 2,
+              fill: false,
+              tension: 0 // 禁用平滑曲线
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            scales: {
+              x: {
+                ticks: { beginAtZero: true },
+                grid: { lineWidth: 2 },
+                title: {
+                  display: true,
+                  text: '调控',
+                  font: { size: 14, weight: 'bold' }
+                }
+              },
+              y: {
+                ticks: { beginAtZero: true },
+                grid: { lineWidth: 2 },
+                title: {
+                  display: true,
+                  text: '出水速度(ml/s)',
                   font: { size: 14, weight: 'bold' }
                 }
               }
@@ -132,48 +183,62 @@ export default {
     },
     addData(type, value) {
       // 限制最多6个数据点
-      if (this.foodData.length >= 6) {
-        this.foodData.shift();
-        this.foodOpIdx.shift();
-      }
-      if (this.waterData.length >= 6) {
-        this.waterData.shift();
-        this.waterOpIdx.shift();
-      }
-
-      if (type === 'food') {
-        this.foodData.push(value);
-        this.foodOpIdx.push(this.foodOpIdx[this.foodOpIdx.length - 1] + 1);
-      } else if (type === 'water') {
-        this.waterData.push(value);
-        this.waterOpIdx.push(this.waterOpIdx[this.waterOpIdx.length - 1] + 1);
+      if (type === 'volume') {
+        if (this.volumeData.length >= 6) {
+          this.volumeData.shift();
+          this.volumeOpIdx.shift();
+        }
+        this.volumeData.push(value);
+        this.volumeOpIdx.push(this.volumeOpIdx[this.volumeOpIdx.length - 1] + 1);
+      } else if (type === 'temp') {
+        if (this.tempData.length >= 6) {
+          this.tempData.shift();
+          this.tempOpIdx.shift();
+        }
+        this.tempData.push(value);
+        this.tempOpIdx.push(this.tempOpIdx[this.tempOpIdx.length - 1] + 1);
+      } else if (type === 'speed') {
+        if (this.speedData.length >= 6) {
+          this.speedData.shift();
+          this.speedOpIdx.shift();
+        }
+        this.speedData.push(value);
+        this.speedOpIdx.push(this.speedOpIdx[this.speedOpIdx.length - 1] + 1);
       }
 
       // 更新图表
       this.updateChart();
     },
     updateChart() {
-      this.chart.food.data.labels = this.foodOpIdx.map(i => `调控: ${i}`);
-      this.chart.food.data.datasets[0].data = this.foodData;
-      this.chart.water.data.labels = this.waterOpIdx.map(i => `调控: ${i}`);
-      this.chart.water.data.datasets[0].data = this.waterData;
+      this.chart.volume.data.labels = this.volumeOpIdx.map(i => `调控: ${i}`);
+      this.chart.volume.data.datasets[0].data = this.volumeData;
 
-      this.chart.food.update();
-      this.chart.water.update();
+      this.chart.temp.data.labels = this.tempOpIdx.map(i => `调控: ${i}`);
+      this.chart.temp.data.datasets[0].data = this.tempData;
+
+      this.chart.speed.data.labels = this.speedOpIdx.map(i => `调控: ${i}`);
+      this.chart.speed.data.datasets[0].data = this.speedData;
+
+      this.chart.volume.update();
+      this.chart.temp.update();
+      this.chart.speed.update();
     },
     resetChart() {
       // 清空数据并重置图表
-      this.foodData = [25, 25];
-      this.foodOpIdx = [0, 0];
-      this.waterData = [25, 25];
-      this.waterOpIdx = [0, 0];
+      this.volumeData = [150, 150];
+      this.volumeOpIdx = [0, 0];
+      this.tempData = [13, 13];
+      this.tempOpIdx = [0, 0];
+      this.speedData = [10, 10];
+      this.speedOpIdx = [0, 0];
 
       this.updateChart();
     },
     beforeDestroy() {
       if (this.chart) {
-        this.chart.food.destroy();
-        this.chart.water.destroy();
+        this.chart.volume.destroy();
+        this.chart.temp.destroy();
+        this.chart.speed.destroy();
       }
     },
   }

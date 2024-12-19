@@ -1,21 +1,21 @@
 <template>
-    <div class="cat-feed-t2">
+    <div class="water-dispenser-t2">
       <!-- 使用 Header 组件 -->
       <header-component :userName="userName" />
 
       <!-- 题干部分 -->
       <div class="container-box">
-        <cat-feed-up-component ref="upComponentRef" @applyChanges="handleApply" @resetChanges="handleReset" @control="handleControl"/>
+        <water-dispenser-up-component ref="upComponentRef" @applyChanges="handleApply" @resetChanges="handleReset" @control="handleControl"/>
       </div>
   
       <!-- 题目部分 -->
       <div class="container-box question-section">
         <div class="question-text">
-          <h3>问题2: 调控食物量和出水量</h3>
+          <h3>问题2: 调控出水总量、出水温度和出水速度</h3>
           <p>
             三个控制器及其控制的对象如下图连线所示。<br/>
-            灵活运用控制器，将食物量和出水量调整到目标数值。目标数值如<b>曲线图上方所示。</b><br/>
-            你需要在尽可能少的鼠标点击次数中完成目标，且没有重置按钮可供使用。<br/>
+            灵活运用控制器，将出水总量、出水温度和出水速度调整到目标数值。目标数值如<b>曲线图上方所示。</b><br/>
+            你需要在尽可能少的鼠标点击次数中完成目标，且没有重置按钮可供使用。
           </p>
         </div>
         <div class="diagram-section">
@@ -26,8 +26,9 @@
             <div class="control-box" >底部控制器</div>
           </div>
           <div class="influences-column">
-            <div class="influence-box" >食物量</div>
-            <div class="influence-box" >出水量</div>
+            <div class="influence-box" >出水总量</div>
+            <div class="influence-box" >出水温度</div>
+            <div class="influence-box" >出水速度</div>
           </div>
         </div>
         <el-row style="margin-top: 20px;" type="flex" justify="center">
@@ -39,13 +40,13 @@
   </template>
   
   <script>
-  import CatFeedUpComponent from './water_dispenser_up_component_t2.vue';
+  import WaterDispenserUpComponent from './water_dispenser_up_component_t2.vue';
   import HeaderComponent from '@/components/Header.vue';
   
   export default {
     name: 'WaterDispenserT2',
     components: {
-      CatFeedUpComponent,
+      WaterDispenserUpComponent,
       HeaderComponent,
     },
     data() {
@@ -65,11 +66,13 @@
     methods: {
       drawExample() {
         this.handleBoxClick('top');
-        this.handleBoxClick('food');
+        this.handleBoxClick('speed');
         this.handleBoxClick('central');
-        this.handleBoxClick('water');
+        this.handleBoxClick('volume');
+        this.handleBoxClick('central');
+        this.handleBoxClick('speed');
         this.handleBoxClick('bottom');
-        this.handleBoxClick('water');
+        this.handleBoxClick('temp');
       },
       startAnswer() {
         this.sendEvent('start');
@@ -126,7 +129,7 @@
   
         const data = {
           tableName: 1,
-          htmlName: 'cat_feed_t2',
+          htmlName: 'water_dispenser_t2',
           userName: userName,
           ithAnswer: ithAnswer,
           event: 'ACER_EVENT',
@@ -136,8 +139,9 @@
           topSetting: "NULL",
           centralSetting: "NULL",
           bottomSetting: "NULL",
-          foodValue: "NULL",
-          waterValue: "NULL",
+          volumeValue: "NULL",
+          tempValue: "NULL",
+          speedValue: "NULL",
           diagramState: "NULL",
           network: null,
           fareType: null,
@@ -155,8 +159,9 @@
           data.topSetting = upComponent.topControl.toString();
           data.centralSetting = upComponent.centralControl.toString();
           data.bottomSetting = upComponent.bottomControl.toString();
-          data.foodValue = upComponent.food.toString();
-          data.waterValue = upComponent.water.toString();
+          data.volumeValue = upComponent.volume.toString();
+          data.tempValue = upComponent.temp.toString();
+          data.speedValue = upComponent.speed.toString();
         } else if (eventType === 'diagram') {
           data.diagramState = this.getDiagramState();
         } else if (eventType === 'start') {
@@ -184,12 +189,12 @@
         return ['top', 'central', 'bottom'].includes(type);
       },
       isInfluence(type) {
-        return ['food', 'water'].includes(type);
+        return ['volume', 'temp', 'speed'].includes(type);
       },
       getDiagramState() {
         const state = this.connections.map(conn => {
             const start = conn.start === 'top' ? 'top' : conn.start === 'central' ? 'central' : 'bottom';
-            const end = conn.end === 'food' ? 'food' : 'water';
+            const end = conn.end === 'volume' ? 'volume' : conn.end === 'temp' ? 'temp' : 'speed';
             return `${start}->${end}`;
         }).join(', ');
         return state;
@@ -261,7 +266,7 @@
       });
       this.$el.querySelectorAll('.influence-box').forEach(el => {
         let text = el.textContent.trim();
-        text = text.replace('食物量', 'food').replace('出水量', 'water');
+        text = text.replace('出水总量', 'volume').replace('出水温度', 'temp').replace('出水速度', 'speed');
         el.setAttribute('data-type', text);
       });
       // 画线
@@ -274,7 +279,7 @@
   </script>
   
   <style scoped>
-  .cat-feed-t1 {
+  .water-dispenser-t2 {
     display: flex;
     flex-direction: column;
     padding: 20px;

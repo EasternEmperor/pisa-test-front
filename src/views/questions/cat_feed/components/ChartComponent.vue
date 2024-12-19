@@ -89,7 +89,7 @@ export default {
           data: {
             labels: ['调控: 0', '调控: 0'],
             datasets: [{
-              label: '出水量',
+              label: '出水量(ml)',
               data: this.waterData,
               borderColor: 'blue',
               borderWidth: 2,
@@ -115,7 +115,7 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '出水量',
+                  text: '出水量(ml)',
                   font: { size: 14, weight: 'bold' }
                 }
               }

@@ -66,8 +66,10 @@
       drawExample() {
         this.handleBoxClick('top');
         this.handleBoxClick('definition');
-        this.handleBoxClick('central');
+        this.handleBoxClick('top');
         this.handleBoxClick('projection');
+        this.handleBoxClick('central');
+        this.handleBoxClick('definition');
         this.handleBoxClick('bottom');
         this.handleBoxClick('projection');
       },

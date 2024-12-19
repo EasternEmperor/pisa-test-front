@@ -4,7 +4,7 @@
       <h3>请调控香水制作机制作一份满足下述浓度和香味留存时间要求的香水：</h3>
       <p>
         浓度：3.5<br />
-        香味留存时间：4-5小时<br />
+        香味留存时间：4-5h<br />
       </p>
     </div>
     <div class="chart-row">
@@ -95,7 +95,7 @@ export default {
           data: {
             labels: ['调控: 0', '调控: 0'],
             datasets: [{
-              label: '留存时间',
+              label: '留存时间(h)',
               data: this.lastTimeData,
               borderColor: 'blue',
               borderWidth: 2,
@@ -112,7 +112,7 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '留存时间',
+                  text: '调控',
                   font: { size: 14, weight: 'bold' }
                 }
               },
@@ -121,7 +121,7 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '出水量',
+                  text: '留存时间(h)',
                   font: { size: 14, weight: 'bold' }
                 }
               }

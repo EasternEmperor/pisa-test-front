@@ -51,11 +51,13 @@
         bottomControl: 0,
         // 温度和湿度值
         temperature: 25,
-        humidity: 25
+        humidity: 25,
+        applyTimes: 0
       };
     },
     methods: {
       applyChanges() {
+        this.applyTimes++;
         // 更新温度
         const newTemperature = this.temperature + this.topControl;
         this.temperature = Math.min(35, Math.max(0, newTemperature));

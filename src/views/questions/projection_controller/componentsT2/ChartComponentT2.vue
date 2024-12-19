@@ -3,7 +3,7 @@
     <div class="question-text">
       <h3>请调控投影仪至下述清晰度和画片大小</h3>
       <p>
-        清晰度：1.5<br />
+        清晰度：1.5K<br />
         画片：2.5<br />
       </p>
     </div>
@@ -57,7 +57,7 @@ export default {
           data: {
             labels: ['调控: 0', '调控: 0'],
             datasets: [{
-              label: '清晰度',
+              label: '清晰度(K)',
               data: this.definitionData,
               borderColor: 'red',
               borderWidth: 2,
@@ -83,7 +83,7 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '清晰度',
+                  text: '清晰度(K)',
                   font: { size: 14, weight: 'bold' }
                 }
               }

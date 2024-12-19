@@ -4,7 +4,7 @@
       <h3>请调控自动喂猫机器至下述食物量和出水量</h3>
       <p>
         食物量：35-45之间<br />
-        出水量：100-150之间<br />
+        出水量：100-150ml之间<br />
       </p>
     </div>
     <div class="chart-row">
@@ -95,7 +95,7 @@ export default {
           data: {
             labels: ['调控: 0', '调控: 0'],
             datasets: [{
-              label: '出水量',
+              label: '出水量(ml)',
               data: this.waterData,
               borderColor: 'blue',
               borderWidth: 2,
@@ -121,7 +121,7 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '出水量',
+                  text: '出水量(ml)',
                   font: { size: 14, weight: 'bold' }
                 }
               }

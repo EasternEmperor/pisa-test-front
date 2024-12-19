@@ -1,13 +1,13 @@
 <template>
-    <div class="cat-feed-up">
-      <h2>二、自动喂猫机器</h2>
+    <div class="water-dispenser-up">
+      <h2>五、饮水机</h2>
       <p>
-        你的自动喂猫机器年久失修出现问题，需要你通过探索如何使用它来投喂猫咪。<br/>
-        你可以使用左侧的滑块（-o-）更改顶部、中心和底部控制器。每个控制器的初始设置在▲的位置，控制器一次只能调整一格。<br/>
-        控制器能够控制自动喂猫机器的食物量和出水量，但三个控制器的对食物量和出水量的具体影响需要你自己探索。<br/>
-        在控制器归零时（即▲位置），由于一些故障，自动喂猫机器也可能投喂食物和水。<br/>
-        当你设置好控制器后，点击"调控"键，你将在机器的食物量和出水量曲线图中看到自动喂猫机器的任何变化。<br/>
-        点击"重置"键，你可以将所有控制器重置到初始设置，食物量和出水量数字也将变回初始值。<br/>
+        你新买的饮水机没有说明书，需要你通过探索来学习如何使用它。<br/>
+        你可以使用左侧的滑块（-o-）更改顶部、中心和底部控制器。每个控制器的初始设置在▲的位置，<b>控制器一次只能调整一格。</b><br/>
+        控制器能够控制饮水机的出水总量、出水温度和出水速度，但三个控制器的对出水总量、出水温度和出水速度大小的具体影响需要你自己探索。<br/>
+        在控制器归零时（即▲位置），由于基础设定，饮水机也可能更改出水温度和出水速度。<br/>
+        当你设置好控制器后，点击"调控"键，你将在出水总量、出水温度和出水速度曲线图中看到饮水机的任何变化。<br/>
+        点击"重置"键，你可以将所有控制器重置到初始设置，出水总量、出水温度和出水速度数字也将变回初始值。
       </p>
       <div class="control-and-chart">
         <div class="flex-container">
@@ -21,8 +21,9 @@
           />
           <chart-component
             ref="chartComponent"
-          :food="food"
-          :water="water"
+          :volume="volume"
+          :temp="temp"
+          :speed="speed"
           />
         </div>
         <button-component
@@ -39,7 +40,7 @@
   import ButtonComponent from './components/ButtonComponent.vue';
   
   export default {
-    name: 'CatFeedUpComponent',
+    name: 'WaterDispenserUpComponent',
     components: {
       ControllerComponent,
       ChartComponent,
@@ -51,25 +52,31 @@
         topControl: 0,
         centralControl: 0,
         bottomControl: 0,
-        // 食物量和出水量
-        food: 25,
-        water: 25
+        // 出水总量、出水温度和出水速度
+        volume: 150,
+        temp: 13,
+        speed: 10,
       };
     },
     methods: {
       applyChanges() {
-        this.applyTimes++;
-        // 更新食物量
-        this.food = this.food + 15 * this.centralControl + 8 * this.bottomControl + 2;
-        // this.food = Math.min(35, Math.max(0, newFood));
+        // 更新出水总量
+        const newVolume = this.volume + 15 * this.centralControl;
+        this.volume = Math.max(0, newVolume);
         // 更新曲线图
-        this.$refs.chartComponent.addData('food', this.food);
+        this.$refs.chartComponent.addData('volume', this.volume);
 
-        // 更新出水量
-        this.water = this.water + 50 * this.topControl + 20;
-        // this.water = Math.min(35, Math.max(0, newWater));
+        // 更新出水温度
+        const newTemp = this.temp + 15 * this.bottomControl + 2;
+        this.temp = Math.max(0, newTemp);
         // 更新曲线图
-        this.$refs.chartComponent.addData('water', this.water);
+        this.$refs.chartComponent.addData('temp', this.temp);
+
+        // 更新出水速度
+        const newSpeed = this.speed + 20 * this.topControl + 5 * this.centralControl - 0.5;
+        this.speed = Math.max(0, newSpeed);
+        // 更新曲线图
+        this.$refs.chartComponent.addData('speed', this.speed);
 
         this.$emit('applyChanges');
       },
@@ -77,8 +84,9 @@
         this.topControl = 0;
         this.centralControl = 0;
         this.bottomControl = 0;
-        this.food = 25;
-        this.water = 25;
+        this.volume = 150;
+        this.temp = 13;
+        this.speed = 10;
 
         // 调用 ChartComponent 的 resetChart 方法
         this.$refs.chartComponent.resetChart();
@@ -102,7 +110,7 @@
   </script>
   
   <style scoped>
-  .cat-feed-up {
+  .water-dispenser-up {
     display: flex;
     flex-direction: column;
     width: 100%; /* 占据整个页面宽度 */
@@ -112,8 +120,9 @@
   
   .flex-container {
     display: flex;
-    /* 可选: 如果需要间距，可以添加 gap 属性 */
-    gap: 10px; /* 用于控制组件间的间距 */
+    flex-direction: row; /* 子组件按列排列 */
+    justify-content: center; /* 垂直居中 */
+    align-items: center; /* 水平居中 */
   }
   h2 {
     margin-bottom: 10px;
