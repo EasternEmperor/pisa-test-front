@@ -1,7 +1,7 @@
 <template>
     <div class="button-component">
       <button @click="$emit('apply')">调控</button>
-      <img src="@/assets/cat_feed.png" alt="Air Conditioner" style="width: 200px; height: 200px;"/>
+      <img src="@/assets/flower_garden.png" alt="Air Conditioner" style="width: 200px; height: 200px;"/>
     </div>
   </template>
   

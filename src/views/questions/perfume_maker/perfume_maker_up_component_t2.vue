@@ -60,13 +60,13 @@
         this.applyTimes++;
         // 更新浓度
         const newConcentration = this.concentration + this.topControl + 1.5 * this.bottomControl;
-        this.concentration = Math.max(0, newConcentration);
+        this.concentration = Math.max(0, newConcentration.toFixed(2));
         // 更新曲线图
         this.$refs.chartComponent.addData('concentration', this.concentration);
 
         // 更新留存时间
         const newLastTime = this.lastTime + 1.5 * this.centralControl;
-        this.lastTime = Math.max(0, newLastTime);
+        this.lastTime = Math.max(0, newLastTime.toFixed(2));
         // 更新曲线图
         this.$refs.chartComponent.addData('lastTime', this.lastTime);
 

@@ -5,7 +5,7 @@
         你的自动喂猫机器年久失修出现问题，需要你通过探索如何使用它来投喂猫咪。<br/>
         你可以使用左侧的滑块（-o-）更改顶部、中心和底部控制器。每个控制器的初始设置在▲的位置，<b>控制器一次只能调整一格。</b><br/>
         控制器能够控制自动喂猫机器的食物量和出水量，但三个控制器的对食物量和出水量的具体影响需要你自己探索。<br/>
-        在控制器归零时（即▲位置），由于一些故障，自动喂猫机器也可能投喂食物和水。<br/>
+        在控制器归零时（即▲位置），由于一些故障，自动喂猫机器也可能调整投喂条件。<br/>
         当你设置好控制器后，点击"调控"键，你将在机器的食物量和出水量曲线图中看到自动喂猫机器的任何变化。<br/>
       </p>
       <div class="control-and-chart">
@@ -61,13 +61,13 @@
         this.applyTimes++;
         // 更新食物量
         const newFood = this.food + 15 * this.centralControl + 8 * this.bottomControl + 2;
-        this.food = Math.max(0, newFood);
+        this.food = Math.max(0, newFood.toFixed(2));
         // 更新曲线图
         this.$refs.chartComponent.addData('food', this.food);
 
         // 更新出水量
         const newWater = this.water + 50 * this.topControl + 20;
-        this.water = Math.max(0, newWater);
+        this.water = Math.max(0, newWater.toFixed(2));
         // 更新曲线图
         this.$refs.chartComponent.addData('water', this.water);
 

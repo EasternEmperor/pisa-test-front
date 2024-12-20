@@ -5,7 +5,7 @@
         你的视频播放器年久失修出现故障，需要你通过探索来学习如何使用它播放视频。<br/>
         你可以使用左侧的滑块（-o-）更改顶部、中心和底部控制器。每个控制器的初始设置在▲的位置，<b>控制器一次只能调整一格。</b><br/>
         控制器能够控制视频播放器的播放速度、音量和画质，但三个控制器对播放速度、音量和画质大小的具体影响需要你自己探索。<br/>
-        在控制器归零时（即▲位置），由于基础设定，视频播放器也可能更改播放速度和画质。<br/>
+        在控制器归零时（即▲位置），由于基础设定，视频播放器也可能改变视频播放条件。<br/>
         当你设置好控制器后，点击"调控"键，你将在播放速度、音量和画质曲线图中看到视频播放器的任何变化。<br/>
         点击"重置"键，你可以将所有控制器重置到初始设置，播放速度、音量和画质数字也将变回初始值。
       </p>
@@ -62,19 +62,19 @@
       applyChanges() {
         // 更新播放速度
         const newSpeed = this.speed + 1.5 * this.bottomControl + 0.25;
-        this.speed = Math.max(0, newSpeed);
+        this.speed = Math.max(0, newSpeed.toFixed(2));
         // 更新曲线图
         this.$refs.chartComponent.addData('speed', this.speed);
 
         // 更新音量
         const newVolume = this.volume + 20 * this.topControl;
-        this.volume = Math.max(0, newVolume);
+        this.volume = Math.max(0, newVolume.toFixed(2));
         // 更新曲线图
         this.$refs.chartComponent.addData('volume', this.volume);
 
         // 更新画质
         const newQuality = this.quality + 0.5 * this.centralControl + 0.1;
-        this.quality = Math.max(0, newQuality);
+        this.quality = Math.max(0, newQuality.toFixed(2));
         // 更新曲线图
         this.$refs.chartComponent.addData('quality', this.quality);
 

@@ -326,7 +326,7 @@
             { label: 'top control设置', prop: 'topSetting' },
             { label: 'central control设置', prop: 'centralSetting' },
             { label: 'bottom control设置', prop: 'bottomSetting' },
-            { label: '清晰度', prop: 'definationValue' },
+            { label: '清晰度', prop: 'definitionValue' },
             { label: '画片大小', prop: 'projectionValue' },
             { label: '连线答案', prop: 'diagramState' }
           ];
@@ -394,7 +394,7 @@
             { label: 'central control设置', prop: 'centralSetting' },
             { label: 'bottom control设置', prop: 'bottomSetting' },
             { label: 'last control设置', prop: 'lastSetting' },
-            { label: '温度', prop: 'tmepValue' },
+            { label: '温度', prop: 'tempValue' },
             { label: '水分', prop: 'waterValue' },
             { label: '养料', prop: 'fertilizerValue' },
             { label: '连线答案', prop: 'diagramState' }

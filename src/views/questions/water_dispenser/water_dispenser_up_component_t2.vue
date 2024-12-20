@@ -5,7 +5,7 @@
         你新买的饮水机没有说明书，需要你通过探索来学习如何使用它。<br/>
         你可以使用左侧的滑块（-o-）更改顶部、中心和底部控制器。每个控制器的初始设置在▲的位置，<b>控制器一次只能调整一格。</b><br/>
         控制器能够控制饮水机的出水总量、出水温度和出水速度，但三个控制器的对出水总量、出水温度和出水速度大小的具体影响需要你自己探索。<br/>
-        在控制器归零时（即▲位置），由于基础设定，饮水机也可能更改出水温度和出水速度。<br/>
+        在控制器归零时（即▲位置），由于基础设定，饮水机也可能改变出水条件。<br/>
         当你设置好控制器后，点击"调控"键，你将在出水总量、出水温度和出水速度曲线图中看到饮水机的任何变化。
       </p>
       <div class="control-and-chart">
@@ -62,19 +62,19 @@
         this.applyTimes++;
         // 更新出水总量
         const newVolume = this.volume + 1.5 * this.centralControl;
-        this.volume = Math.max(0, newVolume);
+        this.volume = Math.max(0, newVolume.toFixed(2));
         // 更新曲线图
         this.$refs.chartComponent.addData('volume', this.volume);
 
         // 更新出水温度
         const newTemp = this.temp + 15 * this.bottomControl + 2;
-        this.temp = Math.max(0, newTemp);
+        this.temp = Math.max(0, newTemp.toFixed(2));
         // 更新曲线图
         this.$refs.chartComponent.addData('temp', this.temp);
 
         // 更新出水速度
         const newSpeed = this.speed + 20 * this.topControl + 5 * this.centralControl - 0.5;
-        this.speed = Math.max(0, newSpeed);
+        this.speed = Math.max(0, newSpeed.toFixed(2));
         // 更新曲线图
         this.$refs.chartComponent.addData('speed', this.speed);
 

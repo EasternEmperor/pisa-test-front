@@ -5,8 +5,8 @@
         你新买的大空调没有说明书，需要你通过探索来学习如何使用它。<br/>
         你可以使用左侧的滑块（-o-）更改顶部、中心和底部控制器。每个控制器的初始设置在▲的位置，<b>控制器一次只能调整一格。</b><br/>
         控制器能够控制大空调的温度、湿度和风量，但三个控制器对温度、湿度和风量大小的具体影响需要你自己探索。<br/>
-        在控制器归零时（即▲位置），由于基础设定，大空调也可能更改风量。<br/>
-        当你设置好控制器后，点击"调控"键，你将在温度、湿度和风量曲线图中看到大空调的任何变化。
+        在控制器归零时（即▲位置），由于基础设定，大空调也可能更改调控气候。<br/>
+        当你设置好控制器后，点击"调控"键，你将在温度、湿度和风量曲线图中看到大空调的任何变化。<br/>
         点击"重置"键，你可以将所有控制器重置到初始设置，温度、湿度和风量数字也将变回初始值。
       </p>
       <div class="control-and-chart">
@@ -62,19 +62,19 @@
       applyChanges() {
         // 更新温度
         const newTemp = this.temp + 2 * this.topControl + 0.5 * this.bottomControl;
-        this.temp = Math.max(0, newTemp);
+        this.temp = Math.max(0, newTemp.toFixed(2));
         // 更新曲线图
         this.$refs.chartComponent.addData('temp', this.temp);
 
         // 更新湿度
         const newHumid = this.humid + 15 * this.bottomControl;
-        this.humid = Math.max(0, newHumid);
+        this.humid = Math.max(0, newHumid.toFixed(2));
         // 更新曲线图
         this.$refs.chartComponent.addData('humid', this.humid);
 
         // 更新风量
         const newWind = this.wind + 2.5 * this.centralControl + 0.25;
-        this.wind = Math.max(0, newWind);
+        this.wind = Math.max(0, newWind.toFixed(2));
         // 更新曲线图
         this.$refs.chartComponent.addData('wind', this.wind);
 
