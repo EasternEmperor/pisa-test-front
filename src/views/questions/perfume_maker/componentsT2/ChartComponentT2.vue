@@ -3,8 +3,8 @@
     <div class="question-text">
       <h3>请调控香水制作机制作一份满足下述浓度和香味留存时间要求的香水：</h3>
       <p>
-        浓度：3.5<br />
-        香味留存时间：4-5h<br />
+        浓度：3.5左右<br />
+        香味留存时间：4-5h
       </p>
     </div>
     <div class="chart-row">

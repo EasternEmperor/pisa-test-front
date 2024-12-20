@@ -3,9 +3,9 @@
     <div class="question-text">
       <h3>请调控饮水机至下述出水总量、出水温度和出水速度</h3>
       <p>
-        出水总量：200-300ml<br />
-        出水温度：30<br />
-        出水速度：50ml/s
+        出水总量：200-300ml之间<br />
+        出水温度：30左右<br />
+        出水速度：50ml/s左右
       </p>
     </div>
     <div class="chart-row">
