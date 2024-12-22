@@ -2,10 +2,18 @@
   <div class="chart-component">
     <div class="chart-row">
       <div class="chart-item">
-        <canvas ref="foodChart"></canvas>
+        <canvas ref="brightnessChart"></canvas>
       </div>
       <div class="chart-item">
-        <canvas ref="waterChart"></canvas>
+        <canvas ref="definitionChart"></canvas>
+      </div>
+    </div>
+    <div class="chart-row">
+      <div class="chart-item">
+        <canvas ref="virtualizationChart"></canvas>
+      </div>
+      <div class="chart-item">
+        <canvas ref="rangeChart"></canvas>
       </div>
     </div>
   </div>
@@ -17,21 +25,33 @@ import { Chart } from 'chart.js';
 export default {
   name: 'ChartComponent',
   props: {
-    food: {
+    brightness: {
       type: Number,
       required: true
     },
-    water: {
+    definition: {
+      type: Number,
+      required: true
+    },
+    virtualization: {
+      type: Number,
+      required: true
+    },
+    range: {
       type: Number,
       required: true
     }
   },
   data() {
     return {
-      foodData: [25, 25],
-      foodOpIdx: [0, 0],
-      waterData: [25, 25],
-      waterOpIdx: [0, 0],
+      brightnessData: [0, 0],
+      brightnessOpIdx: [0, 0],
+      definitionData: [0, 0],
+      definitionOpIdx: [0, 0],
+      virtualizationData: [0, 0],
+      virtualizationOpIdx: [0, 0],
+      rangeData: [0, 0],
+      rangeOpIdx: [0, 0],
       chart: null // Chart.js实例
     };
   },
@@ -41,22 +61,24 @@ export default {
   },
   methods: {
     initializeChart() {
-      const ctxFood = this.$refs.foodChart.getContext('2d');
-      const ctxWater = this.$refs.waterChart.getContext('2d');
+      const ctxBrightness = this.$refs.brightnessChart.getContext('2d');
+      const ctxDefinition = this.$refs.definitionChart.getContext('2d');
+      const ctxVirtualization = this.$refs.virtualizationChart.getContext('2d');
+      const ctxRange = this.$refs.rangeChart.getContext('2d');
 
-      // 初始化两个图表
+      // 初始化三个图表
       this.chart = {
-        food: new Chart(ctxFood, {
+        brightness: new Chart(ctxBrightness, {
           type: 'line',
           data: {
             labels: ['调控: 0', '调控: 0'],
             datasets: [{
-              label: '食物量',
-              data: this.foodData,
+              label: '亮度',
+              data: this.brightnessData,
               borderColor: 'red',
               borderWidth: 2,
               fill: false,
-              tension: 0  // 禁用平滑曲线
+              tension: 0 // 禁用平滑曲线
             }]
           },
           options: {
@@ -77,24 +99,24 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '食物量',
+                  text: '亮度',
                   font: { size: 14, weight: 'bold' }
                 }
               }
             }
           }
         }),
-        water: new Chart(ctxWater, {
+        definition: new Chart(ctxDefinition, {
           type: 'line',
           data: {
             labels: ['调控: 0', '调控: 0'],
             datasets: [{
-              label: '出水量',
-              data: this.waterData,
+              label: '清晰度',
+              data: this.definitionData,
               borderColor: 'blue',
               borderWidth: 2,
               fill: false,
-              tension: 0  // 禁用平滑曲线
+              tension: 0 // 禁用平滑曲线
             }]
           },
           options: {
@@ -115,7 +137,83 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '出水量',
+                  text: '清晰度',
+                  font: { size: 14, weight: 'bold' }
+                }
+              }
+            }
+          }
+        }),
+        virtualization: new Chart(ctxVirtualization, {
+          type: 'line',
+          data: {
+            labels: ['调控: 0', '调控: 0'],
+            datasets: [{
+              label: '虚化程度',
+              data: this.virtualizationData,
+              borderColor: 'green',
+              borderWidth: 2,
+              fill: false,
+              tension: 0 // 禁用平滑曲线
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            scales: {
+              x: {
+                ticks: { beginAtZero: true },
+                grid: { lineWidth: 2 },
+                title: {
+                  display: true,
+                  text: '调控',
+                  font: { size: 14, weight: 'bold' }
+                }
+              },
+              y: {
+                ticks: { beginAtZero: true },
+                grid: { lineWidth: 2 },
+                title: {
+                  display: true,
+                  text: '虚化程度',
+                  font: { size: 14, weight: 'bold' }
+                }
+              }
+            }
+          }
+        }),
+        range: new Chart(ctxRange, {
+          type: 'line',
+          data: {
+            labels: ['调控: 0', '调控: 0'],
+            datasets: [{
+              label: '取景范围',
+              data: this.rangeData,
+              borderColor: 'purple',
+              borderWidth: 2,
+              fill: false,
+              tension: 0 // 禁用平滑曲线
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            scales: {
+              x: {
+                ticks: { beginAtZero: true },
+                grid: { lineWidth: 2 },
+                title: {
+                  display: true,
+                  text: '调控',
+                  font: { size: 14, weight: 'bold' }
+                }
+              },
+              y: {
+                ticks: { beginAtZero: true },
+                grid: { lineWidth: 2 },
+                title: {
+                  display: true,
+                  text: '取景范围',
                   font: { size: 14, weight: 'bold' }
                 }
               }
@@ -126,50 +224,78 @@ export default {
     },
     addData(type, value) {
       // 限制最多6个数据点
-      if (this.foodData.length >= 6) {
-        this.foodData.shift();
-        this.foodOpIdx.shift();
-      }
-      if (this.waterData.length >= 6) {
-        this.waterData.shift();
-        this.waterOpIdx.shift();
-      }
-
-      if (type === 'food') {
-        this.foodData.push(value);
-        this.foodOpIdx.push(this.foodOpIdx[this.foodOpIdx.length - 1] + 1);
-      } else if (type === 'water') {
-        this.waterData.push(value);
-        this.waterOpIdx.push(this.waterOpIdx[this.waterOpIdx.length - 1] + 1);
+      if (type === 'brightness') {
+        if (this.brightnessData.length >= 6) {
+          this.brightnessData.shift();
+          this.brightnessOpIdx.shift();
+        }
+        this.brightnessData.push(value);
+        this.brightnessOpIdx.push(this.brightnessOpIdx[this.brightnessOpIdx.length - 1] + 1);
+      } else if (type === 'definition') {
+        if (this.definitionData.length >= 6) {
+          this.definitionData.shift();
+          this.definitionOpIdx.shift();
+        }
+        this.definitionData.push(value);
+        this.definitionOpIdx.push(this.definitionOpIdx[this.definitionOpIdx.length - 1] + 1);
+      } else if (type === 'virtualization') {
+        if (this.virtualizationData.length >= 6) {
+          this.virtualizationData.shift();
+          this.virtualizationOpIdx.shift();
+        }
+        this.virtualizationData.push(value);
+        this.virtualizationOpIdx.push(this.virtualizationOpIdx[this.virtualizationOpIdx.length - 1] + 1);
+      } else if (type === 'range') {
+        if (this.rangeData.length >= 6) {
+          this.rangeData.shift();
+          this.rangeOpIdx.shift();
+        }
+        this.rangeData.push(value);
+        this.rangeOpIdx.push(this.rangeOpIdx[this.rangeOpIdx.length - 1] + 1);
       }
 
       // 更新图表
       this.updateChart();
     },
     updateChart() {
-      this.chart.food.data.labels = this.foodOpIdx.map(i => `调控: ${i}`);
-      this.chart.food.data.datasets[0].data = this.foodData;
-      this.chart.water.data.labels = this.waterOpIdx.map(i => `调控: ${i}`);
-      this.chart.water.data.datasets[0].data = this.waterData;
+      this.chart.brightness.data.labels = this.brightnessOpIdx.map(i => `调控: ${i}`);
+      this.chart.brightness.data.datasets[0].data = this.brightnessData;
 
-      this.chart.food.update();
-      this.chart.water.update();
+      this.chart.definition.data.labels = this.definitionOpIdx.map(i => `调控: ${i}`);
+      this.chart.definition.data.datasets[0].data = this.definitionData;
+
+      this.chart.virtualization.data.labels = this.virtualizationOpIdx.map(i => `调控: ${i}`);
+      this.chart.virtualization.data.datasets[0].data = this.virtualizationData;
+
+      this.chart.range.data.labels = this.rangeOpIdx.map(i => `调控: ${i}`);
+      this.chart.range.data.datasets[0].data = this.rangeData;
+
+      this.chart.brightness.update();
+      this.chart.definition.update();
+      this.chart.virtualization.update();
+      this.chart.range.update();
     },
     resetChart() {
       // 清空数据并重置图表
-      this.foodData = [25, 25];
-      this.foodOpIdx = [0, 0];
-      this.waterData = [25, 25];
-      this.waterOpIdx = [0, 0];
+      this.brightnessData = [0, 0];
+      this.brightnessOpIdx = [0, 0];
+      this.definitionData = [0, 0];
+      this.definitionOpIdx = [0, 0];
+      this.virtualizationData = [0, 0];
+      this.virtualizationOpIdx = [0, 0];
+      this.rangeData = [0, 0];
+      this.rangeOpIdx = [0, 0];
 
       this.updateChart();
     },
     beforeDestroy() {
       if (this.chart) {
-        this.chart.food.destroy();
-        this.chart.water.destroy();
+        this.chart.brightness.destroy();
+        this.chart.definition.destroy();
+        this.chart.virtualization.destroy();
+        this.chart.range.destroy();
       }
-    },
+    }
   }
 };
 </script>
@@ -178,13 +304,15 @@ export default {
 .chart-component {
   width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 
 .chart-row {
   display: flex;
   flex-direction: row;
-  gap: 10px; /* 控制两个图表之间的间距 */
+  gap: 10px; /* 控制图表之间的间距 */
   width: 100%;
   justify-content: center;
 }
