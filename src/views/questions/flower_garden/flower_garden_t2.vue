@@ -285,7 +285,7 @@
   </script>
   
   <style scoped>
-  .flowers-garden-t2 {
+  .flower-garden-t2 {
     display: flex;
     flex-direction: column;
     padding: 20px;

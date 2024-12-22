@@ -1,18 +1,24 @@
 <template>
   <div class="chart-component">
     <div class="question-text">
-      <h3>请调控自动喂猫机器至下述食物量和出水量</h3>
+      <h3>请调控手电筒至下述照射距离、光线亮度和照射范围</h3>
       <p>
-        食物量：35-45之间<br />
-        出水量：100-150之间<br />
+        距离：25米左右<br />
+        亮度：5左右<br />
+        范围：5左右
       </p>
     </div>
     <div class="chart-row">
       <div class="chart-item">
-        <canvas ref="foodChart"></canvas>
+        <canvas ref="distanceChart"></canvas>
       </div>
       <div class="chart-item">
-        <canvas ref="waterChart"></canvas>
+        <canvas ref="brightnessChart"></canvas>
+      </div>
+    </div>
+    <div class="chart-row">
+      <div class="chart-item">
+        <canvas ref="areaChart"></canvas>
       </div>
     </div>
   </div>
@@ -24,45 +30,53 @@ import { Chart } from "chart.js";
 export default {
   name: "ChartComponent",
   props: {
-    food: {
+    distance: {
       type: Number,
       required: true,
     },
-    water: {
+    brightness: {
       type: Number,
       required: true,
     },
+    area: {
+      type: Number,
+      required: true
+    }
   },
   data() {
     return {
-      foodData: [25, 25],
-      foodOpIdx: [0, 0],
-      waterData: [25, 25],
-      waterOpIdx: [0, 0],
-      chart: null, // Chart.js实例
+      distanceData: [0, 0],
+      distanceOpIdx: [0, 0],
+      brightnessData: [0, 0],
+      brightnessOpIdx: [0, 0],
+      areaData: [0, 0],
+      areaOpIdx: [0, 0],
+      chart: null // Chart.js实例
     };
   },
   mounted() {
+    // 初始化图表
     this.initializeChart();
   },
   methods: {
     initializeChart() {
-      const ctxFood = this.$refs.foodChart.getContext('2d');
-      const ctxWater = this.$refs.waterChart.getContext('2d');
+      const ctxDistance = this.$refs.distanceChart.getContext('2d');
+      const ctxBrightness = this.$refs.brightnessChart.getContext('2d');
+      const ctxArea = this.$refs.areaChart.getContext('2d');
 
-      // 初始化两个图表
+      // 初始化三个图表
       this.chart = {
-        food: new Chart(ctxFood, {
+        distance: new Chart(ctxDistance, {
           type: 'line',
           data: {
             labels: ['调控: 0', '调控: 0'],
             datasets: [{
-              label: '食物量',
-              data: this.foodData,
+              label: '照射距离（米）',
+              data: this.distanceData,
               borderColor: 'red',
               borderWidth: 2,
               fill: false,
-              tension: 0  // 禁用平滑曲线
+              tension: 0 // 禁用平滑曲线
             }]
           },
           options: {
@@ -83,24 +97,24 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '食物量',
+                  text: '照射距离（米）',
                   font: { size: 14, weight: 'bold' }
                 }
               }
             }
           }
         }),
-        water: new Chart(ctxWater, {
+        brightness: new Chart(ctxBrightness, {
           type: 'line',
           data: {
             labels: ['调控: 0', '调控: 0'],
             datasets: [{
-              label: '出水量',
-              data: this.waterData,
+              label: '亮度',
+              data: this.brightnessData,
               borderColor: 'blue',
               borderWidth: 2,
               fill: false,
-              tension: 0  // 禁用平滑曲线
+              tension: 0 // 禁用平滑曲线
             }]
           },
           options: {
@@ -121,7 +135,45 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '出水量',
+                  text: '亮度',
+                  font: { size: 14, weight: 'bold' }
+                }
+              }
+            }
+          }
+        }),
+        area: new Chart(ctxArea, {
+          type: 'line',
+          data: {
+            labels: ['调控: 0', '调控: 0'],
+            datasets: [{
+              label: '照射范围',
+              data: this.areaData,
+              borderColor: 'green',
+              borderWidth: 2,
+              fill: false,
+              tension: 0 // 禁用平滑曲线
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            scales: {
+              x: {
+                ticks: { beginAtZero: true },
+                grid: { lineWidth: 2 },
+                title: {
+                  display: true,
+                  text: '调控',
+                  font: { size: 14, weight: 'bold' }
+                }
+              },
+              y: {
+                ticks: { beginAtZero: true },
+                grid: { lineWidth: 2 },
+                title: {
+                  display: true,
+                  text: '照射范围',
                   font: { size: 14, weight: 'bold' }
                 }
               }
@@ -132,50 +184,64 @@ export default {
     },
     addData(type, value) {
       // 限制最多6个数据点
-      if (this.foodData.length >= 6) {
-        this.foodData.shift();
-        this.foodOpIdx.shift();
-      }
-      if (this.waterData.length >= 6) {
-        this.waterData.shift();
-        this.waterOpIdx.shift();
-      }
-
-      if (type === 'food') {
-        this.foodData.push(value);
-        this.foodOpIdx.push(this.foodOpIdx[this.foodOpIdx.length - 1] + 1);
-      } else if (type === 'water') {
-        this.waterData.push(value);
-        this.waterOpIdx.push(this.waterOpIdx[this.waterOpIdx.length - 1] + 1);
+      if (type === 'distance') {
+        if (this.distanceData.length >= 6) {
+          this.distanceData.shift();
+          this.distanceOpIdx.shift();
+        }
+        this.distanceData.push(value);
+        this.distanceOpIdx.push(this.distanceOpIdx[this.distanceOpIdx.length - 1] + 1);
+      } else if (type === 'brightness') {
+        if (this.brightnessData.length >= 6) {
+          this.brightnessData.shift();
+          this.brightnessOpIdx.shift();
+        }
+        this.brightnessData.push(value);
+        this.brightnessOpIdx.push(this.brightnessOpIdx[this.brightnessOpIdx.length - 1] + 1);
+      } else if (type === 'area') {
+        if (this.areaData.length >= 6) {
+          this.areaData.shift();
+          this.areaOpIdx.shift();
+        }
+        this.areaData.push(value);
+        this.areaOpIdx.push(this.areaOpIdx[this.areaOpIdx.length - 1] + 1);
       }
 
       // 更新图表
       this.updateChart();
     },
     updateChart() {
-      this.chart.food.data.labels = this.foodOpIdx.map(i => `调控: ${i}`);
-      this.chart.food.data.datasets[0].data = this.foodData;
-      this.chart.water.data.labels = this.waterOpIdx.map(i => `调控: ${i}`);
-      this.chart.water.data.datasets[0].data = this.waterData;
+      this.chart.distance.data.labels = this.distanceOpIdx.map(i => `调控: ${i}`);
+      this.chart.distance.data.datasets[0].data = this.distanceData;
 
-      this.chart.food.update();
-      this.chart.water.update();
+      this.chart.brightness.data.labels = this.brightnessOpIdx.map(i => `调控: ${i}`);
+      this.chart.brightness.data.datasets[0].data = this.brightnessData;
+
+      this.chart.area.data.labels = this.areaOpIdx.map(i => `调控: ${i}`);
+      this.chart.area.data.datasets[0].data = this.areaData;
+
+      this.chart.distance.update();
+      this.chart.brightness.update();
+      this.chart.area.update();
     },
     resetChart() {
       // 清空数据并重置图表
-      this.foodData = [25, 25];
-      this.foodOpIdx = [0, 0];
-      this.waterData = [25, 25];
-      this.waterOpIdx = [0, 0];
+      this.distanceData = [0, 0];
+      this.distanceOpIdx = [0, 0];
+      this.brightnessData = [0, 0];
+      this.brightnessOpIdx = [0, 0];
+      this.areaData = [0, 0];
+      this.areaOpIdx = [0, 0];
 
       this.updateChart();
     },
     beforeDestroy() {
       if (this.chart) {
-        this.chart.food.destroy();
-        this.chart.water.destroy();
+        this.chart.distance.destroy();
+        this.chart.brightness.destroy();
+        this.chart.area.destroy();
       }
-    },
+    }
   }
 };
 </script>

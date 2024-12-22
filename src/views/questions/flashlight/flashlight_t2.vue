@@ -1,21 +1,21 @@
 <template>
-    <div class="cat-feed-t2">
+    <div class="flashlight-t2">
       <!-- 使用 Header 组件 -->
       <header-component :userName="userName" />
 
       <!-- 题干部分 -->
       <div class="container-box">
-        <cat-feed-up-component ref="upComponentRef" @applyChanges="handleApply" @resetChanges="handleReset" @control="handleControl"/>
+        <flashlight-up-component ref="upComponentRef" @applyChanges="handleApply" @resetChanges="handleReset" @control="handleControl"/>
       </div>
   
       <!-- 题目部分 -->
       <div class="container-box question-section">
         <div class="question-text">
-          <h3>问题2: 调控食物量和出水量</h3>
+          <h3>问题2: 调控照射距离、亮度和照射范围</h3>
           <p>
             三个控制器及其控制的对象如下图连线所示。<br/>
-            灵活运用控制器，将食物量和出水量调整到目标数值。目标数值如<b>曲线图上方所示。</b><br/>
-            你需要在尽可能少的鼠标点击次数中完成目标，且没有重置按钮可供使用。<br/>
+            灵活运用控制器，将照射距离、亮度和照射范围调整到目标数值。目标数值如<b>曲线图上方所示。</b><br/>
+            你需要在尽可能少的鼠标点击次数中完成目标，且没有重置按钮可供使用。
           </p>
         </div>
         <div class="diagram-section">
@@ -24,10 +24,12 @@
             <div class="control-box" >顶部控制器</div>
             <div class="control-box" >中间控制器</div>
             <div class="control-box" >底部控制器</div>
+            <div class="control-box" >横条控制器</div>
           </div>
           <div class="influences-column">
-            <div class="influence-box" >食物量</div>
-            <div class="influence-box" >出水量</div>
+            <div class="influence-box" >照射距离</div>
+            <div class="influence-box" >亮度</div>
+            <div class="influence-box" >照射范围</div>
           </div>
         </div>
         <el-row style="margin-top: 20px;" type="flex" justify="center">
@@ -39,13 +41,13 @@
   </template>
   
   <script>
-  import CatFeedUpComponent from './flashlight_up_component_t2.vue';
+  import FlashlightUpComponent from './flashlight_up_component_t2.vue';
   import HeaderComponent from '@/components/Header.vue';
   
   export default {
     name: 'FlashlightT2',
     components: {
-      CatFeedUpComponent,
+      FlashlightUpComponent,
       HeaderComponent,
     },
     data() {
@@ -65,11 +67,17 @@
     methods: {
       drawExample() {
         this.handleBoxClick('top');
-        this.handleBoxClick('food');
+        this.handleBoxClick('distance');
         this.handleBoxClick('central');
-        this.handleBoxClick('water');
+        this.handleBoxClick('distance');
+        this.handleBoxClick('central');
+        this.handleBoxClick('brightness');
         this.handleBoxClick('bottom');
-        this.handleBoxClick('water');
+        this.handleBoxClick('distance');
+        this.handleBoxClick('bottom');
+        this.handleBoxClick('brightness');
+        this.handleBoxClick('last');
+        this.handleBoxClick('brightness');
       },
       startAnswer() {
         this.sendEvent('start');
@@ -126,7 +134,7 @@
   
         const data = {
           tableName: 1,
-          htmlName: 'cat_feed_t2',
+          htmlName: 'flashlight_t2',
           userName: userName,
           ithAnswer: ithAnswer,
           event: 'ACER_EVENT',
@@ -136,8 +144,10 @@
           topSetting: "NULL",
           centralSetting: "NULL",
           bottomSetting: "NULL",
-          foodValue: "NULL",
-          waterValue: "NULL",
+          lastSetting: "NULL",
+          distanceValue: "NULL",
+          brightnessValue: "NULL",
+          areaValue: "NULL",
           diagramState: "NULL",
           network: null,
           fareType: null,
@@ -150,13 +160,16 @@
           data.topSetting = upComponent.topControl.toString();
           data.centralSetting = upComponent.centralControl.toString();
           data.bottomSetting = upComponent.bottomControl.toString();
+          data.lastSetting = upComponent.lastControl.toString();
         } else if (eventType === 'reset' || eventType === 'apply') {
           const upComponent = this.$refs.upComponentRef;
           data.topSetting = upComponent.topControl.toString();
           data.centralSetting = upComponent.centralControl.toString();
           data.bottomSetting = upComponent.bottomControl.toString();
-          data.foodValue = upComponent.food.toString();
-          data.waterValue = upComponent.water.toString();
+          data.lastSetting = upComponent.lastControl.toString();
+          data.distanceValue = upComponent.distance.toString();
+          data.brightnessValue = upComponent.brightness.toString();
+          data.areaValue = upComponent.area.toString();
         } else if (eventType === 'diagram') {
           data.diagramState = this.getDiagramState();
         } else if (eventType === 'start') {
@@ -181,15 +194,15 @@
           });
       },
       isControl(type) {
-        return ['top', 'central', 'bottom'].includes(type);
+        return ['top', 'central', 'bottom', 'last'].includes(type);
       },
       isInfluence(type) {
-        return ['food', 'water'].includes(type);
+        return ['distance', 'brightness', 'area'].includes(type);
       },
       getDiagramState() {
         const state = this.connections.map(conn => {
-            const start = conn.start === 'top' ? 'top' : conn.start === 'central' ? 'central' : 'bottom';
-            const end = conn.end === 'food' ? 'food' : 'water';
+            const start = conn.start === 'top' ? 'top' : conn.start === 'central' ? 'central' : conn.start === 'bottom' ? 'bottom' : 'last';
+            const end = conn.end === 'distance' ? 'distance' : conn.end === 'brightness' ? 'brightness' : 'area';
             return `${start}->${end}`;
         }).join(', ');
         return state;
@@ -256,12 +269,12 @@
       // 初始化 data-type 属性
       this.$el.querySelectorAll('.control-box').forEach(el => {
         let text = el.textContent.trim();
-        text = text.replace('顶部', 'top').replace('中间', 'central').replace('底部', 'bottom');
+        text = text.replace('顶部', 'top').replace('中间', 'central').replace('底部', 'bottom').replace('横条', 'last');
         el.setAttribute('data-type', text.toLowerCase().replace('控制器', ''));
       });
       this.$el.querySelectorAll('.influence-box').forEach(el => {
         let text = el.textContent.trim();
-        text = text.replace('食物量', 'food').replace('出水量', 'water');
+        text = text.replace('照射距离', 'distance').replace('亮度', 'brightness').replace('照射范围', 'area');
         el.setAttribute('data-type', text);
       });
       // 画线
@@ -274,7 +287,7 @@
   </script>
   
   <style scoped>
-  .cat-feed-t1 {
+  .flashlight-t2 {
     display: flex;
     flex-direction: column;
     padding: 20px;

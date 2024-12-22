@@ -1,11 +1,11 @@
 <template>
-    <div class="cat-feed-t1">
+    <div class="flashlight-t1">
       <!-- 使用 Header 组件 -->
       <header-component :userName="userName" />
 
       <!-- 题干部分 -->
       <div class="container-box">
-        <cat-feed-up-component ref="upComponentRef" @applyChanges="handleApply" @resetChanges="handleReset" @control="handleControl"/>
+        <flashlight-up-component ref="upComponentRef" @applyChanges="handleApply" @resetChanges="handleReset" @control="handleControl"/>
       </div>
   
       <!-- 题目部分 -->
@@ -13,22 +13,68 @@
         <div class="question-text">
           <h3>问题1: 控制器功能</h3>
           <p>
-            通过改变滑块并应用，弄清楚每个控制器控制的是食物量还是出水量。<br/>
+            通过改变滑块并调控，弄清楚每个控制器控制的是照射距离、亮度还是照射范围。<br/>
             你可以通过"重置"键来重置所有组件。<br/>
             在下方将控制器和你认为其控制的对象连上线。<br/>
-            连线的操作是：点击一个控制器方块，然后点击另一个食物量/出水量方块。分别点击已连线的两个方块可取消它们之间的连线。
+            <b>连线的操作是</b>：点击一个控制器方块，然后点击另一个照射距离、亮度或照射范围方块。<br/>
+            <b>取消方块选择</b>：再次点击已选中的方块即可取消选择。<br/>
+            <b>取消连线</b>：分别点击已连线的两个方块可取消它们之间的连线。
           </p>
         </div>
         <div class="diagram-section">
           <svg class="lines-svg" ref="svgContainer"></svg>
           <div class="controls-column">
-            <div class="control-box" @click="handleBoxClick('top')">顶部控制器</div>
-            <div class="control-box" @click="handleBoxClick('central')">中间控制器</div>
-            <div class="control-box" @click="handleBoxClick('bottom')">底部控制器</div>
+            <div
+              class="control-box"
+              :class="{ 'selected-box': selectedControl === 'top' }"
+              @click="handleBoxClick('top')"
+            >
+              顶部控制器
+            </div>
+            <div
+              class="control-box"
+              :class="{ 'selected-box': selectedControl === 'central' }"
+              @click="handleBoxClick('central')"
+            >
+              中间控制器
+            </div>
+            <div
+              class="control-box"
+              :class="{ 'selected-box': selectedControl === 'bottom' }"
+              @click="handleBoxClick('bottom')"
+            >
+              底部控制器
+            </div>
+            <div
+              class="control-box"
+              :class="{ 'selected-box': selectedControl === 'last' }"
+              @click="handleBoxClick('last')"
+            >
+              横条控制器
+            </div>
           </div>
           <div class="influences-column">
-            <div class="influence-box" @click="handleBoxClick('food')">食物量</div>
-            <div class="influence-box" @click="handleBoxClick('water')">出水量</div>
+            <div
+              class="influence-box"
+              :class="{ 'selected-box': selectedControl === 'distance' }"
+              @click="handleBoxClick('distance')"
+            >
+              照射距离
+            </div>
+            <div
+              class="influence-box"
+              :class="{ 'selected-box': selectedControl === 'brightness' }"
+              @click="handleBoxClick('brightness')"
+            >
+              亮度
+            </div>
+            <div
+              class="influence-box"
+              :class="{ 'selected-box': selectedControl === 'area' }"
+              @click="handleBoxClick('area')"
+            >
+              照射范围
+            </div>
           </div>
         </div>
         <el-row style="margin-top: 20px;" type="flex" justify="center">
@@ -40,13 +86,13 @@
   </template>
   
   <script>
-  import CatFeedUpComponent from './flashlight_up_component.vue';
+  import FlashlightUpComponent from './flashlight_up_component.vue';
   import HeaderComponent from '@/components/Header.vue';
   
   export default {
     name: 'FlashlightT1',
     components: {
-      CatFeedUpComponent,
+      FlashlightUpComponent,
       HeaderComponent,
     },
     data() {
@@ -69,12 +115,13 @@
         this.sendEvent('start');
       },
       checkAnswer() {
-        // 判断 connections 中是否包含 start 为 'top', 'central', 'bottom' 的元素
+        // 判断 connections 中是否包含 start 为 'top', 'central', 'bottom', 'last' 的元素
         const hasTop = this.connections.some(conn => conn.start === 'top');
         const hasCentral = this.connections.some(conn => conn.start === 'central');
         const hasBottom = this.connections.some(conn => conn.start === 'bottom');
+        const hasLast = this.connections.some(conn => conn.start === 'last');
         
-        return hasTop && hasCentral && hasBottom;
+        return hasTop && hasCentral && hasBottom && hasLast;
       },
       submitAnswer() {
         if (this.checkAnswer()) {
@@ -139,7 +186,7 @@
   
         const data = {
           tableName: 1,
-          htmlName: 'cat_feed_t1',
+          htmlName: 'flashlight_t1',
           userName: userName,
           ithAnswer: ithAnswer,
           event: 'ACER_EVENT',
@@ -149,8 +196,10 @@
           topSetting: "NULL",
           centralSetting: "NULL",
           bottomSetting: "NULL",
-          foodValue: "NULL",
-          waterValue: "NULL",
+          lastSetting: "NULL",
+          distanceValue: "NULL",
+          brightnessValue: "NULL",
+          areaValue: "NULL",
           diagramState: "NULL",
           network: null,
           fareType: null,
@@ -163,13 +212,16 @@
           data.topSetting = upComponent.topControl.toString();
           data.centralSetting = upComponent.centralControl.toString();
           data.bottomSetting = upComponent.bottomControl.toString();
+          data.lastSetting = upComponent.lastControl.toString();
         } else if (eventType === 'reset' || eventType === 'apply') {
           const upComponent = this.$refs.upComponentRef;
           data.topSetting = upComponent.topControl.toString();
           data.centralSetting = upComponent.centralControl.toString();
           data.bottomSetting = upComponent.bottomControl.toString();
-          data.foodValue = upComponent.food.toString();
-          data.waterValue = upComponent.water.toString();
+          data.lastSetting = upComponent.lastControl.toString();
+          data.distanceValue = upComponent.distance.toString();
+          data.brightnessValue = upComponent.brightness.toString();
+          data.areaValue = upComponent.area.toString();
         } else if (eventType === 'diagram') {
           data.diagramState = this.getDiagramState();
         } else if (eventType === 'start') {
@@ -194,17 +246,23 @@
           });
       },
       isControl(type) {
-        return ['top', 'central', 'bottom'].includes(type);
+        return ['top', 'central', 'bottom', 'last'].includes(type);
       },
       isInfluence(type) {
-        return ['food', 'water'].includes(type);
+        return ['distance', 'brightness', 'area'].includes(type);
       },
       getDiagramState() {
-        const state = this.connections.map(conn => {
-            const start = conn.start === 'top' ? 'top' : conn.start === 'central' ? 'central' : 'bottom';
-            const end = conn.end === 'food' ? 'food' : 'water';
-            return `${start}->${end}`;
+        const sortedConnections = this.connections.sort((a, b) => {
+          const order = { top: 1, central: 2, bottom: 3, last: 4 };
+          return order[a.start] - order[b.start];
+        });
+
+        const state = sortedConnections.map(conn => {
+          const start = conn.start === 'top' ? 'top' : conn.start === 'central' ? 'central' : conn.start === 'bottom' ? 'bottom' : 'last';
+          const end = conn.end === 'distance' ? 'distance' : conn.end === 'brightness' ? 'brightness' : 'area';
+          return `${start}->${end}`;
         }).join(', ');
+
         return state;
       },
       drawLines() {
@@ -269,12 +327,12 @@
       // 初始化 data-type 属性
       this.$el.querySelectorAll('.control-box').forEach(el => {
         let text = el.textContent.trim();
-        text = text.replace('顶部', 'top').replace('中间', 'central').replace('底部', 'bottom');
+        text = text.replace('顶部', 'top').replace('中间', 'central').replace('底部', 'bottom').replace('横条', 'last');
         el.setAttribute('data-type', text.toLowerCase().replace('控制器', ''));
       });
       this.$el.querySelectorAll('.influence-box').forEach(el => {
         let text = el.textContent.trim();
-        text = text.replace('食物量', 'food').replace('出水量', 'water');
+        text = text.replace('照射距离', 'distance').replace('亮度', 'brightness').replace('照射范围', 'area');
         el.setAttribute('data-type', text);
       });
     },
@@ -285,7 +343,7 @@
   </script>
   
   <style scoped>
-  .cat-feed-t1 {
+  .flashlight-t1 {
     display: flex;
     flex-direction: column;
     padding: 20px;
@@ -352,6 +410,11 @@
   .control-box:hover,
   .influence-box:hover {
     background-color: #d0d0d0;
+  }
+
+  .selected-box {
+    background-color: #007bff; /* 蓝色背景 */
+    color: white; /* 改变文字颜色以便在蓝色背景上显示清晰 */
   }
   </style>
   
