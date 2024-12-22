@@ -49,7 +49,7 @@ export default {
         temperature: new Chart(ctxTemperature, {
           type: 'line',
           data: {
-            labels: [0, 0],
+            labels: ['调控：0', '调控：0'],
             datasets: [{
               label: '温度',
               data: this.temperatureData,
@@ -68,7 +68,7 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '操作次数',
+                  text: '调控',
                   font: { size: 14, weight: 'bold' }
                 }
               },
@@ -87,7 +87,7 @@ export default {
         humidity: new Chart(ctxHumidity, {
           type: 'line',
           data: {
-            labels: [0, 0],
+            labels: ['调控：0', '调控：0'],
             datasets: [{
               label: '湿度',
               data: this.humidityData,
@@ -106,7 +106,7 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '操作次数',
+                  text: '调控',
                   font: { size: 14, weight: 'bold' }
                 }
               },
@@ -147,9 +147,9 @@ export default {
       this.updateChart();
     },
     updateChart() {
-      this.chart.temperature.data.labels = this.tempOpIdx;
+      this.chart.temperature.data.labels = this.tempOpIdx.map(i => `调控: ${i}`);
       this.chart.temperature.data.datasets[0].data = this.temperatureData;
-      this.chart.humidity.data.labels = this.humidityOpIdx;
+      this.chart.humidity.data.labels = this.humidityOpIdx.map(i => `调控: ${i}`);
       this.chart.humidity.data.datasets[0].data = this.humidityData;
 
       this.chart.temperature.update();

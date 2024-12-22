@@ -49,17 +49,17 @@
           <div class="influences-column">
             <div
               class="influence-box"
-              :class="{ 'selected-box': selectedControl === 'definition' }"
-              @click="handleBoxClick('definition')"
+              :class="{ 'selected-box': selectedControl === 'concentration' }"
+              @click="handleBoxClick('concentration')"
             >
-              清晰度
+              浓度
             </div>
             <div
               class="influence-box"
-              :class="{ 'selected-box': selectedControl === 'projection' }"
-              @click="handleBoxClick('projection')"
+              :class="{ 'selected-box': selectedControl === 'lastTime' }"
+              @click="handleBoxClick('lastTime')"
             >
-              画片大小
+              留存时间
             </div>
           </div>
         </div>

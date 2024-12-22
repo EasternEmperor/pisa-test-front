@@ -49,17 +49,17 @@
           <div class="influences-column">
             <div
               class="influence-box"
-              :class="{ 'selected-box': selectedControl === 'definition' }"
-              @click="handleBoxClick('definition')"
+              :class="{ 'selected-box': selectedControl === 'food' }"
+              @click="handleBoxClick('food')"
             >
-              清晰度
+              食物量
             </div>
             <div
               class="influence-box"
-              :class="{ 'selected-box': selectedControl === 'projection' }"
-              @click="handleBoxClick('projection')"
+              :class="{ 'selected-box': selectedControl === 'water' }"
+              @click="handleBoxClick('water')"
             >
-              画片大小
+              出水量
             </div>
           </div>
         </div>

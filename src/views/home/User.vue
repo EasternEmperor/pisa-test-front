@@ -71,12 +71,16 @@
                                               return item.ithAnswer + 1 > max ? item.ithAnswer + 1 : max;
                                           }, -1));
         } else {
-          sessionStorage.setItem("ithAnswer", 0);
+          sessionStorage.setItem("ithAnswer", 1);
         }
         sessionStorage.setItem("testBegin", new Date().toISOString());
         this.$getQuestion(1);
       }
-    }
+    },
+    mounted() {
+      // 初始化默认标签
+      this.fetchAnswerHistory();
+    },
   };
   </script>
   

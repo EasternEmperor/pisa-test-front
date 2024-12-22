@@ -74,7 +74,7 @@
         this.handleBoxClick('central');
         this.handleBoxClick('sweetness');
         this.handleBoxClick('bottom');
-        this.handleBoxClick('bitterness');
+        this.handleBoxClick('sweetness');
         this.handleBoxClick('last');
         this.handleBoxClick('bitterness');
         this.handleBoxClick('last');

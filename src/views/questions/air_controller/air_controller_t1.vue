@@ -49,17 +49,17 @@
           <div class="influences-column">
             <div
               class="influence-box"
-              :class="{ 'selected-box': selectedControl === 'definition' }"
-              @click="handleBoxClick('definition')"
+              :class="{ 'selected-box': selectedControl === 'temperature' }"
+              @click="handleBoxClick('temperature')"
             >
-              清晰度
+              温度
             </div>
             <div
               class="influence-box"
-              :class="{ 'selected-box': selectedControl === 'projection' }"
-              @click="handleBoxClick('projection')"
+              :class="{ 'selected-box': selectedControl === 'humidity' }"
+              @click="handleBoxClick('humidity')"
             >
-              画片大小
+              湿度
             </div>
           </div>
         </div>

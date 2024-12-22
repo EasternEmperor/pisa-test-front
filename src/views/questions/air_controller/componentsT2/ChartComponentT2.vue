@@ -38,7 +38,9 @@ export default {
       randomTemperature: 18,
       randomHumidity: 33,
       temperatureData: [25, 25],
+      tempOpIdx: [0, 0],
       humidityData: [25, 25],
+      humidityOpIdx: [0, 0],
       chart: null, // Chart.js实例
     };
   },
@@ -52,89 +54,123 @@ export default {
 
       this.chart = {
         temperature: new Chart(ctxTemperature, {
-          type: "line",
+          type: 'line',
           data: {
-            labels: [],
-            datasets: [
-              {
-                label: "温度",
-                data: this.temperatureData,
-                borderColor: "red",
-                borderWidth: 2,
-                fill: false,
-                tension: 0,
-              },
-            ],
+            labels: ['调控：0', '调控：0'],
+            datasets: [{
+              label: '温度',
+              data: this.temperatureData,
+              borderColor: 'red',
+              borderWidth: 2,
+              fill: false,
+              tension: 0  // 禁用平滑曲线
+            }]
           },
           options: {
             responsive: true,
             maintainAspectRatio: true,
             scales: {
               x: {
-                display: false,
                 ticks: { beginAtZero: true },
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: "操作次数",
-                  font: { size: 14, weight: "bold" },
-                },
+                  text: '调控',
+                  font: { size: 14, weight: 'bold' }
+                }
               },
               y: {
                 ticks: { beginAtZero: true },
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: "温度值",
-                  font: { size: 14, weight: "bold" },
-                },
-              },
-            },
-          },
+                  text: '温度值',
+                  font: { size: 14, weight: 'bold' }
+                }
+              }
+            }
+          }
         }),
         humidity: new Chart(ctxHumidity, {
-          type: "line",
+          type: 'line',
           data: {
-            labels: [],
-            datasets: [
-              {
-                label: "湿度",
-                data: this.humidityData,
-                borderColor: "blue",
-                borderWidth: 2,
-                fill: false,
-                tension: 0,
-              },
-            ],
+            labels: ['调控：0', '调控：0'],
+            datasets: [{
+              label: '湿度',
+              data: this.humidityData,
+              borderColor: 'blue',
+              borderWidth: 2,
+              fill: false,
+              tension: 0  // 禁用平滑曲线
+            }]
           },
           options: {
             responsive: true,
             maintainAspectRatio: true,
             scales: {
               x: {
-                display: false,
                 ticks: { beginAtZero: true },
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: "操作次数",
-                  font: { size: 14, weight: "bold" },
-                },
+                  text: '调控',
+                  font: { size: 14, weight: 'bold' }
+                }
               },
               y: {
                 ticks: { beginAtZero: true },
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: "湿度值",
-                  font: { size: 14, weight: "bold" },
-                },
-              },
-            },
-          },
-        }),
+                  text: '湿度值',
+                  font: { size: 14, weight: 'bold' }
+                }
+              }
+            }
+          }
+        })
       };
     },
+    addData(type, value) {
+      // 限制最多6个数据点
+      if (this.temperatureData.length >= 6) {
+        this.temperatureData.shift();
+        this.tempOpIdx.shift();
+      }
+      if (this.humidityData.length >= 6) {
+        this.humidityData.shift();
+        this.humidityOpIdx.shift();
+      }
+
+      if (type === 'temperature') {
+        this.temperatureData.push(value);
+        this.tempOpIdx.push(this.tempOpIdx[this.tempOpIdx.length - 1] + 1);
+      } else if (type === 'humidity') {
+        this.humidityData.push(value);
+        this.humidityOpIdx.push(this.humidityOpIdx[this.humidityOpIdx.length - 1] + 1);
+      }
+
+      // 更新图表
+      this.updateChart();
+    },
+    updateChart() {
+      this.chart.temperature.data.labels = this.tempOpIdx.map(i => `调控: ${i}`);
+      this.chart.temperature.data.datasets[0].data = this.temperatureData;
+      this.chart.humidity.data.labels = this.humidityOpIdx.map(i => `调控: ${i}`);
+      this.chart.humidity.data.datasets[0].data = this.humidityData;
+
+      this.chart.temperature.update();
+      this.chart.humidity.update();
+    },
+    resetChart() {
+      // 清空数据并重置图表
+      this.temperatureData = [25, 25];
+      this.tempOpIdx = [0, 0];
+      this.humidityData = [25, 25];
+      this.humidityOpIdx = [0, 0];
+
+      this.updateChart();
+    }
   },
 };
 </script>
