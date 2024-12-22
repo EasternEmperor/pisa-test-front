@@ -76,6 +76,8 @@
         this.handleBoxClick('distance');
         this.handleBoxClick('bottom');
         this.handleBoxClick('brightness');
+        this.handleBoxClick('bottom');
+        this.handleBoxClick('area');
         this.handleBoxClick('last');
         this.handleBoxClick('brightness');
       },

@@ -1,13 +1,12 @@
 <template>
-    <div class="cat-feed-up">
-      <h2>二、自动喂猫机器</h2>
+    <div class="rice-cooker-up">
+      <h2>十、二手电饭煲</h2>
       <p>
-        你的自动喂猫机器年久失修出现问题，需要你通过探索如何使用它来投喂猫咪。<br/>
-        你可以使用左侧的滑块（-o-）更改顶部、中心和底部控制器。每个控制器的初始设置在▲的位置，控制器一次只能调整一格。<br/>
-        控制器能够控制自动喂猫机器的食物量和出水量，但三个控制器的对食物量和出水量的具体影响需要你自己探索。<br/>
-        在控制器归零时（即▲位置），由于一些故障，自动喂猫机器也可能投喂食物和水。<br/>
-        当你设置好控制器后，点击"调控"键，你将在机器的食物量和出水量曲线图中看到自动喂猫机器的任何变化。<br/>
-        点击"重置"键，你可以将所有控制器重置到初始设置，食物量和出水量数字也将变回初始值。<br/>
+        你新买了一个没有说明书的二手电饭煲，需要你通过探索来学习如何调控电饭煲煮出美味的米饭。<br/>
+        你可以使用左侧的滑块（-o-）更改顶部、中心、底部和横条控制器。每个控制器的初始设置在▲的位置，<b>控制器一次只能调整一格。</b><br/>
+        控制器能够控制电饭煲煮出米饭的硬度、香甜度和煮饭时间，但四个控制器对米饭硬度、香甜度和煮饭时间大小的具体影响需要你自己探索。<br/>
+        当你设置好控制器后，点击"调控"键，你将在米饭硬度、香甜度和煮饭时间曲线图中看到电饭煲的任何变化。<br/>
+        点击"重置"键，你可以将所有控制器重置到初始设置，硬度、香甜度和煮饭时间数字也将变回初始值。
       </p>
       <div class="control-and-chart">
         <div class="flex-container">
@@ -15,14 +14,17 @@
             :top-control="topControl"
             :central-control="centralControl"
             :bottom-control="bottomControl"
+            :last-control="lastControl"
             @update:top-control="handleTop"
             @update:central-control="handleCentral"
             @update:bottom-control="handleBottom"
+            @update:last-control="handleLast"
           />
           <chart-component
             ref="chartComponent"
-          :food="food"
-          :water="water"
+          :hardness="hardness"
+          :sweetness="sweetness"
+          :cookTime="cookTime"
           />
         </div>
         <button-component
@@ -39,7 +41,7 @@
   import ButtonComponent from './components/ButtonComponent.vue';
   
   export default {
-    name: 'CatFeedUpComponent',
+    name: 'RiceCookerUpComponent',
     components: {
       ControllerComponent,
       ChartComponent,
@@ -51,25 +53,32 @@
         topControl: 0,
         centralControl: 0,
         bottomControl: 0,
-        // 食物量和出水量
-        food: 25,
-        water: 25
+        lastControl: 0,
+        // 硬度、香甜度和煮饭时间
+        hardness: 0,
+        sweetness: 0,
+        cookTime: 0,
       };
     },
     methods: {
       applyChanges() {
-        this.applyTimes++;
-        // 更新食物量
-        this.food = this.food + 15 * this.centralControl + 8 * this.bottomControl + 2;
-        // this.food = Math.min(35, Math.max(0, newFood));
+        // 更新硬度
+        const newHardness = this.hardness + 0.5 * this.topControl + this.bottomControl;
+        this.hardness = Math.max(0, newHardness.toFixed(2));
         // 更新曲线图
-        this.$refs.chartComponent.addData('food', this.food);
+        this.$refs.chartComponent.addData('hardness', this.hardness);
 
-        // 更新出水量
-        this.water = this.water + 50 * this.topControl + 20;
-        // this.water = Math.min(35, Math.max(0, newWater));
+        // 更新香甜度
+        const newSweetness = this.sweetness + 1.5 * this.centralControl + 0.5 * this.lastControl;
+        this.sweetness = Math.max(0, newSweetness.toFixed(2));
         // 更新曲线图
-        this.$refs.chartComponent.addData('water', this.water);
+        this.$refs.chartComponent.addData('sweetness', this.sweetness);
+
+        // 更新煮饭时间
+        const newCookTime = this.cookTime + 20 * this.topControl;
+        this.cookTime = Math.max(0, newCookTime.toFixed(2));
+        // 更新曲线图
+        this.$refs.chartComponent.addData('cookTime', this.cookTime);
 
         this.$emit('applyChanges');
       },
@@ -77,8 +86,10 @@
         this.topControl = 0;
         this.centralControl = 0;
         this.bottomControl = 0;
-        this.food = 25;
-        this.water = 25;
+        this.lastControl = 0;
+        this.hardness = 0;
+        this.sweetness = 0;
+        this.cookTime = 0;
 
         // 调用 ChartComponent 的 resetChart 方法
         this.$refs.chartComponent.resetChart();
@@ -96,13 +107,17 @@
       handleBottom(value) {
         this.bottomControl = value;
         this.$emit('control', value);
+      },
+      handleLast(value) {
+        this.lastControl = value;
+        this.$emit('control', value);
       }
     }
   };
   </script>
   
   <style scoped>
-  .cat-feed-up {
+  .rice-cooker-up {
     display: flex;
     flex-direction: column;
     width: 100%; /* 占据整个页面宽度 */
@@ -112,8 +127,9 @@
   
   .flex-container {
     display: flex;
-    /* 可选: 如果需要间距，可以添加 gap 属性 */
-    gap: 10px; /* 用于控制组件间的间距 */
+    flex-direction: row; /* 子组件按列排列 */
+    justify-content: center; /* 垂直居中 */
+    align-items: center; /* 水平居中 */
   }
   h2 {
     margin-bottom: 10px;

@@ -1,18 +1,24 @@
 <template>
   <div class="chart-component">
     <div class="question-text">
-      <h3>请调控自动喂猫机器至下述食物量和出水量</h3>
+      <h3>请调控电饭煲制作一份硬度、香甜度和煮饭时间符合下述要求的米饭：</h3>
       <p>
-        食物量：35-45之间<br />
-        出水量：100-150之间<br />
+        硬度：-0.5到0.5之间<br />
+        香甜度：4左右<br />
+        煮饭时间：60分钟左右
       </p>
     </div>
     <div class="chart-row">
       <div class="chart-item">
-        <canvas ref="foodChart"></canvas>
+        <canvas ref="hardnessChart"></canvas>
       </div>
       <div class="chart-item">
-        <canvas ref="waterChart"></canvas>
+        <canvas ref="sweetnessChart"></canvas>
+      </div>
+    </div>
+    <div class="chart-row">
+      <div class="chart-item">
+        <canvas ref="cookTimeChart"></canvas>
       </div>
     </div>
   </div>
@@ -24,45 +30,53 @@ import { Chart } from "chart.js";
 export default {
   name: "ChartComponent",
   props: {
-    food: {
+    hardness: {
       type: Number,
       required: true,
     },
-    water: {
+    sweetness: {
       type: Number,
       required: true,
     },
+    cookTime: {
+      type: Number,
+      required: true
+    }
   },
   data() {
     return {
-      foodData: [25, 25],
-      foodOpIdx: [0, 0],
-      waterData: [25, 25],
-      waterOpIdx: [0, 0],
-      chart: null, // Chart.js实例
+      hardnessData: [0, 0],
+      hardnessOpIdx: [0, 0],
+      sweetnessData: [0, 0],
+      sweetnessOpIdx: [0, 0],
+      cookTimeData: [0, 0],
+      cookTimeOpIdx: [0, 0],
+      chart: null // Chart.js实例
     };
   },
   mounted() {
+    // 初始化图表
     this.initializeChart();
   },
   methods: {
     initializeChart() {
-      const ctxFood = this.$refs.foodChart.getContext('2d');
-      const ctxWater = this.$refs.waterChart.getContext('2d');
+      const ctxHardness = this.$refs.hardnessChart.getContext('2d');
+      const ctxSweetness = this.$refs.sweetnessChart.getContext('2d');
+      const ctxCookTime = this.$refs.cookTimeChart.getContext('2d');
 
-      // 初始化两个图表
+      // 初始化三个图表
       this.chart = {
-        food: new Chart(ctxFood, {
+        hardness: new Chart(ctxHardness, {
           type: 'line',
           data: {
             labels: ['调控: 0', '调控: 0'],
             datasets: [{
-              label: '食物量',
-              data: this.foodData,
+              label: '硬度',
+              data: this.hardnessData,
               borderColor: 'red',
               borderWidth: 2,
               fill: false,
-              tension: 0  // 禁用平滑曲线
+              tension: 0 // 禁用平滑曲线
             }]
           },
           options: {
@@ -83,24 +97,24 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '食物量',
+                  text: '硬度',
                   font: { size: 14, weight: 'bold' }
                 }
               }
             }
           }
         }),
-        water: new Chart(ctxWater, {
+        sweetness: new Chart(ctxSweetness, {
           type: 'line',
           data: {
             labels: ['调控: 0', '调控: 0'],
             datasets: [{
-              label: '出水量',
-              data: this.waterData,
+              label: '香甜度',
+              data: this.sweetnessData,
               borderColor: 'blue',
               borderWidth: 2,
               fill: false,
-              tension: 0  // 禁用平滑曲线
+              tension: 0 // 禁用平滑曲线
             }]
           },
           options: {
@@ -121,7 +135,45 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '出水量',
+                  text: '香甜度',
+                  font: { size: 14, weight: 'bold' }
+                }
+              }
+            }
+          }
+        }),
+        cookTime: new Chart(ctxCookTime, {
+          type: 'line',
+          data: {
+            labels: ['调控: 0', '调控: 0'],
+            datasets: [{
+              label: '煮饭时间（分钟）',
+              data: this.cookTimeData,
+              borderColor: 'green',
+              borderWidth: 2,
+              fill: false,
+              tension: 0 // 禁用平滑曲线
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            scales: {
+              x: {
+                ticks: { beginAtZero: true },
+                grid: { lineWidth: 2 },
+                title: {
+                  display: true,
+                  text: '调控',
+                  font: { size: 14, weight: 'bold' }
+                }
+              },
+              y: {
+                ticks: { beginAtZero: true },
+                grid: { lineWidth: 2 },
+                title: {
+                  display: true,
+                  text: '煮饭时间（分钟）',
                   font: { size: 14, weight: 'bold' }
                 }
               }
@@ -132,50 +184,64 @@ export default {
     },
     addData(type, value) {
       // 限制最多6个数据点
-      if (this.foodData.length >= 6) {
-        this.foodData.shift();
-        this.foodOpIdx.shift();
-      }
-      if (this.waterData.length >= 6) {
-        this.waterData.shift();
-        this.waterOpIdx.shift();
-      }
-
-      if (type === 'food') {
-        this.foodData.push(value);
-        this.foodOpIdx.push(this.foodOpIdx[this.foodOpIdx.length - 1] + 1);
-      } else if (type === 'water') {
-        this.waterData.push(value);
-        this.waterOpIdx.push(this.waterOpIdx[this.waterOpIdx.length - 1] + 1);
+      if (type === 'hardness') {
+        if (this.hardnessData.length >= 6) {
+          this.hardnessData.shift();
+          this.hardnessOpIdx.shift();
+        }
+        this.hardnessData.push(value);
+        this.hardnessOpIdx.push(this.hardnessOpIdx[this.hardnessOpIdx.length - 1] + 1);
+      } else if (type === 'sweetness') {
+        if (this.sweetnessData.length >= 6) {
+          this.sweetnessData.shift();
+          this.sweetnessOpIdx.shift();
+        }
+        this.sweetnessData.push(value);
+        this.sweetnessOpIdx.push(this.sweetnessOpIdx[this.sweetnessOpIdx.length - 1] + 1);
+      } else if (type === 'cookTime') {
+        if (this.cookTimeData.length >= 6) {
+          this.cookTimeData.shift();
+          this.cookTimeOpIdx.shift();
+        }
+        this.cookTimeData.push(value);
+        this.cookTimeOpIdx.push(this.cookTimeOpIdx[this.cookTimeOpIdx.length - 1] + 1);
       }
 
       // 更新图表
       this.updateChart();
     },
     updateChart() {
-      this.chart.food.data.labels = this.foodOpIdx.map(i => `调控: ${i}`);
-      this.chart.food.data.datasets[0].data = this.foodData;
-      this.chart.water.data.labels = this.waterOpIdx.map(i => `调控: ${i}`);
-      this.chart.water.data.datasets[0].data = this.waterData;
+      this.chart.hardness.data.labels = this.hardnessOpIdx.map(i => `调控: ${i}`);
+      this.chart.hardness.data.datasets[0].data = this.hardnessData;
 
-      this.chart.food.update();
-      this.chart.water.update();
+      this.chart.sweetness.data.labels = this.sweetnessOpIdx.map(i => `调控: ${i}`);
+      this.chart.sweetness.data.datasets[0].data = this.sweetnessData;
+
+      this.chart.cookTime.data.labels = this.cookTimeOpIdx.map(i => `调控: ${i}`);
+      this.chart.cookTime.data.datasets[0].data = this.cookTimeData;
+
+      this.chart.hardness.update();
+      this.chart.sweetness.update();
+      this.chart.cookTime.update();
     },
     resetChart() {
       // 清空数据并重置图表
-      this.foodData = [25, 25];
-      this.foodOpIdx = [0, 0];
-      this.waterData = [25, 25];
-      this.waterOpIdx = [0, 0];
+      this.hardnessData = [0, 0];
+      this.hardnessOpIdx = [0, 0];
+      this.sweetnessData = [0, 0];
+      this.sweetnessOpIdx = [0, 0];
+      this.cookTimeData = [0, 0];
+      this.cookTimeOpIdx = [0, 0];
 
       this.updateChart();
     },
     beforeDestroy() {
       if (this.chart) {
-        this.chart.food.destroy();
-        this.chart.water.destroy();
+        this.chart.hardness.destroy();
+        this.chart.sweetness.destroy();
+        this.chart.cookTime.destroy();
       }
-    },
+    }
   }
 };
 </script>

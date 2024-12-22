@@ -54,6 +54,24 @@
         <span>2</span>
       </div>
     </div>
+    <div class="control-item">
+      <label for="last-control">横条控制器</label>
+      <input
+        id="last-control"
+        type="range"
+        min="-2"
+        max="2"
+        :value="lastControl"
+        @input="handleLast(Number($event.target.value))"
+      />
+      <div class="control-labels">
+        <span>-2</span>
+        <span>-1</span>
+        <span>▲</span>
+        <span>1</span>
+        <span>2</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -70,6 +88,10 @@ export default {
       default: 0
     },
     bottomControl: {
+      type: Number,
+      default: 0
+    },
+    lastControl: {
       type: Number,
       default: 0
     }
@@ -106,6 +128,18 @@ export default {
       if (Math.abs(value - currentValue) === 1) {
         this.bottomControl = value;
         this.$emit(`update:bottom-control`, value);
+      } else {
+        // 恢复滑块到原始值
+        this.$forceUpdate();
+      }
+    },
+    handleLast(value) {
+      const currentValue = this.lastControl;
+
+      // 确保只能按步增加或减少
+      if (Math.abs(value - currentValue) === 1) {
+        this.lastControl = value;
+        this.$emit(`update:last-control`, value);
       } else {
         // 恢复滑块到原始值
         this.$forceUpdate();
