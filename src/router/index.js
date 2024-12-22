@@ -146,7 +146,7 @@ const router = new VueRouter({
             component: FruitTeaT1
         },
         {
-            path: '/questions/fruit_tea_t2',
+            path: '/questions/fruit_tea/fruit_tea_t2',
             component: FruitTeaT2
         },
         {

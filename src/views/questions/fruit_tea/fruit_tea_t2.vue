@@ -1,21 +1,21 @@
 <template>
-    <div class="cat-feed-t2">
+    <div class="fruit-tea-t2">
       <!-- 使用 Header 组件 -->
       <header-component :userName="userName" />
 
       <!-- 题干部分 -->
       <div class="container-box">
-        <cat-feed-up-component ref="upComponentRef" @applyChanges="handleApply" @resetChanges="handleReset" @control="handleControl"/>
+        <fruit-tea-up-component ref="upComponentRef" @applyChanges="handleApply" @resetChanges="handleReset" @control="handleControl"/>
       </div>
   
       <!-- 题目部分 -->
       <div class="container-box question-section">
         <div class="question-text">
-          <h3>问题2: 调控食物量和出水量</h3>
+          <h3>问题2: 调控果茶容量、温度、甜度和果肉数量</h3>
           <p>
             三个控制器及其控制的对象如下图连线所示。<br/>
-            灵活运用控制器，将食物量和出水量调整到目标数值。目标数值如<b>曲线图上方所示。</b><br/>
-            你需要在尽可能少的鼠标点击次数中完成目标，且没有重置按钮可供使用。<br/>
+            灵活运用控制器，将果茶容量、温度、甜度和果肉数量调整到目标数值。目标数值如<b>曲线图上方所示。</b><br/>
+            你需要在尽可能少的鼠标点击次数中完成目标，且没有重置按钮可供使用。
           </p>
         </div>
         <div class="diagram-section">
@@ -24,10 +24,13 @@
             <div class="control-box" >顶部控制器</div>
             <div class="control-box" >中间控制器</div>
             <div class="control-box" >底部控制器</div>
+            <div class="control-box" >横条控制器</div>
           </div>
           <div class="influences-column">
-            <div class="influence-box" >食物量</div>
-            <div class="influence-box" >出水量</div>
+            <div class="influence-box" >容量</div>
+            <div class="influence-box" >温度</div>
+            <div class="influence-box" >甜度</div>
+            <div class="influence-box" >果肉数量</div>
           </div>
         </div>
         <el-row style="margin-top: 20px;" type="flex" justify="center">
@@ -39,13 +42,13 @@
   </template>
   
   <script>
-  import CatFeedUpComponent from './fruit_tea_up_component_t2.vue';
+  import FruitTeaUpComponent from './fruit_tea_up_component_t2.vue';
   import HeaderComponent from '@/components/Header.vue';
   
   export default {
     name: 'FruitTeaT2',
     components: {
-      CatFeedUpComponent,
+      FruitTeaUpComponent,
       HeaderComponent,
     },
     data() {
@@ -65,11 +68,17 @@
     methods: {
       drawExample() {
         this.handleBoxClick('top');
-        this.handleBoxClick('food');
+        this.handleBoxClick('temp');
         this.handleBoxClick('central');
-        this.handleBoxClick('water');
+        this.handleBoxClick('capacity');
         this.handleBoxClick('bottom');
-        this.handleBoxClick('water');
+        this.handleBoxClick('sweetness');
+        this.handleBoxClick('bottom');
+        this.handleBoxClick('pulp');
+        this.handleBoxClick('last');
+        this.handleBoxClick('capacity');
+        this.handleBoxClick('last');
+        this.handleBoxClick('sweetness');
       },
       startAnswer() {
         this.sendEvent('start');
@@ -126,7 +135,7 @@
   
         const data = {
           tableName: 1,
-          htmlName: 'cat_feed_t2',
+          htmlName: 'fruit_tea_t2',
           userName: userName,
           ithAnswer: ithAnswer,
           event: 'ACER_EVENT',
@@ -136,8 +145,11 @@
           topSetting: "NULL",
           centralSetting: "NULL",
           bottomSetting: "NULL",
-          foodValue: "NULL",
-          waterValue: "NULL",
+          lastSetting: "NULL",
+          capacityValue: "NULL",
+          tempValue: "NULL",
+          sweetnessValue: "NULL",
+          pulpValue: "NULL",
           diagramState: "NULL",
           network: null,
           fareType: null,
@@ -150,13 +162,17 @@
           data.topSetting = upComponent.topControl.toString();
           data.centralSetting = upComponent.centralControl.toString();
           data.bottomSetting = upComponent.bottomControl.toString();
+          data.lastSetting = upComponent.lastControl.toString();
         } else if (eventType === 'reset' || eventType === 'apply') {
           const upComponent = this.$refs.upComponentRef;
           data.topSetting = upComponent.topControl.toString();
           data.centralSetting = upComponent.centralControl.toString();
           data.bottomSetting = upComponent.bottomControl.toString();
-          data.foodValue = upComponent.food.toString();
-          data.waterValue = upComponent.water.toString();
+          data.lastSetting = upComponent.lastControl.toString();
+          data.capacityValue = upComponent.capacity.toString();
+          data.tempValue = upComponent.temp.toString();
+          data.sweetnessValue = upComponent.sweetness.toString();
+          data.pulpValue = upComponent.pulp.toString();
         } else if (eventType === 'diagram') {
           data.diagramState = this.getDiagramState();
         } else if (eventType === 'start') {
@@ -181,15 +197,15 @@
           });
       },
       isControl(type) {
-        return ['top', 'central', 'bottom'].includes(type);
+        return ['top', 'central', 'bottom', 'last'].includes(type);
       },
       isInfluence(type) {
-        return ['food', 'water'].includes(type);
+        return ['capacity', 'temp', 'sweetness', 'pulp'].includes(type);
       },
       getDiagramState() {
         const state = this.connections.map(conn => {
-            const start = conn.start === 'top' ? 'top' : conn.start === 'central' ? 'central' : 'bottom';
-            const end = conn.end === 'food' ? 'food' : 'water';
+            const start = conn.start === 'top' ? 'top' : conn.start === 'central' ? 'central' : conn.start === 'bottom' ? 'bottom' : 'last';
+            const end = conn.end === 'capacity' ? 'capacity' : conn.end === 'temp' ? 'temp' : conn.end === 'sweetness' ? 'sweetness' : 'pulp';
             return `${start}->${end}`;
         }).join(', ');
         return state;
@@ -256,12 +272,12 @@
       // 初始化 data-type 属性
       this.$el.querySelectorAll('.control-box').forEach(el => {
         let text = el.textContent.trim();
-        text = text.replace('顶部', 'top').replace('中间', 'central').replace('底部', 'bottom');
+        text = text.replace('顶部', 'top').replace('中间', 'central').replace('底部', 'bottom').replace('横条', 'last');
         el.setAttribute('data-type', text.toLowerCase().replace('控制器', ''));
       });
       this.$el.querySelectorAll('.influence-box').forEach(el => {
         let text = el.textContent.trim();
-        text = text.replace('食物量', 'food').replace('出水量', 'water');
+        text = text.replace('容量', 'capacity').replace('温度', 'temp').replace('甜度', 'sweetness').replace('果肉数量', 'pulp');
         el.setAttribute('data-type', text);
       });
       // 画线
@@ -274,7 +290,7 @@
   </script>
   
   <style scoped>
-  .cat-feed-t1 {
+  .fruit-tea-t2 {
     display: flex;
     flex-direction: column;
     padding: 20px;

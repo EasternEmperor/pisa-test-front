@@ -2,10 +2,18 @@
   <div class="chart-component">
     <div class="chart-row">
       <div class="chart-item">
-        <canvas ref="foodChart"></canvas>
+        <canvas ref="capacityChart"></canvas>
       </div>
       <div class="chart-item">
-        <canvas ref="waterChart"></canvas>
+        <canvas ref="tempChart"></canvas>
+      </div>
+    </div>
+    <div class="chart-row">
+      <div class="chart-item">
+        <canvas ref="sweetnessChart"></canvas>
+      </div>
+      <div class="chart-item">
+        <canvas ref="pulpChart"></canvas>
       </div>
     </div>
   </div>
@@ -17,21 +25,33 @@ import { Chart } from 'chart.js';
 export default {
   name: 'ChartComponent',
   props: {
-    food: {
+    capacity: {
       type: Number,
       required: true
     },
-    water: {
+    temp: {
+      type: Number,
+      required: true
+    },
+    sweetness: {
+      type: Number,
+      required: true
+    },
+    pulp: {
       type: Number,
       required: true
     }
   },
   data() {
     return {
-      foodData: [25, 25],
-      foodOpIdx: [0, 0],
-      waterData: [25, 25],
-      waterOpIdx: [0, 0],
+      capacityData: [0, 0],
+      capacityOpIdx: [0, 0],
+      tempData: [0, 0],
+      tempOpIdx: [0, 0],
+      sweetnessData: [0, 0],
+      sweetnessOpIdx: [0, 0],
+      pulpData: [0, 0],
+      pulpOpIdx: [0, 0],
       chart: null // Chart.js实例
     };
   },
@@ -41,22 +61,24 @@ export default {
   },
   methods: {
     initializeChart() {
-      const ctxFood = this.$refs.foodChart.getContext('2d');
-      const ctxWater = this.$refs.waterChart.getContext('2d');
+      const ctxCapacity = this.$refs.capacityChart.getContext('2d');
+      const ctxTemp = this.$refs.tempChart.getContext('2d');
+      const ctxSweetness = this.$refs.sweetnessChart.getContext('2d');
+      const ctxPulp = this.$refs.pulpChart.getContext('2d');
 
-      // 初始化两个图表
+      // 初始化三个图表
       this.chart = {
-        food: new Chart(ctxFood, {
+        capacity: new Chart(ctxCapacity, {
           type: 'line',
           data: {
             labels: ['调控: 0', '调控: 0'],
             datasets: [{
-              label: '食物量',
-              data: this.foodData,
+              label: '容量(ml)',
+              data: this.capacityData,
               borderColor: 'red',
               borderWidth: 2,
               fill: false,
-              tension: 0  // 禁用平滑曲线
+              tension: 0 // 禁用平滑曲线
             }]
           },
           options: {
@@ -77,24 +99,24 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '食物量',
+                  text: '容量(ml)',
                   font: { size: 14, weight: 'bold' }
                 }
               }
             }
           }
         }),
-        water: new Chart(ctxWater, {
+        temp: new Chart(ctxTemp, {
           type: 'line',
           data: {
             labels: ['调控: 0', '调控: 0'],
             datasets: [{
-              label: '出水量',
-              data: this.waterData,
+              label: '温度',
+              data: this.tempData,
               borderColor: 'blue',
               borderWidth: 2,
               fill: false,
-              tension: 0  // 禁用平滑曲线
+              tension: 0 // 禁用平滑曲线
             }]
           },
           options: {
@@ -115,7 +137,83 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '出水量',
+                  text: '温度',
+                  font: { size: 14, weight: 'bold' }
+                }
+              }
+            }
+          }
+        }),
+        sweetness: new Chart(ctxSweetness, {
+          type: 'line',
+          data: {
+            labels: ['调控: 0', '调控: 0'],
+            datasets: [{
+              label: '甜度',
+              data: this.sweetnessData,
+              borderColor: 'green',
+              borderWidth: 2,
+              fill: false,
+              tension: 0 // 禁用平滑曲线
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            scales: {
+              x: {
+                ticks: { beginAtZero: true },
+                grid: { lineWidth: 2 },
+                title: {
+                  display: true,
+                  text: '调控',
+                  font: { size: 14, weight: 'bold' }
+                }
+              },
+              y: {
+                ticks: { beginAtZero: true },
+                grid: { lineWidth: 2 },
+                title: {
+                  display: true,
+                  text: '甜度',
+                  font: { size: 14, weight: 'bold' }
+                }
+              }
+            }
+          }
+        }),
+        pulp: new Chart(ctxPulp, {
+          type: 'line',
+          data: {
+            labels: ['调控: 0', '调控: 0'],
+            datasets: [{
+              label: '果肉数量',
+              data: this.pulpData,
+              borderColor: 'purple',
+              borderWidth: 2,
+              fill: false,
+              tension: 0 // 禁用平滑曲线
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            scales: {
+              x: {
+                ticks: { beginAtZero: true },
+                grid: { lineWidth: 2 },
+                title: {
+                  display: true,
+                  text: '调控',
+                  font: { size: 14, weight: 'bold' }
+                }
+              },
+              y: {
+                ticks: { beginAtZero: true },
+                grid: { lineWidth: 2 },
+                title: {
+                  display: true,
+                  text: '果肉数量',
                   font: { size: 14, weight: 'bold' }
                 }
               }
@@ -126,50 +224,78 @@ export default {
     },
     addData(type, value) {
       // 限制最多6个数据点
-      if (this.foodData.length >= 6) {
-        this.foodData.shift();
-        this.foodOpIdx.shift();
-      }
-      if (this.waterData.length >= 6) {
-        this.waterData.shift();
-        this.waterOpIdx.shift();
-      }
-
-      if (type === 'food') {
-        this.foodData.push(value);
-        this.foodOpIdx.push(this.foodOpIdx[this.foodOpIdx.length - 1] + 1);
-      } else if (type === 'water') {
-        this.waterData.push(value);
-        this.waterOpIdx.push(this.waterOpIdx[this.waterOpIdx.length - 1] + 1);
+      if (type === 'capacity') {
+        if (this.capacityData.length >= 6) {
+          this.capacityData.shift();
+          this.capacityOpIdx.shift();
+        }
+        this.capacityData.push(value);
+        this.capacityOpIdx.push(this.capacityOpIdx[this.capacityOpIdx.length - 1] + 1);
+      } else if (type === 'temp') {
+        if (this.tempData.length >= 6) {
+          this.tempData.shift();
+          this.tempOpIdx.shift();
+        }
+        this.tempData.push(value);
+        this.tempOpIdx.push(this.tempOpIdx[this.tempOpIdx.length - 1] + 1);
+      } else if (type === 'sweetness') {
+        if (this.sweetnessData.length >= 6) {
+          this.sweetnessData.shift();
+          this.sweetnessOpIdx.shift();
+        }
+        this.sweetnessData.push(value);
+        this.sweetnessOpIdx.push(this.sweetnessOpIdx[this.sweetnessOpIdx.length - 1] + 1);
+      } else if (type === 'pulp') {
+        if (this.pulpData.length >= 6) {
+          this.pulpData.shift();
+          this.pulpOpIdx.shift();
+        }
+        this.pulpData.push(value);
+        this.pulpOpIdx.push(this.pulpOpIdx[this.pulpOpIdx.length - 1] + 1);
       }
 
       // 更新图表
       this.updateChart();
     },
     updateChart() {
-      this.chart.food.data.labels = this.foodOpIdx.map(i => `调控: ${i}`);
-      this.chart.food.data.datasets[0].data = this.foodData;
-      this.chart.water.data.labels = this.waterOpIdx.map(i => `调控: ${i}`);
-      this.chart.water.data.datasets[0].data = this.waterData;
+      this.chart.capacity.data.labels = this.capacityOpIdx.map(i => `调控: ${i}`);
+      this.chart.capacity.data.datasets[0].data = this.capacityData;
 
-      this.chart.food.update();
-      this.chart.water.update();
+      this.chart.temp.data.labels = this.tempOpIdx.map(i => `调控: ${i}`);
+      this.chart.temp.data.datasets[0].data = this.tempData;
+
+      this.chart.sweetness.data.labels = this.sweetnessOpIdx.map(i => `调控: ${i}`);
+      this.chart.sweetness.data.datasets[0].data = this.sweetnessData;
+
+      this.chart.pulp.data.labels = this.pulpOpIdx.map(i => `调控: ${i}`);
+      this.chart.pulp.data.datasets[0].data = this.pulpData;
+
+      this.chart.capacity.update();
+      this.chart.temp.update();
+      this.chart.sweetness.update();
+      this.chart.pulp.update();
     },
     resetChart() {
       // 清空数据并重置图表
-      this.foodData = [25, 25];
-      this.foodOpIdx = [0, 0];
-      this.waterData = [25, 25];
-      this.waterOpIdx = [0, 0];
+      this.capacityData = [0, 0];
+      this.capacityOpIdx = [0, 0];
+      this.tempData = [0, 0];
+      this.tempOpIdx = [0, 0];
+      this.sweetnessData = [0, 0];
+      this.sweetnessOpIdx = [0, 0];
+      this.pulpData = [0, 0];
+      this.pulpOpIdx = [0, 0];
 
       this.updateChart();
     },
     beforeDestroy() {
       if (this.chart) {
-        this.chart.food.destroy();
-        this.chart.water.destroy();
+        this.chart.capacity.destroy();
+        this.chart.temp.destroy();
+        this.chart.sweetness.destroy();
+        this.chart.pulp.destroy();
       }
-    },
+    }
   }
 };
 </script>
@@ -178,13 +304,15 @@ export default {
 .chart-component {
   width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 
 .chart-row {
   display: flex;
   flex-direction: row;
-  gap: 10px; /* 控制两个图表之间的间距 */
+  gap: 10px; /* 控制图表之间的间距 */
   width: 100%;
   justify-content: center;
 }
