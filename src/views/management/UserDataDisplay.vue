@@ -487,7 +487,7 @@
             { label: 'bottom control设置', prop: 'bottomSetting' },
             { label: 'last control设置', prop: 'lastSetting' },
             { label: '亮度', prop: 'brightnessValue' },
-            { label: '清晰度', prop: 'definationValue' },
+            { label: '清晰度', prop: 'definitionValue' },
             { label: '虚化程度', prop: 'virtualizationValue' },
             { label: '取景范围', prop: 'rangeValue' },
             { label: '连线答案', prop: 'diagramState' }
