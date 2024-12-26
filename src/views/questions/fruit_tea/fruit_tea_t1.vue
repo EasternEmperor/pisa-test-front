@@ -131,19 +131,25 @@
         return hasTop && hasCentral && hasBottom && hasLast;
       },
       submitAnswer() {
-        if (this.checkAnswer()) {
-            this.sendEvent('submit');
-            this.$message({
-                message: "提交成功，进入下一题～",
-                type: "success",
-            });
-            this.$getQuestion(this.no + 1);
-        } else {
-            this.$message({
-                message: "请完成连线作答再提交！",
-                type: "warning",
-            });
-        }
+        // if (this.checkAnswer()) {
+        //     this.sendEvent('submit');
+        //     this.$message({
+        //         message: "提交成功，进入下一题～",
+        //         type: "success",
+        //     });
+        //     this.$getQuestion(this.no + 1);
+        // } else {
+        //     this.$message({
+        //         message: "请完成连线作答再提交！",
+        //         type: "warning",
+        //     });
+        // }
+        this.sendEvent('submit');
+        this.$message({
+            message: "提交成功，进入下一题～",
+            type: "success",
+        });
+        this.$getQuestion(this.no + 1);
       },
       handleApply() {
         this.sendEvent('apply');
