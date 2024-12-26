@@ -11,10 +11,10 @@
       <!-- 题目部分 -->
       <div class="container-box question-section">
         <div class="question-text">
-          <h3>问题2: 调控咖啡容量、苦涩度、甜度和浓稠度</h3>
+          <h3>问题2: 调控咖啡容量、酸涩度、甜度和浓稠度</h3>
           <p>
             三个控制器及其控制的对象如下图连线所示。<br/>
-            灵活运用控制器，将咖啡容量、苦涩度、甜度和浓稠度调整到目标数值。目标数值如<b>曲线图上方所示。</b><br/>
+            灵活运用控制器，将咖啡容量、酸涩度、甜度和浓稠度调整到目标数值。目标数值如<b>曲线图上方所示。</b><br/>
             你需要在尽可能少的鼠标点击次数中完成目标，且没有重置按钮可供使用。
           </p>
         </div>
@@ -28,7 +28,7 @@
           </div>
           <div class="influences-column">
             <div class="influence-box" >容量</div>
-            <div class="influence-box" >苦涩度</div>
+            <div class="influence-box" >酸涩度</div>
             <div class="influence-box" >甜度</div>
             <div class="influence-box" >浓稠度</div>
           </div>
@@ -277,7 +277,7 @@
       });
       this.$el.querySelectorAll('.influence-box').forEach(el => {
         let text = el.textContent.trim();
-        text = text.replace('容量', 'capacity').replace('苦涩度', 'bitterness').replace('甜度', 'sweetness').replace('浓稠度', 'consistence');
+        text = text.replace('容量', 'capacity').replace('酸涩度', 'bitterness').replace('甜度', 'sweetness').replace('浓稠度', 'consistence');
         el.setAttribute('data-type', text);
       });
       // 画线

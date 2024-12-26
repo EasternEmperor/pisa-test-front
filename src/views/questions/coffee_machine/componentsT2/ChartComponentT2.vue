@@ -1,10 +1,10 @@
 <template>
   <div class="chart-component">
     <div class="question-text">
-      <h3>请调控咖啡机制作一杯容量、苦涩度、甜度和浓稠度符合下述要求的咖啡：</h3>
+      <h3>请调控咖啡机制作一杯容量、酸涩度、甜度和浓稠度符合下述要求的咖啡：</h3>
       <p>
         容量：300ml左右<br />
-        苦涩度：-1左右<br />
+        酸涩度：-1左右<br />
         甜度：4左右<br />
         浓稠度：4
       </p>
@@ -120,7 +120,7 @@ export default {
           data: {
             labels: ['调控: 0', '调控: 0'],
             datasets: [{
-              label: '苦涩度',
+              label: '酸涩度',
               data: this.bitternessData,
               borderColor: 'blue',
               borderWidth: 2,
@@ -146,7 +146,7 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '苦涩度',
+                  text: '酸涩度',
                   font: { size: 14, weight: 'bold' }
                 }
               }

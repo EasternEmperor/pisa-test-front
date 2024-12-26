@@ -111,7 +111,7 @@ export default {
           data: {
             labels: ['调控: 0', '调控: 0'],
             datasets: [{
-              label: '苦涩度',
+              label: '酸涩度',
               data: this.bitternessData,
               borderColor: 'blue',
               borderWidth: 2,
@@ -137,7 +137,7 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '苦涩度',
+                  text: '酸涩度',
                   font: { size: 14, weight: 'bold' }
                 }
               }

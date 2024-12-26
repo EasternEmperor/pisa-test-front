@@ -13,10 +13,10 @@
         <div class="question-text">
           <h3>问题1: 控制器功能</h3>
           <p>
-            通过改变滑块并调控，弄清楚每个控制器控制着咖啡容量、苦涩度、甜度和浓稠度中的哪些因素。<br/>
+            通过改变滑块并调控，弄清楚每个控制器控制着咖啡容量、酸涩度、甜度和浓稠度中的哪些因素。<br/>
             你可以通过"重置"键来重置所有组件。<br/>
             在下方将控制器和你认为其控制的对象连上线。<br/>
-            <b>连线的操作是</b>：点击一个控制器方块，然后点击另一个容量、苦涩度、甜度和浓稠度方块。<br/>
+            <b>连线的操作是</b>：点击一个控制器方块，然后点击另一个容量、酸涩度、甜度和浓稠度方块。<br/>
             <b>取消方块选择</b>：再次点击已选中的方块即可取消选择。<br/>
             <b>取消连线</b>：分别点击已连线的两个方块可取消它们之间的连线。
           </p>
@@ -66,7 +66,7 @@
               :class="{ 'selected-box': selectedControl === 'bitterness' }"
               @click="handleBoxClick('bitterness')"
             >
-              苦涩度
+              酸涩度
             </div>
             <div
               class="influence-box"
@@ -347,7 +347,7 @@
       });
       this.$el.querySelectorAll('.influence-box').forEach(el => {
         let text = el.textContent.trim();
-        text = text.replace('容量', 'capacity').replace('苦涩度', 'bitterness').replace('甜度', 'sweetness').replace('浓稠度', 'consistence');
+        text = text.replace('容量', 'capacity').replace('酸涩度', 'bitterness').replace('甜度', 'sweetness').replace('浓稠度', 'consistence');
         el.setAttribute('data-type', text);
       });
     },
