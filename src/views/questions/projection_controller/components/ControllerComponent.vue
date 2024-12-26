@@ -78,37 +78,46 @@ export default {
     handleTop(value) {
       const currentValue = this.topControl;
 
-      // 确保只能按步增加或减少
-      if (Math.abs(value - currentValue) === 1) {
+      // 计算差值
+      const diff = value - currentValue;
+
+      // 如果差值绝对值大于1，自动调整到最近的位置
+      if (Math.abs(diff) > 1) {
+        const adjustedValue = currentValue + Math.sign(diff); // 调整为最近值
+        this.topControl = adjustedValue;
+        this.$emit(`update:top-control`, adjustedValue);
+      } else {
+        // 合法调整
         this.topControl = value;
         this.$emit(`update:top-control`, value);
-      } else {
-        // 恢复滑块到原始值
-        this.$forceUpdate();
       }
     },
     handleCentral(value) {
       const currentValue = this.centralControl;
 
-      // 确保只能按步增加或减少
-      if (Math.abs(value - currentValue) === 1) {
+      const diff = value - currentValue;
+
+      if (Math.abs(diff) > 1) {
+        const adjustedValue = currentValue + Math.sign(diff);
+        this.centralControl = adjustedValue;
+        this.$emit(`update:central-control`, adjustedValue);
+      } else {
         this.centralControl = value;
         this.$emit(`update:central-control`, value);
-      } else {
-        // 恢复滑块到原始值
-        this.$forceUpdate();
       }
     },
     handleBottom(value) {
       const currentValue = this.bottomControl;
 
-      // 确保只能按步增加或减少
-      if (Math.abs(value - currentValue) === 1) {
+      const diff = value - currentValue;
+
+      if (Math.abs(diff) > 1) {
+        const adjustedValue = currentValue + Math.sign(diff);
+        this.bottomControl = adjustedValue;
+        this.$emit(`update:bottom-control`, adjustedValue);
+      } else {
         this.bottomControl = value;
         this.$emit(`update:bottom-control`, value);
-      } else {
-        // 恢复滑块到原始值
-        this.$forceUpdate();
       }
     }
   }
