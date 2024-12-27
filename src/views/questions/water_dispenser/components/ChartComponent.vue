@@ -37,12 +37,12 @@ export default {
   },
   data() {
     return {
-      volumeData: [150, 150],
-      volumeOpIdx: [0, 0],
-      tempData: [13, 13],
-      tempOpIdx: [0, 0],
-      speedData: [10, 10],
-      speedOpIdx: [0, 0],
+      volumeData: [150],
+      volumeOpIdx: [0],
+      tempData: [13],
+      tempOpIdx: [0],
+      speedData: [10],
+      speedOpIdx: [0],
       chart: null // Chart.js实例
     };
   },
@@ -61,7 +61,7 @@ export default {
         volume: new Chart(ctxVolume, {
           type: 'line',
           data: {
-            labels: ['调控: 0', '调控: 0'],
+            labels: ['初始值'],
             datasets: [{
               label: '出水总量(ml)',
               data: this.volumeData,
@@ -99,7 +99,7 @@ export default {
         temp: new Chart(ctxTemp, {
           type: 'line',
           data: {
-            labels: ['调控: 0', '调控: 0'],
+            labels: ['初始值'],
             datasets: [{
               label: '出水温度',
               data: this.tempData,
@@ -137,7 +137,7 @@ export default {
         speed: new Chart(ctxSpeed, {
           type: 'line',
           data: {
-            labels: ['调控: 0', '调控: 0'],
+            labels: ['初始值'],
             datasets: [{
               label: '出水速度(ml/s)',
               data: this.speedData,
@@ -203,13 +203,13 @@ export default {
       this.updateChart();
     },
     updateChart() {
-      this.chart.volume.data.labels = this.volumeOpIdx.map(i => `调控: ${i}`);
+      this.chart.volume.data.labels = this.volumeOpIdx.map(i => i === 0 ? '初始值' : `调控: ${i}`);
       this.chart.volume.data.datasets[0].data = this.volumeData;
 
-      this.chart.temp.data.labels = this.tempOpIdx.map(i => `调控: ${i}`);
+      this.chart.temp.data.labels = this.tempOpIdx.map(i => i === 0 ? '初始值' : `调控: ${i}`);
       this.chart.temp.data.datasets[0].data = this.tempData;
 
-      this.chart.speed.data.labels = this.speedOpIdx.map(i => `调控: ${i}`);
+      this.chart.speed.data.labels = this.speedOpIdx.map(i => i === 0 ? '初始值' : `调控: ${i}`);
       this.chart.speed.data.datasets[0].data = this.speedData;
 
       this.chart.volume.update();
@@ -218,12 +218,12 @@ export default {
     },
     resetChart() {
       // 清空数据并重置图表
-      this.volumeData = [150, 150];
-      this.volumeOpIdx = [0, 0];
-      this.tempData = [13, 13];
-      this.tempOpIdx = [0, 0];
-      this.speedData = [10, 10];
-      this.speedOpIdx = [0, 0];
+      this.volumeData = [150];
+      this.volumeOpIdx = [0];
+      this.tempData = [13];
+      this.tempOpIdx = [0];
+      this.speedData = [10];
+      this.speedOpIdx = [0];
 
       this.updateChart();
     },

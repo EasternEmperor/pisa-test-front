@@ -45,12 +45,12 @@ export default {
   },
   data() {
     return {
-      hardnessData: [0, 0],
-      hardnessOpIdx: [0, 0],
-      sweetnessData: [0, 0],
-      sweetnessOpIdx: [0, 0],
-      cookTimeData: [0, 0],
-      cookTimeOpIdx: [0, 0],
+      hardnessData: [0],
+      hardnessOpIdx: [0],
+      sweetnessData: [0],
+      sweetnessOpIdx: [0],
+      cookTimeData: [0],
+      cookTimeOpIdx: [0],
       chart: null // Chart.js实例
     };
   },
@@ -69,7 +69,7 @@ export default {
         hardness: new Chart(ctxHardness, {
           type: 'line',
           data: {
-            labels: ['调控: 0', '调控: 0'],
+            labels: ['初始值'],
             datasets: [{
               label: '硬度',
               data: this.hardnessData,
@@ -107,7 +107,7 @@ export default {
         sweetness: new Chart(ctxSweetness, {
           type: 'line',
           data: {
-            labels: ['调控: 0', '调控: 0'],
+            labels: ['初始值'],
             datasets: [{
               label: '香甜度',
               data: this.sweetnessData,
@@ -145,7 +145,7 @@ export default {
         cookTime: new Chart(ctxCookTime, {
           type: 'line',
           data: {
-            labels: ['调控: 0', '调控: 0'],
+            labels: ['初始值'],
             datasets: [{
               label: '煮饭时间（分钟）',
               data: this.cookTimeData,
@@ -211,13 +211,13 @@ export default {
       this.updateChart();
     },
     updateChart() {
-      this.chart.hardness.data.labels = this.hardnessOpIdx.map(i => `调控: ${i}`);
+      this.chart.hardness.data.labels = this.hardnessOpIdx.map(i => i === 0 ? '初始值' : `调控: ${i}`);
       this.chart.hardness.data.datasets[0].data = this.hardnessData;
 
-      this.chart.sweetness.data.labels = this.sweetnessOpIdx.map(i => `调控: ${i}`);
+      this.chart.sweetness.data.labels = this.sweetnessOpIdx.map(i => i === 0 ? '初始值' : `调控: ${i}`);
       this.chart.sweetness.data.datasets[0].data = this.sweetnessData;
 
-      this.chart.cookTime.data.labels = this.cookTimeOpIdx.map(i => `调控: ${i}`);
+      this.chart.cookTime.data.labels = this.cookTimeOpIdx.map(i => i === 0 ? '初始值' : `调控: ${i}`);
       this.chart.cookTime.data.datasets[0].data = this.cookTimeData;
 
       this.chart.hardness.update();
@@ -226,12 +226,12 @@ export default {
     },
     resetChart() {
       // 清空数据并重置图表
-      this.hardnessData = [0, 0];
-      this.hardnessOpIdx = [0, 0];
-      this.sweetnessData = [0, 0];
-      this.sweetnessOpIdx = [0, 0];
-      this.cookTimeData = [0, 0];
-      this.cookTimeOpIdx = [0, 0];
+      this.hardnessData = [0];
+      this.hardnessOpIdx = [0];
+      this.sweetnessData = [0];
+      this.sweetnessOpIdx = [0];
+      this.cookTimeData = [0];
+      this.cookTimeOpIdx = [0];
 
       this.updateChart();
     },

@@ -37,12 +37,12 @@ export default {
   },
   data() {
     return {
-      tempData: [20, 20],
-      tempOpIdx: [0, 0],
-      waterData: [0, 0],
-      waterOpIdx: [0, 0],
-      fertilizerData: [0, 0],
-      fertilizerOpIdx: [0, 0],
+      tempData: [20],
+      tempOpIdx: [0],
+      waterData: [0],
+      waterOpIdx: [0],
+      fertilizerData: [0],
+      fertilizerOpIdx: [0],
       chart: null // Chart.js实例
     };
   },
@@ -61,7 +61,7 @@ export default {
         temp: new Chart(ctxTemp, {
           type: 'line',
           data: {
-            labels: ['调控: 0', '调控: 0'],
+            labels: ['初始值'],
             datasets: [{
               label: '温度',
               data: this.tempData,
@@ -99,7 +99,7 @@ export default {
         water: new Chart(ctxWater, {
           type: 'line',
           data: {
-            labels: ['调控: 0', '调控: 0'],
+            labels: ['初始值'],
             datasets: [{
               label: '水分',
               data: this.waterData,
@@ -137,7 +137,7 @@ export default {
         fertilizer: new Chart(ctxFertilizer, {
           type: 'line',
           data: {
-            labels: ['调控: 0', '调控: 0'],
+            labels: ['初始值'],
             datasets: [{
               label: '养料',
               data: this.fertilizerData,
@@ -203,13 +203,13 @@ export default {
       this.updateChart();
     },
     updateChart() {
-      this.chart.temp.data.labels = this.tempOpIdx.map(i => `调控: ${i}`);
+      this.chart.temp.data.labels = this.tempOpIdx.map(i => i === 0 ? '初始值' : `调控: ${i}`);
       this.chart.temp.data.datasets[0].data = this.tempData;
 
-      this.chart.water.data.labels = this.waterOpIdx.map(i => `调控: ${i}`);
+      this.chart.water.data.labels = this.waterOpIdx.map(i => i === 0 ? '初始值' : `调控: ${i}`);
       this.chart.water.data.datasets[0].data = this.waterData;
 
-      this.chart.fertilizer.data.labels = this.fertilizerOpIdx.map(i => `调控: ${i}`);
+      this.chart.fertilizer.data.labels = this.fertilizerOpIdx.map(i => i === 0 ? '初始值' : `调控: ${i}`);
       this.chart.fertilizer.data.datasets[0].data = this.fertilizerData;
 
       this.chart.temp.update();
@@ -218,12 +218,12 @@ export default {
     },
     resetChart() {
       // 清空数据并重置图表
-      this.tempData = [20, 20];
-      this.tempOpIdx = [0, 0];
-      this.waterData = [0, 0];
-      this.waterOpIdx = [0, 0];
-      this.fertilizerData = [0, 0];
-      this.fertilizerOpIdx = [0, 0];
+      this.tempData = [20];
+      this.tempOpIdx = [0];
+      this.waterData = [0];
+      this.waterOpIdx = [0];
+      this.fertilizerData = [0];
+      this.fertilizerOpIdx = [0];
 
       this.updateChart();
     },

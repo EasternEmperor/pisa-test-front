@@ -45,12 +45,12 @@ export default {
   },
   data() {
     return {
-      tempData: [20, 20],
-      tempOpIdx: [0, 0],
-      humidData: [0, 0],
-      humidOpIdx: [0, 0],
-      windData: [0, 0],
-      windOpIdx: [0, 0],
+      tempData: [20],
+      tempOpIdx: [0],
+      humidData: [0],
+      humidOpIdx: [0],
+      windData: [0],
+      windOpIdx: [0],
       chart: null // Chart.js实例
     };
   },
@@ -69,7 +69,7 @@ export default {
         temp: new Chart(ctxTemp, {
           type: 'line',
           data: {
-            labels: ['调控: 0', '调控: 0'],
+            labels: ['初始值'],
             datasets: [{
               label: '温度',
               data: this.tempData,
@@ -107,7 +107,7 @@ export default {
         humid: new Chart(ctxHumid, {
           type: 'line',
           data: {
-            labels: ['调控: 0', '调控: 0'],
+            labels: ['初始值'],
             datasets: [{
               label: '湿度',
               data: this.humidData,
@@ -145,7 +145,7 @@ export default {
         wind: new Chart(ctxWind, {
           type: 'line',
           data: {
-            labels: ['调控: 0', '调控: 0'],
+            labels: ['初始值'],
             datasets: [{
               label: '风量',
               data: this.windData,
@@ -211,13 +211,13 @@ export default {
       this.updateChart();
     },
     updateChart() {
-      this.chart.temp.data.labels = this.tempOpIdx.map(i => `调控: ${i}`);
+      this.chart.temp.data.labels = this.tempOpIdx.map(i => i === 0 ? '初始值' : `调控: ${i}`);
       this.chart.temp.data.datasets[0].data = this.tempData;
 
-      this.chart.humid.data.labels = this.humidOpIdx.map(i => `调控: ${i}`);
+      this.chart.humid.data.labels = this.humidOpIdx.map(i => i === 0 ? '初始值' : `调控: ${i}`);
       this.chart.humid.data.datasets[0].data = this.humidData;
 
-      this.chart.wind.data.labels = this.windOpIdx.map(i => `调控: ${i}`);
+      this.chart.wind.data.labels = this.windOpIdx.map(i => i === 0 ? '初始值' : `调控: ${i}`);
       this.chart.wind.data.datasets[0].data = this.windData;
 
       this.chart.temp.update();
@@ -226,12 +226,12 @@ export default {
     },
     resetChart() {
       // 清空数据并重置图表
-      this.tempData = [20, 20];
-      this.tempOpIdx = [0, 0];
-      this.humidData = [0, 0];
-      this.humidOpIdx = [0, 0];
-      this.windData = [0, 0];
-      this.windOpIdx = [0, 0];
+      this.tempData = [20];
+      this.tempOpIdx = [0];
+      this.humidData = [0];
+      this.humidOpIdx = [0];
+      this.windData = [0];
+      this.windOpIdx = [0];
 
       this.updateChart();
     },

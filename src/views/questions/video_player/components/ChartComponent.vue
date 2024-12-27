@@ -37,12 +37,12 @@ export default {
   },
   data() {
     return {
-      speedData: [1, 1],
-      speedOpIdx: [0, 0],
-      volumeData: [20, 20],
-      volumeOpIdx: [0, 0],
-      qualityData: [0.4, 0.4],
-      qualityOpIdx: [0, 0],
+      speedData: [1],
+      speedOpIdx: [0],
+      volumeData: [20],
+      volumeOpIdx: [0],
+      qualityData: [0.4],
+      qualityOpIdx: [0],
       chart: null // Chart.js实例
     };
   },
@@ -61,7 +61,7 @@ export default {
         speed: new Chart(ctxSpeed, {
           type: 'line',
           data: {
-            labels: ['调控: 0', '调控: 0'],
+            labels: ['初始值'],
             datasets: [{
               label: '播放速度（倍）',
               data: this.speedData,
@@ -99,7 +99,7 @@ export default {
         volume: new Chart(ctxVolume, {
           type: 'line',
           data: {
-            labels: ['调控: 0', '调控: 0'],
+            labels: ['初始值'],
             datasets: [{
               label: '音量(dB)',
               data: this.volumeData,
@@ -137,7 +137,7 @@ export default {
         quality: new Chart(ctxQuality, {
           type: 'line',
           data: {
-            labels: ['调控: 0', '调控: 0'],
+            labels: ['初始值'],
             datasets: [{
               label: '画质(K)',
               data: this.qualityData,
@@ -203,13 +203,13 @@ export default {
       this.updateChart();
     },
     updateChart() {
-      this.chart.speed.data.labels = this.speedOpIdx.map(i => `调控: ${i}`);
+      this.chart.speed.data.labels = this.speedOpIdx.map(i => i === 0 ? '初始值' : `调控: ${i}`);
       this.chart.speed.data.datasets[0].data = this.speedData;
 
-      this.chart.volume.data.labels = this.volumeOpIdx.map(i => `调控: ${i}`);
+      this.chart.volume.data.labels = this.volumeOpIdx.map(i => i === 0 ? '初始值' : `调控: ${i}`);
       this.chart.volume.data.datasets[0].data = this.volumeData;
 
-      this.chart.quality.data.labels = this.qualityOpIdx.map(i => `调控: ${i}`);
+      this.chart.quality.data.labels = this.qualityOpIdx.map(i => i === 0 ? '初始值' : `调控: ${i}`);
       this.chart.quality.data.datasets[0].data = this.qualityData;
 
       this.chart.speed.update();
@@ -218,12 +218,12 @@ export default {
     },
     resetChart() {
       // 清空数据并重置图表
-      this.speedData = [1, 1];
-      this.speedOpIdx = [0, 0];
-      this.volumeData = [20, 20];
-      this.volumeOpIdx = [0, 0];
-      this.qualityData = [0.4, 0.4];
-      this.qualityOpIdx = [0, 0];
+      this.speedData = [1];
+      this.speedOpIdx = [0];
+      this.volumeData = [20];
+      this.volumeOpIdx = [0];
+      this.qualityData = [0.4];
+      this.qualityOpIdx = [0];
 
       this.updateChart();
     },

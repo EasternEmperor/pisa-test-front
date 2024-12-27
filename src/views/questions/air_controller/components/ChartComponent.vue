@@ -28,10 +28,10 @@ export default {
   },
   data() {
     return {
-      temperatureData: [25, 25],
-      tempOpIdx: [0, 0],
-      humidityData: [25, 25],
-      humidityOpIdx: [0, 0],
+      temperatureData: [25],
+      tempOpIdx: [0],
+      humidityData: [25],
+      humidityOpIdx: [0],
       chart: null // Chart.js实例
     };
   },
@@ -49,7 +49,7 @@ export default {
         temperature: new Chart(ctxTemperature, {
           type: 'line',
           data: {
-            labels: ['调控：0', '调控：0'],
+            labels: ['初始值'],
             datasets: [{
               label: '温度',
               data: this.temperatureData,
@@ -87,7 +87,7 @@ export default {
         humidity: new Chart(ctxHumidity, {
           type: 'line',
           data: {
-            labels: ['调控：0', '调控：0'],
+            labels: ['初始值'],
             datasets: [{
               label: '湿度',
               data: this.humidityData,
@@ -147,9 +147,9 @@ export default {
       this.updateChart();
     },
     updateChart() {
-      this.chart.temperature.data.labels = this.tempOpIdx.map(i => `调控: ${i}`);
+      this.chart.temperature.data.labels = this.tempOpIdx.map(i => i === 0 ? '初始值' : `调控: ${i}`);
       this.chart.temperature.data.datasets[0].data = this.temperatureData;
-      this.chart.humidity.data.labels = this.humidityOpIdx.map(i => `调控: ${i}`);
+      this.chart.humidity.data.labels = this.humidityOpIdx.map(i => i === 0 ? '初始值' : `调控: ${i}`);
       this.chart.humidity.data.datasets[0].data = this.humidityData;
 
       this.chart.temperature.update();
@@ -157,10 +157,10 @@ export default {
     },
     resetChart() {
       // 清空数据并重置图表
-      this.temperatureData = [25, 25];
-      this.tempOpIdx = [0, 0];
-      this.humidityData = [25, 25];
-      this.humidityOpIdx = [0, 0];
+      this.temperatureData = [25];
+      this.tempOpIdx = [0];
+      this.humidityData = [25];
+      this.humidityOpIdx = [0];
 
       this.updateChart();
     }

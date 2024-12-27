@@ -28,10 +28,10 @@ export default {
   },
   data() {
     return {
-      concentrationData: [0, 0],
-      concentrationOpIdx: [0, 0],
-      lastTimeData: [0, 0],
-      lastTimeOpIdx: [0, 0],
+      concentrationData: [0],
+      concentrationOpIdx: [0],
+      lastTimeData: [0],
+      lastTimeOpIdx: [0],
       chart: null // Chart.js实例
     };
   },
@@ -49,7 +49,7 @@ export default {
         concentration: new Chart(ctxConcentration, {
           type: 'line',
           data: {
-            labels: ['调控: 0', '调控: 0'],
+            labels: ['初始值'],
             datasets: [{
               label: '浓度',
               data: this.concentrationData,
@@ -87,7 +87,7 @@ export default {
         lastTime: new Chart(ctxLastTime, {
           type: 'line',
           data: {
-            labels: ['调控: 0', '调控: 0'],
+            labels: ['初始值'],
             datasets: [{
               label: '留存时间',
               data: this.lastTimeData,
@@ -147,9 +147,9 @@ export default {
       this.updateChart();
     },
     updateChart() {
-      this.chart.concentration.data.labels = this.concentrationOpIdx.map(i => `调控: ${i}`);
+      this.chart.concentration.data.labels = this.concentrationOpIdx.map(i => i === 0 ? '初始值' : `调控: ${i}`);
       this.chart.concentration.data.datasets[0].data = this.concentrationData;
-      this.chart.lastTime.data.labels = this.lastTimeOpIdx.map(i => `调控: ${i}`);
+      this.chart.lastTime.data.labels = this.lastTimeOpIdx.map(i => i === 0 ? '初始值' : `调控: ${i}`);
       this.chart.lastTime.data.datasets[0].data = this.lastTimeData;
 
       this.chart.concentration.update();
@@ -157,10 +157,10 @@ export default {
     },
     resetChart() {
       // 清空数据并重置图表
-      this.concentrationData = [0, 0];
-      this.concentrationOpIdx = [0, 0];
-      this.lastTimeData = [0, 0];
-      this.lastTimeOpIdx = [0, 0];
+      this.concentrationData = [0];
+      this.concentrationOpIdx = [0];
+      this.lastTimeData = [0];
+      this.lastTimeOpIdx = [0];
 
       this.updateChart();
     },

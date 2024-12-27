@@ -37,12 +37,12 @@ export default {
   },
   data() {
     return {
-      distanceData: [0, 0],
-      distanceOpIdx: [0, 0],
-      brightnessData: [0, 0],
-      brightnessOpIdx: [0, 0],
-      areaData: [0, 0],
-      areaOpIdx: [0, 0],
+      distanceData: [0],
+      distanceOpIdx: [0],
+      brightnessData: [0],
+      brightnessOpIdx: [0],
+      areaData: [0],
+      areaOpIdx: [0],
       chart: null // Chart.js实例
     };
   },
@@ -61,7 +61,7 @@ export default {
         distance: new Chart(ctxDistance, {
           type: 'line',
           data: {
-            labels: ['调控: 0', '调控: 0'],
+            labels: ['初始值'],
             datasets: [{
               label: '照射距离（米）',
               data: this.distanceData,
@@ -99,7 +99,7 @@ export default {
         brightness: new Chart(ctxBrightness, {
           type: 'line',
           data: {
-            labels: ['调控: 0', '调控: 0'],
+            labels: ['初始值'],
             datasets: [{
               label: '亮度',
               data: this.brightnessData,
@@ -137,7 +137,7 @@ export default {
         area: new Chart(ctxArea, {
           type: 'line',
           data: {
-            labels: ['调控: 0', '调控: 0'],
+            labels: ['初始值'],
             datasets: [{
               label: '照射范围',
               data: this.areaData,
@@ -203,13 +203,13 @@ export default {
       this.updateChart();
     },
     updateChart() {
-      this.chart.distance.data.labels = this.distanceOpIdx.map(i => `调控: ${i}`);
+      this.chart.distance.data.labels = this.distanceOpIdx.map(i => i === 0 ? '初始值' : `调控: ${i}`);
       this.chart.distance.data.datasets[0].data = this.distanceData;
 
-      this.chart.brightness.data.labels = this.brightnessOpIdx.map(i => `调控: ${i}`);
+      this.chart.brightness.data.labels = this.brightnessOpIdx.map(i => i === 0 ? '初始值' : `调控: ${i}`);
       this.chart.brightness.data.datasets[0].data = this.brightnessData;
 
-      this.chart.area.data.labels = this.areaOpIdx.map(i => `调控: ${i}`);
+      this.chart.area.data.labels = this.areaOpIdx.map(i => i === 0 ? '初始值' : `调控: ${i}`);
       this.chart.area.data.datasets[0].data = this.areaData;
 
       this.chart.distance.update();
@@ -218,12 +218,12 @@ export default {
     },
     resetChart() {
       // 清空数据并重置图表
-      this.distanceData = [0, 0];
-      this.distanceOpIdx = [0, 0];
-      this.brightnessData = [0, 0];
-      this.brightnessOpIdx = [0, 0];
-      this.areaData = [0, 0];
-      this.areaOpIdx = [0, 0];
+      this.distanceData = [0];
+      this.distanceOpIdx = [0];
+      this.brightnessData = [0];
+      this.brightnessOpIdx = [0];
+      this.areaData = [0];
+      this.areaOpIdx = [0];
 
       this.updateChart();
     },

@@ -28,10 +28,10 @@ export default {
   },
   data() {
     return {
-      definitionData: [0, 0],
-      definitionOpIdx: [0, 0],
-      projectionData: [0, 0],
-      projectionOpIdx: [0, 0],
+      definitionData: [0],
+      definitionOpIdx: [0],
+      projectionData: [0],
+      projectionOpIdx: [0],
       chart: null // Chart.js实例
     };
   },
@@ -49,7 +49,7 @@ export default {
         definition: new Chart(ctxDefinition, {
           type: 'line',
           data: {
-            labels: ['调控: 0', '调控: 0'],
+            labels: ['初始值'],
             datasets: [{
               label: '清晰度(K)',
               data: this.definitionData,
@@ -87,7 +87,7 @@ export default {
         projection: new Chart(ctxProjection, {
           type: 'line',
           data: {
-            labels: ['调控: 0', '调控: 0'],
+            labels: ['初始值'],
             datasets: [{
               label: '画片大小',
               data: this.projectionData,
@@ -147,9 +147,9 @@ export default {
       this.updateChart();
     },
     updateChart() {
-      this.chart.definition.data.labels = this.definitionOpIdx.map(i => `调控: ${i}`);
+      this.chart.definition.data.labels = this.definitionOpIdx.map(i => i === 0 ? '初始值' : `调控: ${i}`);
       this.chart.definition.data.datasets[0].data = this.definitionData;
-      this.chart.projection.data.labels = this.projectionOpIdx.map(i => `调控: ${i}`);
+      this.chart.projection.data.labels = this.projectionOpIdx.map(i => i === 0 ? '初始值' : `调控: ${i}`);
       this.chart.projection.data.datasets[0].data = this.projectionData;
 
       this.chart.definition.update();
@@ -157,10 +157,10 @@ export default {
     },
     resetChart() {
       // 清空数据并重置图表
-      this.definitionData = [0, 0];
-      this.definitionOpIdx = [0, 0];
-      this.projectionData = [0, 0];
-      this.projectionOpIdx = [0, 0];
+      this.definitionData = [0];
+      this.definitionOpIdx = [0];
+      this.projectionData = [0];
+      this.projectionOpIdx = [0];
 
       this.updateChart();
     },

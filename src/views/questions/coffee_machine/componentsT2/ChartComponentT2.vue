@@ -53,14 +53,14 @@ export default {
   },
   data() {
     return {
-      capacityData: [0, 0],
-      capacityOpIdx: [0, 0],
-      bitternessData: [0, 0],
-      bitternessOpIdx: [0, 0],
-      sweetnessData: [0, 0],
-      sweetnessOpIdx: [0, 0],
-      consistenceData: [0, 0],
-      consistenceOpIdx: [0, 0],
+      capacityData: [0],
+      capacityOpIdx: [0],
+      bitternessData: [0],
+      bitternessOpIdx: [0],
+      sweetnessData: [0],
+      sweetnessOpIdx: [0],
+      consistenceData: [0],
+      consistenceOpIdx: [0],
       chart: null // Chart.js实例
     };
   },
@@ -80,7 +80,7 @@ export default {
         capacity: new Chart(ctxCapacity, {
           type: 'line',
           data: {
-            labels: ['调控: 0', '调控: 0'],
+            labels: ['初始值'],
             datasets: [{
               label: '容量(ml)',
               data: this.capacityData,
@@ -118,7 +118,7 @@ export default {
         bitterness: new Chart(ctxBitterness, {
           type: 'line',
           data: {
-            labels: ['调控: 0', '调控: 0'],
+            labels: ['初始值'],
             datasets: [{
               label: '酸涩度',
               data: this.bitternessData,
@@ -156,7 +156,7 @@ export default {
         sweetness: new Chart(ctxSweetness, {
           type: 'line',
           data: {
-            labels: ['调控: 0', '调控: 0'],
+            labels: ['初始值'],
             datasets: [{
               label: '甜度',
               data: this.sweetnessData,
@@ -194,7 +194,7 @@ export default {
         consistence: new Chart(ctxConsistence, {
           type: 'line',
           data: {
-            labels: ['调控: 0', '调控: 0'],
+            labels: ['初始值'],
             datasets: [{
               label: '甜度',
               data: this.consistenceData,
@@ -267,16 +267,16 @@ export default {
       this.updateChart();
     },
     updateChart() {
-      this.chart.capacity.data.labels = this.capacityOpIdx.map(i => `调控: ${i}`);
+      this.chart.capacity.data.labels = this.capacityOpIdx.map(i => i === 0 ? '初始值' : `调控: ${i}`);
       this.chart.capacity.data.datasets[0].data = this.capacityData;
 
-      this.chart.bitterness.data.labels = this.bitternessOpIdx.map(i => `调控: ${i}`);
+      this.chart.bitterness.data.labels = this.bitternessOpIdx.map(i => i === 0 ? '初始值' : `调控: ${i}`);
       this.chart.bitterness.data.datasets[0].data = this.bitternessData;
 
-      this.chart.sweetness.data.labels = this.sweetnessOpIdx.map(i => `调控: ${i}`);
+      this.chart.sweetness.data.labels = this.sweetnessOpIdx.map(i => i === 0 ? '初始值' : `调控: ${i}`);
       this.chart.sweetness.data.datasets[0].data = this.sweetnessData;
 
-      this.chart.consistence.data.labels = this.consistenceOpIdx.map(i => `调控: ${i}`);
+      this.chart.consistence.data.labels = this.consistenceOpIdx.map(i => i === 0 ? '初始值' : `调控: ${i}`);
       this.chart.consistence.data.datasets[0].data = this.consistenceData;
 
       this.chart.capacity.update();
@@ -286,14 +286,14 @@ export default {
     },
     resetChart() {
       // 清空数据并重置图表
-      this.capacityData = [0, 0];
-      this.capacityOpIdx = [0, 0];
-      this.bitternessData = [0, 0];
-      this.bitternessOpIdx = [0, 0];
-      this.sweetnessData = [0, 0];
-      this.sweetnessOpIdx = [0, 0];
-      this.consistenceData = [0, 0];
-      this.consistenceOpIdx = [0, 0];
+      this.capacityData = [0];
+      this.capacityOpIdx = [0];
+      this.bitternessData = [0];
+      this.bitternessOpIdx = [0];
+      this.sweetnessData = [0];
+      this.sweetnessOpIdx = [0];
+      this.consistenceData = [0];
+      this.consistenceOpIdx = [0];
 
       this.updateChart();
     },

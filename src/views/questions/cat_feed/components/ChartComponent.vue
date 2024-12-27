@@ -28,10 +28,10 @@ export default {
   },
   data() {
     return {
-      foodData: [25, 25],
-      foodOpIdx: [0, 0],
-      waterData: [25, 25],
-      waterOpIdx: [0, 0],
+      foodData: [25],
+      foodOpIdx: [0],
+      waterData: [25],
+      waterOpIdx: [0],
       chart: null // Chart.js实例
     };
   },
@@ -49,7 +49,7 @@ export default {
         food: new Chart(ctxFood, {
           type: 'line',
           data: {
-            labels: ['调控: 0', '调控: 0'],
+            labels: ['初始值'],
             datasets: [{
               label: '食物量',
               data: this.foodData,
@@ -87,7 +87,7 @@ export default {
         water: new Chart(ctxWater, {
           type: 'line',
           data: {
-            labels: ['调控: 0', '调控: 0'],
+            labels: ['初始值'],
             datasets: [{
               label: '出水量(ml)',
               data: this.waterData,
@@ -147,9 +147,9 @@ export default {
       this.updateChart();
     },
     updateChart() {
-      this.chart.food.data.labels = this.foodOpIdx.map(i => `调控: ${i}`);
+      this.chart.food.data.labels = this.foodOpIdx.map(i => i === 0 ? '初始值' : `调控: ${i}`);
       this.chart.food.data.datasets[0].data = this.foodData;
-      this.chart.water.data.labels = this.waterOpIdx.map(i => `调控: ${i}`);
+      this.chart.water.data.labels = this.waterOpIdx.map(i => i === 0 ? '初始值' : `调控: ${i}`);
       this.chart.water.data.datasets[0].data = this.waterData;
 
       this.chart.food.update();
@@ -157,10 +157,10 @@ export default {
     },
     resetChart() {
       // 清空数据并重置图表
-      this.foodData = [25, 25];
-      this.foodOpIdx = [0, 0];
-      this.waterData = [25, 25];
-      this.waterOpIdx = [0, 0];
+      this.foodData = [25];
+      this.foodOpIdx = [0];
+      this.waterData = [25];
+      this.waterOpIdx = [0];
 
       this.updateChart();
     },
