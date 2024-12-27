@@ -188,7 +188,7 @@
           if (response.data.code === '0') {
             this.answerData = response.data.data.map(item => ({
               ...item,
-              eventStartTime: moment(item.eventStartTime).format('YYYY-MM-DD HH:mm:ss')
+              eventStartTime: moment(item.eventStartTime).format('YYYY-MM-DD HH:mm:ss.SSS')
             }));
             this.totalItems = response.data.total || this.answerData.length;
             this.getDisplayData();

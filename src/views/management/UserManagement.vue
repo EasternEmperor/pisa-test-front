@@ -132,8 +132,8 @@ export default {
           if (response.data.code === '0') {
             this.filteredData = response.data.data.map(item => ({
               ...item,
-              testBegin: moment(item.testBegin).format('YYYY-MM-DD HH:mm:ss'),
-              testEnd: moment(item.testEnd).format('YYYY-MM-DD HH:mm:ss'),
+              testBegin: moment(item.testBegin).format('YYYY-MM-DD HH:mm:ss.SSS'),
+              testEnd: moment(item.testEnd).format('YYYY-MM-DD HH:mm:ss.SSS'),
             }));
             this.totalItems = this.filteredData.length;
             this.getDisplayData(); // 初始化展示数据
