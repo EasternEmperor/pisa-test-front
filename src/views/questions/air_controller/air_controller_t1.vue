@@ -11,6 +11,7 @@
       <!-- 题目部分 -->
       <div class="container-box question-section">
         <div class="question-text">
+          <countdown-timer :duration="duration" :timerKey="`timer_${this.no}`" @timeUp="handleTimeUp" />
           <h3>问题1: 控制器功能</h3>
           <p>
             通过改变滑块并应用，弄清楚每个控制器控制着温度和湿度中的哪些因素。<br/>
@@ -74,12 +75,14 @@
   <script>
   import AirControllerUpComponent from './air_controller_up_component.vue';
   import HeaderComponent from '@/components/Header.vue';
+  import CountdownTimer from '@/components/CountdownTimer.vue';
   
   export default {
     name: 'AirControllerT1',
     components: {
       AirControllerUpComponent,
       HeaderComponent,
+      CountdownTimer,
     },
     data() {
       return {
@@ -89,6 +92,7 @@
         selectedControl: null,
         connections: [],
         eventNumber: 1, // 用于记录事件次数
+        duration: 120, // 倒计时时间
       };
     },
     created() {
@@ -128,6 +132,20 @@
             type: "success",
         });
         this.$getQuestion(this.no + 1);
+        // 删除缓存倒计时
+        localStorage.removeItem(`timer_${this.no}`);
+      },
+      handleTimeUp() {
+        // 自动提交答案
+        this.sendEvent('timeup');
+        this.$message({
+          message: '时间到，自动提交并跳转到下一题！',
+          type: 'warning',
+        });
+        // 跳转下一题
+        this.$getQuestion(this.no + 1);
+        // 删除缓存倒计时
+        localStorage.removeItem(`timer_${this.no}`);
       },
       handleApply() {
         this.sendEvent('apply');
@@ -207,6 +225,9 @@
           data.eventType = 'NULL';
         } else if (eventType === 'submit') {
           data.event = 'END_ITEM';
+          data.eventType = 'NULL';
+        } else if (eventType === 'timeup') {
+          data.event = 'TIME_UP';
           data.eventType = 'NULL';
         } else {
           console.error('未知的动作！');

@@ -10,6 +10,7 @@
   
       <!-- 题目部分 -->
       <div class="container-box question-section">
+        <countdown-timer :duration="duration" :timerKey="`timer_${this.no}`" @timeUp="handleTimeUp" />
         <div class="question-text">
           <h3>问题2: 调控出水总量、出水温度和出水速度</h3>
           <p>
@@ -42,12 +43,14 @@
   <script>
   import VideoPlayerUpComponent from './video_player_up_component_t2.vue';
   import HeaderComponent from '@/components/Header.vue';
-  
+  import CountdownTimer from '@/components/CountdownTimer.vue';
+
   export default {
     name: 'VideoPlayerT2',
     components: {
       VideoPlayerUpComponent,
       HeaderComponent,
+      CountdownTimer,
     },
     data() {
       return {
@@ -56,6 +59,7 @@
         selectedControl: null,
         connections: [],
         eventNumber: 1, // 用于记录事件次数
+        duration: 240, // 倒计时时间
       };
     },
     created() {
@@ -82,6 +86,20 @@
           type: "success",
         });
         this.$getQuestion(this.no + 1);
+        // 删除缓存倒计时
+        localStorage.removeItem(`timer_${this.no}`);
+      },
+      handleTimeUp() {
+        // 自动提交答案
+        this.sendEvent('timeup');
+        this.$message({
+          message: '时间到，自动提交并跳转到下一题！',
+          type: 'warning',
+        });
+        // 跳转下一题
+        this.$getQuestion(this.no + 1);
+        // 删除缓存倒计时
+        localStorage.removeItem(`timer_${this.no}`);
       },
       handleApply() {
         this.sendEvent('apply');
@@ -167,6 +185,9 @@
           data.eventType = 'NULL';
         } else if (eventType === 'submit') {
           data.event = 'END_ITEM';
+          data.eventType = 'NULL';
+        } else if (eventType === 'timeup') {
+          data.event = 'TIME_UP';
           data.eventType = 'NULL';
         } else {
           console.error('未知的动作！');
