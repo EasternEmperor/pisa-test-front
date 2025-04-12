@@ -28,9 +28,9 @@ export default {
   },
   data() {
     return {
-      definitionData: [0],
+      definitionData: [6],
       definitionOpIdx: [0],
-      projectionData: [0],
+      projectionData: [8],
       projectionOpIdx: [0],
       chart: null // Chart.js实例
     };
@@ -51,7 +51,7 @@ export default {
           data: {
             labels: ['初始值'],
             datasets: [{
-              label: '清晰度(K)',
+              label: '清晰度',
               data: this.definitionData,
               borderColor: 'red',
               borderWidth: 2,
@@ -77,7 +77,7 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '清晰度(K)',
+                  text: '清晰度',
                   font: { size: 14, weight: 'bold' }
                 }
               }
@@ -157,9 +157,9 @@ export default {
     },
     resetChart() {
       // 清空数据并重置图表
-      this.definitionData = [0];
+      this.definitionData = [6];
       this.definitionOpIdx = [0];
-      this.projectionData = [0];
+      this.projectionData = [8];
       this.projectionOpIdx = [0];
 
       this.updateChart();

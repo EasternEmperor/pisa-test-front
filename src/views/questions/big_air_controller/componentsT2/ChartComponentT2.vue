@@ -3,9 +3,9 @@
     <div class="question-text">
       <h3>请调控空调至下述温度、湿度和风量</h3>
       <p>
-        温度：24-26之间<br />
-        湿度：30左右<br />
-        风量：5左右
+        温度：21-23度之间<br />
+        湿度：54左右<br />
+        风量：18-20之间
       </p>
     </div>
     <div class="chart-row">
@@ -71,7 +71,7 @@ export default {
           data: {
             labels: ['初始值'],
             datasets: [{
-              label: '温度',
+              label: '温度（度）',
               data: this.tempData,
               borderColor: 'red',
               borderWidth: 2,
@@ -97,7 +97,7 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '温度',
+                  text: '温度（度）',
                   font: { size: 14, weight: 'bold' }
                 }
               }
@@ -226,11 +226,11 @@ export default {
     },
     resetChart() {
       // 清空数据并重置图表
-      this.tempData = [20];
+      this.tempData = [26];
       this.tempOpIdx = [0];
-      this.humidData = [0];
+      this.humidData = [100];
       this.humidOpIdx = [0];
-      this.windData = [0];
+      this.windData = [33];
       this.windOpIdx = [0];
 
       this.updateChart();

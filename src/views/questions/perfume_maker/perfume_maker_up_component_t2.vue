@@ -50,8 +50,8 @@
         centralControl: 0,
         bottomControl: 0,
         // 浓度和留存时间值
-        concentration: 0,
-        lastTime: 0,
+        concentration: 8,
+        lastTime: 9,
         applyTimes: 0,
       };
     },
@@ -76,8 +76,8 @@
         this.topControl = 0;
         this.centralControl = 0;
         this.bottomControl = 0;
-        this.concentration = 0;
-        this.lastTime = 0;
+        this.concentration = 8;
+        this.lastTime = 9;
 
         // 调用 ChartComponent 的 resetChart 方法
         this.$refs.chartComponent.resetChart();

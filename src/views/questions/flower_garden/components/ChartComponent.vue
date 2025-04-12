@@ -39,9 +39,9 @@ export default {
     return {
       tempData: [20],
       tempOpIdx: [0],
-      waterData: [0],
+      waterData: [25],
       waterOpIdx: [0],
-      fertilizerData: [0],
+      fertilizerData: [15],
       fertilizerOpIdx: [0],
       chart: null // Chart.js实例
     };
@@ -63,7 +63,7 @@ export default {
           data: {
             labels: ['初始值'],
             datasets: [{
-              label: '温度',
+              label: '温度（度）',
               data: this.tempData,
               borderColor: 'red',
               borderWidth: 2,
@@ -89,7 +89,7 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '温度',
+                  text: '温度（度）',
                   font: { size: 14, weight: 'bold' }
                 }
               }
@@ -220,9 +220,9 @@ export default {
       // 清空数据并重置图表
       this.tempData = [20];
       this.tempOpIdx = [0];
-      this.waterData = [0];
+      this.waterData = [25];
       this.waterOpIdx = [0];
-      this.fertilizerData = [0];
+      this.fertilizerData = [15];
       this.fertilizerOpIdx = [0];
 
       this.updateChart();

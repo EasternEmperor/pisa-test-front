@@ -44,13 +44,13 @@ export default {
   },
   data() {
     return {
-      capacityData: [0],
+      capacityData: [550],
       capacityOpIdx: [0],
-      tempData: [0],
+      tempData: [50],
       tempOpIdx: [0],
-      sweetnessData: [0],
+      sweetnessData: [10],
       sweetnessOpIdx: [0],
-      pulpData: [0],
+      pulpData: [10],
       pulpOpIdx: [0],
       chart: null // Chart.js实例
     };
@@ -73,7 +73,7 @@ export default {
           data: {
             labels: ['初始值'],
             datasets: [{
-              label: '容量(ml)',
+              label: '容量（毫升）',
               data: this.capacityData,
               borderColor: 'red',
               borderWidth: 2,
@@ -99,7 +99,7 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '容量(ml)',
+                  text: '容量（毫升）',
                   font: { size: 14, weight: 'bold' }
                 }
               }
@@ -111,7 +111,7 @@ export default {
           data: {
             labels: ['初始值'],
             datasets: [{
-              label: '温度',
+              label: '温度（度）',
               data: this.tempData,
               borderColor: 'blue',
               borderWidth: 2,
@@ -137,7 +137,7 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '温度',
+                  text: '温度（度）',
                   font: { size: 14, weight: 'bold' }
                 }
               }
@@ -277,13 +277,13 @@ export default {
     },
     resetChart() {
       // 清空数据并重置图表
-      this.capacityData = [0];
+      this.capacityData = [550];
       this.capacityOpIdx = [0];
-      this.tempData = [0];
+      this.tempData = [50];
       this.tempOpIdx = [0];
-      this.sweetnessData = [0];
+      this.sweetnessData = [10];
       this.sweetnessOpIdx = [0];
-      this.pulpData = [0];
+      this.pulpData = [10];
       this.pulpOpIdx = [0];
 
       this.updateChart();

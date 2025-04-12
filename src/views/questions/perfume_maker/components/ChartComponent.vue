@@ -28,9 +28,9 @@ export default {
   },
   data() {
     return {
-      concentrationData: [0],
+      concentrationData: [8],
       concentrationOpIdx: [0],
-      lastTimeData: [0],
+      lastTimeData: [9],
       lastTimeOpIdx: [0],
       chart: null // Chart.js实例
     };
@@ -89,7 +89,7 @@ export default {
           data: {
             labels: ['初始值'],
             datasets: [{
-              label: '留存时间',
+              label: '留存时间（小时）',
               data: this.lastTimeData,
               borderColor: 'blue',
               borderWidth: 2,
@@ -115,7 +115,7 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '留存时间',
+                  text: '留存时间（小时）',
                   font: { size: 14, weight: 'bold' }
                 }
               }
@@ -157,9 +157,9 @@ export default {
     },
     resetChart() {
       // 清空数据并重置图表
-      this.concentrationData = [0];
+      this.concentrationData = [8];
       this.concentrationOpIdx = [0];
-      this.lastTimeData = [0];
+      this.lastTimeData = [9];
       this.lastTimeOpIdx = [0];
 
       this.updateChart();

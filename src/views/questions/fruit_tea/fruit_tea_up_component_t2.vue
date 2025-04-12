@@ -55,17 +55,17 @@
         bottomControl: 0,
         lastControl: 0,
         // 果茶容量、温度、甜度和果肉数量
-        capacity: 0,
-        temp: 0,
-        sweetness: 0,
-        pulp: 0,
+        capacity: 550,
+        temp: 50,
+        sweetness: 10,
+        pulp: 10,
       };
     },
     methods: {
       applyChanges() {
         this.applyTimes++;
         // 更新容量
-        const newCapacity = this.capacity + 200 * this.centralControl + 120 * this.lastControl;
+        const newCapacity = this.capacity + 100 * this.centralControl + 120 * this.lastControl;
         this.capacity = Math.max(0, newCapacity.toFixed(2));
         // 更新曲线图
         this.$refs.chartComponent.addData('capacity', this.capacity);
@@ -77,7 +77,7 @@
         this.$refs.chartComponent.addData('temp', this.temp);
 
         // 更新甜度
-        const newSweetness = this.sweetness + 2 * this.bottomControl + 0.85 * this.lastControl;
+        const newSweetness = this.sweetness + this.bottomControl + 1.5 * this.lastControl;
         this.sweetness = Math.max(0, newSweetness.toFixed(2));
         // 更新曲线图
         this.$refs.chartComponent.addData('sweetness', this.sweetness);
@@ -95,10 +95,10 @@
         this.centralControl = 0;
         this.bottomControl = 0;
         this.lastControl = 0;
-        this.capacity = 0;
-        this.temp = 0;
-        this.sweetness = 0;
-        this.pulp = 0;
+        this.capacity = 550;
+        this.temp = 50;
+        this.sweetness = 10;
+        this.pulp = 10;
 
         // 调用 ChartComponent 的 resetChart 方法
         this.$refs.chartComponent.resetChart();

@@ -53,27 +53,27 @@
         bottomControl: 0,
         // 播放速度、音量和画质大小
         speed: 1,
-        volume: 20,
-        quality: 0.4
+        volume: 50,
+        quality: 1500
       };
     },
     methods: {
       applyChanges() {
         this.applyTimes++;
         // 更新播放速度
-        const newSpeed = this.speed + 1.5 * this.bottomControl + 0.25;
+        const newSpeed = this.speed + 0.5 * this.bottomControl + 1;
         this.speed = Math.max(0, newSpeed.toFixed(2));
         // 更新曲线图
         this.$refs.chartComponent.addData('speed', this.speed);
 
         // 更新音量
-        const newVolume = this.volume + 20 * this.topControl;
+        const newVolume = this.volume + 5 * this.topControl + 2;
         this.volume = Math.max(0, newVolume.toFixed(2));
         // 更新曲线图
         this.$refs.chartComponent.addData('volume', this.volume);
 
         // 更新画质
-        const newQuality = this.quality + 0.5 * this.centralControl + 0.1;
+        const newQuality = this.quality + 300 * this.centralControl + 100;
         this.quality = Math.max(0, newQuality.toFixed(2));
         // 更新曲线图
         this.$refs.chartComponent.addData('quality', this.quality);
@@ -85,8 +85,8 @@
         this.centralControl = 0;
         this.bottomControl = 0;
         this.speed = 1;
-        this.volume = 20;
-        this.quality = 0.4;
+        this.volume = 50;
+        this.quality = 1500;
 
         // 调用 ChartComponent 的 resetChart 方法
         this.$refs.chartComponent.resetChart();

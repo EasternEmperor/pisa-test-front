@@ -3,9 +3,9 @@
     <div class="question-text">
       <h3>请调控饮水机至下述出水总量、出水温度和出水速度</h3>
       <p>
-        出水总量：200-300ml之间<br />
-        出水温度：30左右<br />
-        出水速度：50ml/s左右
+        出水总量：250-300毫升之间<br />
+        出水温度：30度左右<br />
+        出水速度：15毫升/s左右
       </p>
     </div>
     <div class="chart-row">
@@ -45,11 +45,11 @@ export default {
   },
   data() {
     return {
-      volumeData: [150],
+      volumeData: [600],
       volumeOpIdx: [0],
-      tempData: [13],
+      tempData: [45],
       tempOpIdx: [0],
-      speedData: [10],
+      speedData: [15],
       speedOpIdx: [0],
       chart: null, // Chart.js实例
     };
@@ -70,7 +70,7 @@ export default {
           data: {
             labels: ['初始值'],
             datasets: [{
-              label: '出水总量(ml)',
+              label: '出水总量（毫升）',
               data: this.volumeData,
               borderColor: 'red',
               borderWidth: 2,
@@ -96,7 +96,7 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '出水总量(ml)',
+                  text: '出水总量（毫升）',
                   font: { size: 14, weight: 'bold' }
                 }
               }
@@ -108,7 +108,7 @@ export default {
           data: {
             labels: ['初始值'],
             datasets: [{
-              label: '出水温度',
+              label: '出水温度（度）',
               data: this.tempData,
               borderColor: 'blue',
               borderWidth: 2,
@@ -134,7 +134,7 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '出水温度',
+                  text: '出水温度（度）',
                   font: { size: 14, weight: 'bold' }
                 }
               }
@@ -146,7 +146,7 @@ export default {
           data: {
             labels: ['初始值'],
             datasets: [{
-              label: '出水速度(ml/s)',
+              label: '出水速度（毫升/秒）',
               data: this.speedData,
               borderColor: 'green',
               borderWidth: 2,
@@ -172,7 +172,7 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '出水速度(ml/s)',
+                  text: '出水速度（毫升/秒）',
                   font: { size: 14, weight: 'bold' }
                 }
               }
@@ -225,11 +225,11 @@ export default {
     },
     resetChart() {
       // 清空数据并重置图表
-      this.volumeData = [150];
+      this.volumeData = [600];
       this.volumeOpIdx = [0];
-      this.tempData = [13];
+      this.tempData = [45];
       this.tempOpIdx = [0];
-      this.speedData = [10];
+      this.speedData = [15];
       this.speedOpIdx = [0];
 
       this.updateChart();

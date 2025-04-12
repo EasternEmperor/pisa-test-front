@@ -44,13 +44,13 @@ export default {
   },
   data() {
     return {
-      capacityData: [0],
+      capacityData: [800],
       capacityOpIdx: [0],
-      bitternessData: [0],
+      bitternessData: [10],
       bitternessOpIdx: [0],
-      sweetnessData: [0],
+      sweetnessData: [10],
       sweetnessOpIdx: [0],
-      consistenceData: [0],
+      consistenceData: [15],
       consistenceOpIdx: [0],
       chart: null // Chart.js实例
     };
@@ -73,7 +73,7 @@ export default {
           data: {
             labels: ['初始值'],
             datasets: [{
-              label: '容量(ml)',
+              label: '容量（毫升）',
               data: this.capacityData,
               borderColor: 'red',
               borderWidth: 2,
@@ -99,7 +99,7 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '容量(ml)',
+                  text: '容量（毫升）',
                   font: { size: 14, weight: 'bold' }
                 }
               }
@@ -277,13 +277,13 @@ export default {
     },
     resetChart() {
       // 清空数据并重置图表
-      this.capacityData = [0];
+      this.capacityData = [800];
       this.capacityOpIdx = [0];
-      this.bitternessData = [0];
+      this.bitternessData = [10];
       this.bitternessOpIdx = [0];
-      this.sweetnessData = [0];
+      this.sweetnessData = [10];
       this.sweetnessOpIdx = [0];
-      this.consistenceData = [0];
+      this.consistenceData = [15];
       this.consistenceOpIdx = [0];
 
       this.updateChart();

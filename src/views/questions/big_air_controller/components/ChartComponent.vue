@@ -37,11 +37,11 @@ export default {
   },
   data() {
     return {
-      tempData: [20],
+      tempData: [26],
       tempOpIdx: [0],
-      humidData: [0],
+      humidData: [100],
       humidOpIdx: [0],
-      windData: [0],
+      windData: [33],
       windOpIdx: [0],
       chart: null // Chart.js实例
     };
@@ -63,7 +63,7 @@ export default {
           data: {
             labels: ['初始值'],
             datasets: [{
-              label: '温度',
+              label: '温度（度）',
               data: this.tempData,
               borderColor: 'red',
               borderWidth: 2,
@@ -89,7 +89,7 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '温度',
+                  text: '温度（度）',
                   font: { size: 14, weight: 'bold' }
                 }
               }
@@ -218,11 +218,11 @@ export default {
     },
     resetChart() {
       // 清空数据并重置图表
-      this.tempData = [20];
+      this.tempData = [26];
       this.tempOpIdx = [0];
-      this.humidData = [0];
+      this.humidData = [100];
       this.humidOpIdx = [0];
-      this.windData = [0];
+      this.windData = [33];
       this.windOpIdx = [0];
 
       this.updateChart();

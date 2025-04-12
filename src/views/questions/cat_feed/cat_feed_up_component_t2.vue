@@ -51,8 +51,8 @@
         centralControl: 0,
         bottomControl: 0,
         // 食物和出水值
-        food: 25,
-        water: 25,
+        food: 55,
+        water: 100,
         applyTimes: 0,
       };
     },
@@ -60,13 +60,13 @@
       applyChanges() {
         this.applyTimes++;
         // 更新食物量
-        const newFood = this.food + 15 * this.centralControl + 8 * this.bottomControl + 2;
+        const newFood = this.food + 4 * this.centralControl + 2 * this.bottomControl;
         this.food = Math.max(0, newFood.toFixed(2));
         // 更新曲线图
         this.$refs.chartComponent.addData('food', this.food);
 
         // 更新出水量
-        const newWater = this.water + 50 * this.topControl + 20;
+        const newWater = this.water + 40 * this.topControl;
         this.water = Math.max(0, newWater.toFixed(2));
         // 更新曲线图
         this.$refs.chartComponent.addData('water', this.water);
@@ -77,8 +77,8 @@
         this.topControl = 0;
         this.centralControl = 0;
         this.bottomControl = 0;
-        this.food = 25;
-        this.water = 25;
+        this.food = 55;
+        this.water = 100;
 
         // 调用 ChartComponent 的 resetChart 方法
         this.$refs.chartComponent.resetChart();

@@ -54,16 +54,16 @@
         bottomControl: 0,
         lastControl: 0,
         // 照射距离、亮度、范围
-        distance: 0,
-        brightness: 0,
-        area: 0,
+        distance: 30,
+        brightness: 20,
+        area: 30,
       };
     },
     methods: {
       applyChanges() {
         this.applyTimes++;
         // 更新照射距离
-        const newDistance = this.distance + 10 * this.topControl + 2 * this.centralControl - this.bottomControl;
+        const newDistance = this.distance + 5 * this.topControl + 2 * this.centralControl - this.bottomControl;
         this.distance = Math.max(0, newDistance.toFixed(2));
         // 更新曲线图
         this.$refs.chartComponent.addData('distance', this.distance);
@@ -87,9 +87,9 @@
         this.centralControl = 0;
         this.bottomControl = 0;
         this.lastControl = 0;
-        this.distance = 0;
-        this.brightness = 0;
-        this.area = 0;
+        this.distance = 30;
+        this.brightness = 20;
+        this.area = 30;
 
         // 调用 ChartComponent 的 resetChart 方法
         this.$refs.chartComponent.resetChart();

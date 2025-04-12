@@ -39,9 +39,9 @@ export default {
     return {
       speedData: [1],
       speedOpIdx: [0],
-      volumeData: [20],
+      volumeData: [50],
       volumeOpIdx: [0],
-      qualityData: [0.4],
+      qualityData: [1500],
       qualityOpIdx: [0],
       chart: null // Chart.js实例
     };
@@ -101,7 +101,7 @@ export default {
           data: {
             labels: ['初始值'],
             datasets: [{
-              label: '音量(dB)',
+              label: '音量',
               data: this.volumeData,
               borderColor: 'blue',
               borderWidth: 2,
@@ -127,7 +127,7 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '音量(dB)',
+                  text: '音量',
                   font: { size: 14, weight: 'bold' }
                 }
               }
@@ -139,7 +139,7 @@ export default {
           data: {
             labels: ['初始值'],
             datasets: [{
-              label: '画质(K)',
+              label: '画质',
               data: this.qualityData,
               borderColor: 'green',
               borderWidth: 2,
@@ -165,7 +165,7 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '画质(K)',
+                  text: '画质',
                   font: { size: 14, weight: 'bold' }
                 }
               }
@@ -220,9 +220,9 @@ export default {
       // 清空数据并重置图表
       this.speedData = [1];
       this.speedOpIdx = [0];
-      this.volumeData = [20];
+      this.volumeData = [50];
       this.volumeOpIdx = [0];
-      this.qualityData = [0.4];
+      this.qualityData = [1500];
       this.qualityOpIdx = [0];
 
       this.updateChart();

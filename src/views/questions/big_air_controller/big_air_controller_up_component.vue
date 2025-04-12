@@ -1,12 +1,12 @@
 <template>
     <div class="big-air-controller-up">
-      <h2>七、大空调遥控器</h2>
+      <h2>七、中央空调遥控器</h2>
       <p>
-        你新买的大空调没有说明书，需要你通过探索来学习如何使用它。<br/>
+        你新买的中央空调没有说明书，需要你通过探索来学习如何使用它。<br/>
         你可以使用左侧的滑块（-o-）更改顶部、中心和底部控制器。每个控制器的初始设置在▲的位置，<b>控制器只能逐步一格一格调整。</b><br/>
-        控制器能够控制大空调的温度、湿度和风量，但三个控制器对温度、湿度和风量大小的具体影响需要你自己探索。<br/>
-        由于基础设定，在控制器归零时（即▲位置）进行调控，大空调也会调整某些参数。<br/>
-        当你设置好控制器后，点击"调控"键，你将在温度、湿度和风量曲线图中看到大空调的任何变化。<br/>
+        控制器能够控制中央空调的温度、湿度和风量，但三个控制器对温度、湿度和风量大小的具体影响需要你自己探索。<br/>
+        由于基础设定，在控制器归零时（即▲位置）进行调控，中央空调也会调整某些参数。<br/>
+        当你设置好控制器后，点击"调控"键，你将在温度、湿度和风量曲线图中看到中央空调的任何变化。<br/>
         点击"重置"键，你可以将所有控制器重置到初始设置，温度、湿度和风量数字也将变回初始值。鼠标置于曲线图的点上能查看该点的具体值。
       </p>
       <div class="control-and-chart">
@@ -53,9 +53,9 @@
         centralControl: 0,
         bottomControl: 0,
         // 温度、湿度和风量
-        temp: 20,
-        humid: 0,
-        wind: 0,
+        temp: 26,
+        humid: 100,
+        wind: 33,
       };
     },
     methods: {
@@ -73,7 +73,7 @@
         this.$refs.chartComponent.addData('humid', this.humid);
 
         // 更新风量
-        const newWind = this.wind + 2.5 * this.centralControl + 0.25;
+        const newWind = this.wind + 5 * this.centralControl - 2;
         this.wind = Math.max(0, newWind.toFixed(2));
         // 更新曲线图
         this.$refs.chartComponent.addData('wind', this.wind);
@@ -84,9 +84,9 @@
         this.topControl = 0;
         this.centralControl = 0;
         this.bottomControl = 0;
-        this.temp = 20;
-        this.humid = 0;
-        this.wind = 0;
+        this.temp = 26;
+        this.humid = 100;
+        this.wind = 33;
 
         // 调用 ChartComponent 的 resetChart 方法
         this.$refs.chartComponent.resetChart();

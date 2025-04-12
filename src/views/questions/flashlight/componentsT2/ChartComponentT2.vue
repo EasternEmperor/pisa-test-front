@@ -3,9 +3,9 @@
     <div class="question-text">
       <h3>请调控手电筒至下述照射距离、光线亮度和照射范围</h3>
       <p>
-        距离：25米左右<br />
-        亮度：5左右<br />
-        范围：5左右
+        距离：22米左右<br />
+        亮度：20左右<br />
+        范围：15左右
       </p>
     </div>
     <div class="chart-row">
@@ -45,11 +45,11 @@ export default {
   },
   data() {
     return {
-      distanceData: [0],
+      distanceData: [30],
       distanceOpIdx: [0],
-      brightnessData: [0],
+      brightnessData: [20],
       brightnessOpIdx: [0],
-      areaData: [0],
+      areaData: [30],
       areaOpIdx: [0],
       chart: null // Chart.js实例
     };
@@ -226,11 +226,11 @@ export default {
     },
     resetChart() {
       // 清空数据并重置图表
-      this.distanceData = [0];
+      this.distanceData = [30];
       this.distanceOpIdx = [0];
-      this.brightnessData = [0];
+      this.brightnessData = [20];
       this.brightnessOpIdx = [0];
-      this.areaData = [0];
+      this.areaData = [30];
       this.areaOpIdx = [0];
 
       this.updateChart();

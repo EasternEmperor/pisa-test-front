@@ -3,10 +3,10 @@
     <div class="question-text">
       <h3>请调控果茶制作机制作一杯容量、温度、甜度和果肉数量符合下述要求的果茶：</h3>
       <p>
-        容量：500ml左右<br />
-        温度：10左右<br />
-        甜度：5左右<br />
-        果肉数量：3左右
+        容量：500-510毫升之间<br />
+        温度：35度左右<br />
+        甜度：9左右<br />
+        果肉数量：13左右
       </p>
     </div>
     <div class="chart-row">
@@ -53,13 +53,13 @@ export default {
   },
   data() {
     return {
-      capacityData: [0],
+      capacityData: [550],
       capacityOpIdx: [0],
-      tempData: [0],
+      tempData: [50],
       tempOpIdx: [0],
-      sweetnessData: [0],
+      sweetnessData: [10],
       sweetnessOpIdx: [0],
-      pulpData: [0],
+      pulpData: [10],
       pulpOpIdx: [0],
       chart: null // Chart.js实例
     };
@@ -82,7 +82,7 @@ export default {
           data: {
             labels: ['初始值'],
             datasets: [{
-              label: '容量(ml)',
+              label: '容量（毫升）',
               data: this.capacityData,
               borderColor: 'red',
               borderWidth: 2,
@@ -108,7 +108,7 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '容量(ml)',
+                  text: '容量（毫升）',
                   font: { size: 14, weight: 'bold' }
                 }
               }
@@ -120,7 +120,7 @@ export default {
           data: {
             labels: ['初始值'],
             datasets: [{
-              label: '温度',
+              label: '温度（度）',
               data: this.tempData,
               borderColor: 'blue',
               borderWidth: 2,
@@ -146,7 +146,7 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '温度',
+                  text: '温度（度）',
                   font: { size: 14, weight: 'bold' }
                 }
               }
@@ -286,13 +286,13 @@ export default {
     },
     resetChart() {
       // 清空数据并重置图表
-      this.capacityData = [0];
+      this.capacityData = [550];
       this.capacityOpIdx = [0];
-      this.tempData = [0];
+      this.tempData = [50];
       this.tempOpIdx = [0];
-      this.sweetnessData = [0];
+      this.sweetnessData = [10];
       this.sweetnessOpIdx = [0];
-      this.pulpData = [0];
+      this.pulpData = [10];
       this.pulpOpIdx = [0];
 
       this.updateChart();

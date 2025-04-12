@@ -55,10 +55,10 @@
         bottomControl: 0,
         lastControl: 0,
         // 咖啡容量、酸涩度、甜度和浓稠度
-        capacity: 0,
-        bitterness: 0,
-        sweetness: 0,
-        consistence: 0,
+        capacity: 800,
+        bitterness: 10,
+        sweetness: 10,
+        consistence: 15,
       };
     },
     methods: {
@@ -83,7 +83,7 @@
         this.$refs.chartComponent.addData('sweetness', this.sweetness);
 
         // 更新浓稠度
-        const newConsistence = this.consistence + 2 * this.lastControl;
+        const newConsistence = this.consistence + 2.5 * this.lastControl;
         this.consistence = Math.max(0, newConsistence.toFixed(2));
         // 更新曲线图
         this.$refs.chartComponent.addData('consistence', this.consistence);

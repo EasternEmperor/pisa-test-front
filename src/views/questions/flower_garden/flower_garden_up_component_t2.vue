@@ -56,15 +56,15 @@
         lastControl: 0,
         // 温度、水分和养料
         temp: 20,
-        water: 0,
-        fertilizer: 0,
+        water: 25,
+        fertilizer: 15,
       };
     },
     methods: {
       applyChanges() {
         this.applyTimes++;
         // 更新温度
-        const newTemp = this.temp + 2 * this.bottomControl + 0.1;
+        const newTemp = this.temp + 2 * this.bottomControl + 0.5;
         this.temp = Math.max(0, newTemp.toFixed(2));
         // 更新曲线图
         this.$refs.chartComponent.addData('temp', this.temp);
@@ -89,8 +89,8 @@
         this.bottomControl = 0;
         this.lastControl = 0;
         this.temp = 20;
-        this.water = 0;
-        this.fertilizer = 0;
+        this.water = 25;
+        this.fertilizer = 15;
 
         // 调用 ChartComponent 的 resetChart 方法
         this.$refs.chartComponent.resetChart();

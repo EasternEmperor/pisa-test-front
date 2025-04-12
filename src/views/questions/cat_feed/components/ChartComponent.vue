@@ -28,9 +28,9 @@ export default {
   },
   data() {
     return {
-      foodData: [25],
+      foodData: [55],
       foodOpIdx: [0],
-      waterData: [25],
+      waterData: [100],
       waterOpIdx: [0],
       chart: null // Chart.js实例
     };
@@ -89,7 +89,7 @@ export default {
           data: {
             labels: ['初始值'],
             datasets: [{
-              label: '出水量(ml)',
+              label: '出水量(毫升)',
               data: this.waterData,
               borderColor: 'blue',
               borderWidth: 2,
@@ -115,7 +115,7 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '出水量(ml)',
+                  text: '出水量(毫升)',
                   font: { size: 14, weight: 'bold' }
                 }
               }
@@ -157,9 +157,9 @@ export default {
     },
     resetChart() {
       // 清空数据并重置图表
-      this.foodData = [25];
+      this.foodData = [55];
       this.foodOpIdx = [0];
-      this.waterData = [25];
+      this.waterData = [100];
       this.waterOpIdx = [0];
 
       this.updateChart();

@@ -54,9 +54,9 @@
         bottomControl: 0,
         lastControl: 0,
         // 米饭硬度、香甜度和煮饭时间
-        hardness: 0,
-        sweetness: 0,
-        cookTime: 0,
+        hardness: 10,
+        sweetness: 10,
+        cookTime: 100,
       };
     },
     methods: {
@@ -87,9 +87,9 @@
         this.centralControl = 0;
         this.bottomControl = 0;
         this.lastControl = 0;
-        this.hardness = 0;
-        this.sweetness = 0;
-        this.cookTime = 0;
+        this.hardness = 10;
+        this.sweetness = 10;
+        this.cookTime = 100;
 
         // 调用 ChartComponent 的 resetChart 方法
         this.$refs.chartComponent.resetChart();

@@ -492,6 +492,17 @@
             { label: '取景范围', prop: 'rangeValue' },
             { label: '连线答案', prop: 'diagramState' }
           ];
+        } else if (tableName === 15) {
+          this.tableColumns = [
+            { label: '问题名称', prop: 'htmlName' },
+            { label: '用户名', prop: 'userName' },
+            { label: '答题次序', prop: 'ithAnswer' },
+            { label: '操作事件', prop: 'event' },
+            { label: '事件类型', prop: 'eventType' },
+            { label: '事件开始时间', prop: 'eventStartTime' },
+            { label: '事件顺序', prop: 'eventNumber' },
+            { label: '座位分配情况', prop: 'diagramState' }
+          ];
         } else {
           this.tableColumns = [];
         }

@@ -3,8 +3,8 @@
     <div class="question-text">
       <h3>请调控电饭煲制作一份硬度、香甜度和煮饭时间符合下述要求的米饭：</h3>
       <p>
-        硬度：-0.5到0.5之间<br />
-        香甜度：4左右<br />
+        硬度：12左右<br />
+        香甜度：14左右<br />
         煮饭时间：60分钟左右
       </p>
     </div>
@@ -45,11 +45,11 @@ export default {
   },
   data() {
     return {
-      hardnessData: [0],
+      hardnessData: [10],
       hardnessOpIdx: [0],
-      sweetnessData: [0],
+      sweetnessData: [10],
       sweetnessOpIdx: [0],
-      cookTimeData: [0],
+      cookTimeData: [100],
       cookTimeOpIdx: [0],
       chart: null // Chart.js实例
     };
@@ -226,11 +226,11 @@ export default {
     },
     resetChart() {
       // 清空数据并重置图表
-      this.hardnessData = [0];
+      this.hardnessData = [10];
       this.hardnessOpIdx = [0];
-      this.sweetnessData = [0];
+      this.sweetnessData = [10];
       this.sweetnessOpIdx = [0];
-      this.cookTimeData = [0];
+      this.cookTimeData = [100];
       this.cookTimeOpIdx = [0];
 
       this.updateChart();

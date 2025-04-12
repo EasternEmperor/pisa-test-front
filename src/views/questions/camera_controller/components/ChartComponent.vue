@@ -44,13 +44,13 @@ export default {
   },
   data() {
     return {
-      brightnessData: [0],
+      brightnessData: [10],
       brightnessOpIdx: [0],
-      definitionData: [0],
+      definitionData: [10],
       definitionOpIdx: [0],
-      virtualizationData: [0],
+      virtualizationData: [10],
       virtualizationOpIdx: [0],
-      rangeData: [0],
+      rangeData: [10],
       rangeOpIdx: [0],
       chart: null // Chart.js实例
     };
@@ -277,13 +277,13 @@ export default {
     },
     resetChart() {
       // 清空数据并重置图表
-      this.brightnessData = [0];
+      this.brightnessData = [10];
       this.brightnessOpIdx = [0];
-      this.definitionData = [0];
+      this.definitionData = [10];
       this.definitionOpIdx = [0];
-      this.virtualizationData = [0];
+      this.virtualizationData = [10];
       this.virtualizationOpIdx = [0];
-      this.rangeData = [0];
+      this.rangeData = [10];
       this.rangeOpIdx = [0];
 
       this.updateChart();

@@ -52,8 +52,8 @@
         centralControl: 0,
         bottomControl: 0,
         // 食物量和出水量
-        definition: 0,
-        projection: 0,
+        definition: 6,
+        projection: 8,
         applyTimes: 0
       };
     },
@@ -78,8 +78,8 @@
         this.topControl = 0;
         this.centralControl = 0;
         this.bottomControl = 0;
-        this.definition = 0;
-        this.projection = 0;
+        this.definition = 6;
+        this.projection = 8;
 
         // 调用 ChartComponent 的 resetChart 方法
         this.$refs.chartComponent.resetChart();

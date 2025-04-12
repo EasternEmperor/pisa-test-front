@@ -56,10 +56,10 @@
         bottomControl: 0,
         lastControl: 0,
         // 咖啡容量、酸涩度、甜度和浓稠度
-        capacity: 0,
-        bitterness: 0,
-        sweetness: 0,
-        consistence: 0
+        capacity: 800,
+        bitterness: 10,
+        sweetness: 10,
+        consistence: 15
       };
     },
     methods: {
@@ -83,7 +83,7 @@
         this.$refs.chartComponent.addData('sweetness', this.sweetness);
 
         // 更新浓稠度
-        const newConsistence = this.consistence + 2 * this.lastControl;
+        const newConsistence = this.consistence + 2.5 * this.lastControl;
         this.consistence = Math.max(0, newConsistence.toFixed(2));
         // 更新曲线图
         this.$refs.chartComponent.addData('consistence', this.consistence);
@@ -95,10 +95,10 @@
         this.centralControl = 0;
         this.bottomControl = 0;
         this.lastControl = 0;
-        this.capacity = 0;
-        this.bitterness = 0;
-        this.sweetness = 0;
-        this.consistence = 0;
+        this.capacity = 800;
+        this.bitterness = 10;
+        this.sweetness = 10;
+        this.consistence = 15;
 
         // 调用 ChartComponent 的 resetChart 方法
         this.$refs.chartComponent.resetChart();

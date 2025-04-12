@@ -53,9 +53,9 @@
         centralControl: 0,
         bottomControl: 0,
         // 出水总量、出水温度和出水速度
-        volume: 150,
-        temp: 13,
-        speed: 10,
+        volume: 600,
+        temp: 45,
+        speed: 15,
       };
     },
     methods: {
@@ -73,7 +73,7 @@
         this.$refs.chartComponent.addData('temp', this.temp);
 
         // 更新出水速度
-        const newSpeed = this.speed + 20 * this.topControl + 5 * this.centralControl - 0.5;
+        const newSpeed = this.speed + 10 * this.topControl + 5 * this.centralControl - 0.5;
         this.speed = Math.max(0, newSpeed.toFixed(2));
         // 更新曲线图
         this.$refs.chartComponent.addData('speed', this.speed);
@@ -84,9 +84,9 @@
         this.topControl = 0;
         this.centralControl = 0;
         this.bottomControl = 0;
-        this.volume = 150;
-        this.temp = 13;
-        this.speed = 10;
+        this.volume = 600;
+        this.temp = 45;
+        this.speed = 15;
 
         // 调用 ChartComponent 的 resetChart 方法
         this.$refs.chartComponent.resetChart();

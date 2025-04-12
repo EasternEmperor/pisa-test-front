@@ -51,7 +51,7 @@ export default {
           data: {
             labels: ['初始值'],
             datasets: [{
-              label: '温度',
+              label: '温度（度）',
               data: this.temperatureData,
               borderColor: 'red',
               borderWidth: 2,
@@ -77,7 +77,7 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '温度值',
+                  text: '温度（度）',
                   font: { size: 14, weight: 'bold' }
                 }
               }

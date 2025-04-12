@@ -37,11 +37,11 @@ export default {
   },
   data() {
     return {
-      hardnessData: [0],
+      hardnessData: [10],
       hardnessOpIdx: [0],
-      sweetnessData: [0],
+      sweetnessData: [10],
       sweetnessOpIdx: [0],
-      cookTimeData: [0],
+      cookTimeData: [100],
       cookTimeOpIdx: [0],
       chart: null // Chart.js实例
     };
@@ -218,11 +218,11 @@ export default {
     },
     resetChart() {
       // 清空数据并重置图表
-      this.hardnessData = [0];
+      this.hardnessData = [10];
       this.hardnessOpIdx = [0];
-      this.sweetnessData = [0];
+      this.sweetnessData = [10];
       this.sweetnessOpIdx = [0];
-      this.cookTimeData = [0];
+      this.cookTimeData = [100];
       this.cookTimeOpIdx = [0];
 
       this.updateChart();

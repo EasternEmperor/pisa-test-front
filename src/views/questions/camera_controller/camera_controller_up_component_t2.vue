@@ -55,17 +55,17 @@
         bottomControl: 0,
         lastControl: 0,
         // 照片亮度、清晰度、虚化程度和取景范围
-        brightness: 0,
-        definition: 0,
-        virtualization: 0,
-        range: 0,
+        brightness: 10,
+        definition: 10,
+        virtualization: 10,
+        range: 10,
       };
     },
     methods: {
       applyChanges() {
         this.applyTimes++;
         // 更新亮度
-        const newBrightness = this.brightness + 1.5 * this.topControl - this.bottomControl;
+        const newBrightness = this.brightness + 1.5 * this.topControl - 2 * this.bottomControl;
         this.brightness = Math.max(0, newBrightness.toFixed(2));
         // 更新曲线图
         this.$refs.chartComponent.addData('brightness', this.brightness);
@@ -77,7 +77,7 @@
         this.$refs.chartComponent.addData('definition', this.definition);
 
         // 更新虚化程度
-        const newVirtualization = this.virtualization + 3 * this.topControl;
+        const newVirtualization = this.virtualization + 1.5 * this.topControl;
         this.virtualization = Math.max(0, newVirtualization.toFixed(2));
         // 更新曲线图
         this.$refs.chartComponent.addData('virtualization', this.virtualization);
@@ -95,10 +95,10 @@
         this.centralControl = 0;
         this.bottomControl = 0;
         this.lastControl = 0;
-        this.brightness = 0;
-        this.definition = 0;
-        this.virtualization = 0;
-        this.range = 0;
+        this.brightness = 10;
+        this.definition = 10;
+        this.virtualization = 10;
+        this.range = 10;
 
         // 调用 ChartComponent 的 resetChart 方法
         this.$refs.chartComponent.resetChart();

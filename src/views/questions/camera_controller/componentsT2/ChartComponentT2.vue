@@ -3,10 +3,10 @@
     <div class="question-text">
       <h3>请调控照相机拍摄一张亮度、清晰度、虚化程度和取景范围符合下述要求的照片：</h3>
       <p>
-        亮度：4左右<br />
-        清晰度：3左右<br />
-        虚化程度：7左右<br />
-        取景范围：4左右
+        亮度：15左右<br />
+        清晰度：13左右<br />
+        虚化程度：13左右<br />
+        取景范围：6左右
       </p>
     </div>
     <div class="chart-row">
@@ -53,13 +53,13 @@ export default {
   },
   data() {
     return {
-      brightnessData: [0],
+      brightnessData: [10],
       brightnessOpIdx: [0],
-      definitionData: [0],
+      definitionData: [10],
       definitionOpIdx: [0],
-      virtualizationData: [0],
+      virtualizationData: [10],
       virtualizationOpIdx: [0],
-      rangeData: [0],
+      rangeData: [10],
       rangeOpIdx: [0],
       chart: null // Chart.js实例
     };
@@ -286,13 +286,13 @@ export default {
     },
     resetChart() {
       // 清空数据并重置图表
-      this.brightnessData = [0];
+      this.brightnessData = [10];
       this.brightnessOpIdx = [0];
-      this.definitionData = [0];
+      this.definitionData = [10];
       this.definitionOpIdx = [0];
-      this.virtualizationData = [0];
+      this.virtualizationData = [10];
       this.virtualizationOpIdx = [0];
-      this.rangeData = [0];
+      this.rangeData = [10];
       this.rangeOpIdx = [0];
 
       this.updateChart();

@@ -3,9 +3,9 @@
     <div class="question-text">
       <h3>请调控视频播放器至下述播放速度、音量和画质</h3>
       <p>
-        播放速度：1.4-1.6倍速之间<br />
-        音量：40dB左右<br />
-        画质：1K左右
+        播放速度：2.0倍左右<br />
+        音量：40左右<br />
+        画质：1000左右
       </p>
     </div>
     <div class="chart-row">
@@ -47,9 +47,9 @@ export default {
     return {
       speedData: [1],
       speedOpIdx: [0],
-      volumeData: [20],
+      volumeData: [50],
       volumeOpIdx: [0],
-      qualityData: [0.4],
+      qualityData: [1500],
       qualityOpIdx: [0],
       chart: null // Chart.js实例
     };
@@ -109,7 +109,7 @@ export default {
           data: {
             labels: ['初始值'],
             datasets: [{
-              label: '音量(dB)',
+              label: '音量',
               data: this.volumeData,
               borderColor: 'blue',
               borderWidth: 2,
@@ -135,7 +135,7 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '音量(dB)',
+                  text: '音量',
                   font: { size: 14, weight: 'bold' }
                 }
               }
@@ -147,7 +147,7 @@ export default {
           data: {
             labels: ['初始值'],
             datasets: [{
-              label: '画质(K)',
+              label: '画质',
               data: this.qualityData,
               borderColor: 'green',
               borderWidth: 2,
@@ -173,7 +173,7 @@ export default {
                 grid: { lineWidth: 2 },
                 title: {
                   display: true,
-                  text: '画质(K)',
+                  text: '画质',
                   font: { size: 14, weight: 'bold' }
                 }
               }
@@ -228,9 +228,9 @@ export default {
       // 清空数据并重置图表
       this.speedData = [1];
       this.speedOpIdx = [0];
-      this.volumeData = [20];
+      this.volumeData = [50];
       this.volumeOpIdx = [0];
-      this.qualityData = [0.4];
+      this.qualityData = [1500];
       this.qualityOpIdx = [0];
 
       this.updateChart();
