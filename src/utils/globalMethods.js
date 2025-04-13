@@ -65,6 +65,8 @@ export default {
                 this.$router.push('/questions/water_dispenser/water_dispenser_t1');
               } else if (htmlName === 'water_dispenser_t2') {
                 this.$router.push('/questions/water_dispenser/water_dispenser_t2');
+              } else if (htmlName === 'seats_schedule') {
+                this.$router.push('/questions/seats_schedule/seats_schedule');
               } else if (htmlName === 'finished') {
                 this.$router.push('/FinishTest');
               } else {

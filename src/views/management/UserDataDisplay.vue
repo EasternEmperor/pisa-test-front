@@ -216,7 +216,7 @@
                       acc[column.label] = column.prop;
                       return acc;
                     }, {}),
-            fileName: `答题数据_${moment().format('YYYYMMDDHHmmss')}`,
+            fileName: `${this.selectedHtmlName}_${this.selectedUserName}_答题数据_${moment().format('YYYYMMDDHHmmss')}`,
             fileType: 'xlsx'
           }
         };
@@ -501,6 +501,7 @@
             { label: '事件类型', prop: 'eventType' },
             { label: '事件开始时间', prop: 'eventStartTime' },
             { label: '事件顺序', prop: 'eventNumber' },
+            { label: '人员池', prop: 'choosePool' },
             { label: '座位分配情况', prop: 'diagramState' }
           ];
         } else {

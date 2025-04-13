@@ -40,6 +40,7 @@ import VideoPlayerT1 from "../views/questions/video_player/video_player_t1.vue"
 import VideoPlayerT2 from "../views/questions/video_player/video_player_t2.vue"
 import WaterDispenserT1 from "../views/questions/water_dispenser/water_dispenser_t1.vue"
 import WaterDispenserT2 from "../views/questions/water_dispenser/water_dispenser_t2.vue"
+import SeatsSchedule from "../views/questions/seats_schedule/seats_schedule.vue"
 
 // 创建并暴露一个路由器
 const router = new VueRouter({
@@ -188,6 +189,10 @@ const router = new VueRouter({
         {
             path: '/questions/water_dispenser/water_dispenser_t2',
             component: WaterDispenserT2
+        },
+        {
+            path: '/questions/seats_schedule/seats_schedule',
+            component: SeatsSchedule
         }
     ],
     scrollBehavior(to, from, savedPosition) {
