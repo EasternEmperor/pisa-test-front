@@ -504,6 +504,40 @@
             { label: '人员池', prop: 'choosePool' },
             { label: '座位分配情况', prop: 'diagramState' }
           ];
+        } else if (tableName === 16) {
+          this.tableColumns = [
+            { label: '问题名称', prop: 'htmlName' },
+            { label: '用户名', prop: 'userName' },
+            { label: '答题次序', prop: 'ithAnswer' },
+            { label: '操作事件', prop: 'event' },
+            { label: '事件类型', prop: 'eventType' },
+            { label: '事件开始时间', prop: 'eventStartTime' },
+            { label: '事件顺序', prop: 'eventNumber' },
+            { label: 'top control设置', prop: 'topSetting' },
+            { label: 'central control设置', prop: 'centralSetting' },
+            { label: 'bottom control设置', prop: 'bottomSetting' },
+            { label: '照射面积', prop: 'areaValue' },
+            { label: '照射时间', prop: 'timeValue' },
+            { label: '照相强度', prop: 'strengthValue'},
+            { label: '连线答案', prop: 'diagramState' }
+          ];
+        } else if (tableName === 17) {
+          this.tableColumns = [
+            { label: '问题名称', prop: 'htmlName' },
+            { label: '用户名', prop: 'userName' },
+            { label: '答题次序', prop: 'ithAnswer' },
+            { label: '操作事件', prop: 'event' },
+            { label: '事件类型', prop: 'eventType' },
+            { label: '事件开始时间', prop: 'eventStartTime' },
+            { label: '事件顺序', prop: 'eventNumber' },
+            { label: 'top control设置', prop: 'topSetting' },
+            { label: 'central control设置', prop: 'centralSetting' },
+            { label: 'bottom control设置', prop: 'bottomSetting' },
+            { label: '房间温度', prop: 'tempValue' },
+            { label: '房间湿度', prop: 'humidValue' },
+            { label: '桑拿时间', prop: 'timeValue' },
+            { label: '连线答案', prop: 'diagramState' }
+          ];
         } else {
           this.tableColumns = [];
         }

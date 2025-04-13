@@ -67,6 +67,14 @@ export default {
                 this.$router.push('/questions/water_dispenser/water_dispenser_t2');
               } else if (htmlName === 'seats_schedule') {
                 this.$router.push('/questions/seats_schedule/seats_schedule');
+              } else if (htmlName === 'sunlight_controller_t1') {
+                this.$router.push('/questions/sunlight_controller/sunlight_controller_t1');
+              } else if (htmlName === 'sunlight_controller_t2') {
+                this.$router.push('/questions/sunlight_controller/sunlight_controller_t2');
+              } else if (htmlName === 'sauna_controller_t1') {
+                this.$router.push('/questions/sauna_controller/sauna_controller_t1');
+              } else if (htmlName ==='sauna_controller_t2') {
+                this.$router.push('/questions/sauna_controller/sauna_controller_t2');
               } else if (htmlName === 'finished') {
                 this.$router.push('/FinishTest');
               } else {

@@ -1,0 +1,283 @@
+<template>
+  <div class="chart-component">
+    <div class="question-text">
+      <h3>请调控桑拿房至下述温度、湿度和桑拿时间</h3>
+      <p>
+        房间温度：30度<br />
+        房间湿度：50<br />
+        桑拿时间：60分钟
+      </p>
+    </div>
+    <div class="chart-row">
+      <div class="chart-item">
+        <canvas ref="tempChart"></canvas>
+      </div>
+      <div class="chart-item">
+        <canvas ref="humidChart"></canvas>
+      </div>
+    </div>
+    <div class="chart-row">
+      <div class="chart-item">
+        <canvas ref="timeChart"></canvas>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { Chart } from "chart.js";
+
+export default {
+  name: "ChartComponent",
+  props: {
+    temp: {
+      type: Number,
+      required: true,
+    },
+    humid: {
+      type: Number,
+      required: true,
+    },
+    time: {
+      type: Number,
+      required: true
+    }
+  },
+  data() {
+    return {
+      tempData: [25],
+      tempOpIdx: [0],
+      humidData: [50],
+      humidOpIdx: [0],
+      timeData: [45],
+      timeOpIdx: [0],
+      chart: null // Chart.js实例
+    };
+  },
+  mounted() {
+    // 初始化图表
+    this.initializeChart();
+  },
+  methods: {
+    initializeChart() {
+      const ctxTemp = this.$refs.tempChart.getContext('2d');
+      const ctxHumid = this.$refs.humidChart.getContext('2d');
+      const ctxTime = this.$refs.timeChart.getContext('2d');
+
+      // 初始化三个图表
+      this.chart = {
+        temp: new Chart(ctxTemp, {
+          type: 'line',
+          data: {
+            labels: ['初始值'],
+            datasets: [{
+              label: '温度（度）',
+              data: this.tempData,
+              borderColor: 'red',
+              borderWidth: 2,
+              fill: false,
+              tension: 0 // 禁用平滑曲线
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            scales: {
+              x: {
+                ticks: { beginAtZero: true },
+                grid: { lineWidth: 2 },
+                title: {
+                  display: true,
+                  text: '调控',
+                  font: { size: 14, weight: 'bold' }
+                }
+              },
+              y: {
+                ticks: { beginAtZero: true },
+                grid: { lineWidth: 2 },
+                title: {
+                  display: true,
+                  text: '温度（度）',
+                  font: { size: 14, weight: 'bold' }
+                }
+              }
+            }
+          }
+        }),
+        humid: new Chart(ctxHumid, {
+          type: 'line',
+          data: {
+            labels: ['初始值'],
+            datasets: [{
+              label: '湿度',
+              data: this.humidData,
+              borderColor: 'blue',
+              borderWidth: 2,
+              fill: false,
+              tension: 0 // 禁用平滑曲线
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            scales: {
+              x: {
+                ticks: { beginAtZero: true },
+                grid: { lineWidth: 2 },
+                title: {
+                  display: true,
+                  text: '调控',
+                  font: { size: 14, weight: 'bold' }
+                }
+              },
+              y: {
+                ticks: { beginAtZero: true },
+                grid: { lineWidth: 2 },
+                title: {
+                  display: true,
+                  text: '湿度',
+                  font: { size: 14, weight: 'bold' }
+                }
+              }
+            }
+          }
+        }),
+        time: new Chart(ctxTime, {
+          type: 'line',
+          data: {
+            labels: ['初始值'],
+            datasets: [{
+              label: '风量',
+              data: this.timeData,
+              borderColor: 'green',
+              borderWidth: 2,
+              fill: false,
+              tension: 0 // 禁用平滑曲线
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            scales: {
+              x: {
+                ticks: { beginAtZero: true },
+                grid: { lineWidth: 2 },
+                title: {
+                  display: true,
+                  text: '调控',
+                  font: { size: 14, weight: 'bold' }
+                }
+              },
+              y: {
+                ticks: { beginAtZero: true },
+                grid: { lineWidth: 2 },
+                title: {
+                  display: true,
+                  text: '风量',
+                  font: { size: 14, weight: 'bold' }
+                }
+              }
+            }
+          }
+        })
+      };
+    },
+    addData(type, value) {
+      // 限制最多6个数据点
+      if (type === 'temp') {
+        if (this.tempData.length >= 6) {
+          this.tempData.shift();
+          this.tempOpIdx.shift();
+        }
+        this.tempData.push(value);
+        this.tempOpIdx.push(this.tempOpIdx[this.tempOpIdx.length - 1] + 1);
+      } else if (type === 'humid') {
+        if (this.humidData.length >= 6) {
+          this.humidData.shift();
+          this.humidOpIdx.shift();
+        }
+        this.humidData.push(value);
+        this.humidOpIdx.push(this.humidOpIdx[this.humidOpIdx.length - 1] + 1);
+      } else if (type === 'time') {
+        if (this.timeData.length >= 6) {
+          this.timeData.shift();
+          this.timeOpIdx.shift();
+        }
+        this.timeData.push(value);
+        this.timeOpIdx.push(this.timeOpIdx[this.timeOpIdx.length - 1] + 1);
+      }
+
+      // 更新图表
+      this.updateChart();
+    },
+    updateChart() {
+      this.chart.temp.data.labels = this.tempOpIdx.map(i => i === 0 ? '初始值' : `调控: ${i}`);
+      this.chart.temp.data.datasets[0].data = this.tempData;
+
+      this.chart.humid.data.labels = this.humidOpIdx.map(i => i === 0 ? '初始值' : `调控: ${i}`);
+      this.chart.humid.data.datasets[0].data = this.humidData;
+
+      this.chart.time.data.labels = this.timeOpIdx.map(i => i === 0 ? '初始值' : `调控: ${i}`);
+      this.chart.time.data.datasets[0].data = this.timeData;
+
+      this.chart.temp.update();
+      this.chart.humid.update();
+      this.chart.time.update();
+    },
+    resetChart() {
+      // 清空数据并重置图表
+      this.tempData = [25];
+      this.tempOpIdx = [0];
+      this.humidData = [50];
+      this.humidOpIdx = [0];
+      this.timeData = [45];
+      this.timeOpIdx = [0];
+
+      this.updateChart();
+    },
+    beforeDestroy() {
+      if (this.chart) {
+        this.chart.temp.destroy();
+        this.chart.humid.destroy();
+        this.chart.time.destroy();
+      }
+    }
+  }
+};
+</script>
+
+<style scoped>
+.chart-component {
+  width: 100%;
+  display: flex;
+  flex-direction: column; /* 垂直排列 */
+  justify-content: center;
+  align-items: center;
+}
+
+.question-text {
+  text-align: center; /* 文字居中对齐 */
+  margin-bottom: 20px; /* 增加文字与图表之间的间距 */
+}
+
+.chart-row {
+  display: flex;
+  flex-direction: row; /* 图表仍然并排显示 */
+  gap: 10px; /* 控制两个图表之间的间距 */
+  width: 100%;
+  justify-content: center;
+}
+
+.chart-item {
+  flex: 1;
+  max-width: 45%; /* 每个图表的最大宽度 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+canvas {
+  width: 100%;
+  height: 200px;
+}
+</style>

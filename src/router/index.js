@@ -41,6 +41,10 @@ import VideoPlayerT2 from "../views/questions/video_player/video_player_t2.vue"
 import WaterDispenserT1 from "../views/questions/water_dispenser/water_dispenser_t1.vue"
 import WaterDispenserT2 from "../views/questions/water_dispenser/water_dispenser_t2.vue"
 import SeatsSchedule from "../views/questions/seats_schedule/seats_schedule.vue"
+import SunlightControllerT1 from "../views/questions/sunlight_controller/sunlight_controller_t1.vue"
+import SunlightControllerT2 from "../views/questions/sunlight_controller/sunlight_controller_t2.vue"
+import SaunaControllerT1 from "../views/questions/sauna_controller/sauna_controller_t1.vue"
+import SaunaControllerT2 from "../views/questions/sauna_controller/sauna_controller_t2.vue"
 
 // 创建并暴露一个路由器
 const router = new VueRouter({
@@ -193,6 +197,22 @@ const router = new VueRouter({
         {
             path: '/questions/seats_schedule/seats_schedule',
             component: SeatsSchedule
+        },
+        {
+            path: '/questions/sunlight_controller/sunlight_controller_t1',
+            component: SunlightControllerT1
+        },
+        {
+            path: '/questions/sunlight_controller/sunlight_controller_t2',
+            component: SunlightControllerT2
+        },
+        {
+            path: '/questions/sauna_controller/sauna_controller_t1',
+            component: SaunaControllerT1
+        },
+        {
+            path: '/questions/sauna_controller/sauna_controller_t2',
+            component: SaunaControllerT2
         }
     ],
     scrollBehavior(to, from, savedPosition) {
