@@ -1,5 +1,14 @@
 module.exports = {
     lintOnSave: false, // 关闭语法检测
+    // 浏览器标签页标题（注入 public/index.html 的 htmlWebpackPlugin.options.title）
+    pages: {
+        index: {
+            entry: 'src/main.js',
+            template: 'public/index.html',
+            filename: 'index.html',
+            title: 'problem-solving'
+        }
+    },
     // 开启代理服务器
     devServer: {
         host: '47.111.127.66', // 主机地址
