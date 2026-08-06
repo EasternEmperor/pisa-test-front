@@ -7,7 +7,7 @@ module.exports = {
         // 代理服务器可以将路由中的指定前缀转发到指定的后端服务器中
         proxy: {
             '/api': {
-                target: 'http://47.111.127.66:8080',
+                target: 'https://pisa.zqlyxz.com', // 2026-08: 域名已上线，经 Cloudflare 反代到源站后端
                 ws: true, // 是否启用websockets
                 changeOrigin: true,  // 代理时是否更改host
                 pathRewrite: {
