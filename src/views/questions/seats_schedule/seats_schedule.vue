@@ -5,7 +5,7 @@
 
       <!-- 题干部分 -->
       <div class="container-box">
-        <countdown-timer :duration="duration" :timerKey="`timer_${this.no}`" @timeUp="handleTimeUp" />
+        <countdown-timer ref="countdownTimer" :autoStart="false" :duration="duration" :timerKey="`timer_${this.no}`" @timeUp="handleTimeUp" />
         <seats-schedule-up ref="upComponentRef" @applyChanges="handleApply" @resetChanges="handleReset" @submitChanges="handleSubmit"/>
       </div>
     </div>
@@ -55,10 +55,18 @@
         // 删除缓存倒计时
         localStorage.removeItem(`timer_${this.no}`);
       },
+      startAnswerTimer() {
+        const timer = this.$refs.countdownTimer;
+        if (timer && !timer.started) {
+          timer.start();
+        }
+      },
       handleApply({ diagramState, choosePool }) {
+        this.startAnswerTimer();
         this.sendEvent('apply', { diagramState, choosePool });
       },
       handleReset({ diagramState, choosePool }) {
+        this.startAnswerTimer();
         this.sendEvent('reset', { diagramState, choosePool });
       },
       handleSubmit({ diagramState, choosePool }) {

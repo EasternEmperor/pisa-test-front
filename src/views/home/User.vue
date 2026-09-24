@@ -66,6 +66,10 @@
           });
       },
       startTest() {
+        // 清理上一轮残留的题目倒计时缓存，避免剩余时间为0导致题目秒过
+        Object.keys(localStorage)
+          .filter(key => key.startsWith('timer_'))
+          .forEach(key => localStorage.removeItem(key));
         if (this.answerHistory.length > 0) {
           sessionStorage.setItem("ithAnswer", this.formattedHistory.reduce((max, item) => {
                                               return item.ithAnswer + 1 > max ? item.ithAnswer + 1 : max;

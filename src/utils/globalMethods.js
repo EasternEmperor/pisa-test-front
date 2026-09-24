@@ -1,9 +1,21 @@
 // src/globalMethods.js
+
+// 防止重复获取题目：提交与倒计时同时触发、或快速双击时，
+// 多个并发请求会导致页面重复进入同一题（数据中曾出现第7题事件重叠）
+let fetchingQuestion = false;
+
 export default {
     install(Vue) {
       Vue.prototype.$getQuestion = function(no) {
+        if (fetchingQuestion) {
+          console.warn('正在跳转下一题，忽略重复请求: no=' + no);
+          return;
+        }
+        fetchingQuestion = true;
+        const release = () => { fetchingQuestion = false; };
         this.axios.get('/api/test/getQuestion', { params: { no } })
           .then(response => {
+            release();
             if (response.data.code === '0') {
               sessionStorage.setItem("no", response.data.data.no);
               const { htmlName } = response.data.data;
@@ -85,6 +97,7 @@ export default {
             }
           })
           .catch(error => {
+            release();
             console.error(error);
             this.$message.error('获取问题失败');
           });

@@ -10,7 +10,7 @@
   
       <!-- 题目部分 -->
       <div class="container-box question-section">
-        <countdown-timer :duration="duration" :timerKey="`timer_${this.no}`" @timeUp="handleTimeUp" />
+        <countdown-timer ref="countdownTimer" :autoStart="false" :duration="duration" :timerKey="`timer_${this.no}`" @timeUp="handleTimeUp" />
         <div class="question-text">
           <h3>问题2: 调控食物量和出水量</h3>
           <p>
@@ -109,7 +109,14 @@
       handleControl(control) {
         this.sendEvent('control');
       },
+      startAnswerTimer() {
+        const timer = this.$refs.countdownTimer;
+        if (timer && !timer.started) {
+          timer.start();
+        }
+      },
       handleBoxClick(type) {
+        this.startAnswerTimer();
         if (this.selectedControl) {
           if ((this.isControl(this.selectedControl) && this.isControl(type)) || 
               (this.isInfluence(this.selectedControl) && this.isInfluence(type))) {

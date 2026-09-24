@@ -11,7 +11,7 @@
       <!-- 题目部分 -->
       <div class="container-box question-section">
         <div class="question-text">
-          <countdown-timer :duration="duration" :timerKey="`timer_${this.no}`" @timeUp="handleTimeUp" />
+          <countdown-timer ref="countdownTimer" :autoStart="false" :duration="duration" :timerKey="`timer_${this.no}`" @timeUp="handleTimeUp" />
           <h3>问题2: 调控温度和湿度</h3>
           <p>
             三个控制器及其控制的对象如下图连线所示。<br/>
@@ -106,7 +106,14 @@
       handleReset() {
         this.sendEvent('reset');
       },
+      startAnswerTimer() {
+        const timer = this.$refs.countdownTimer;
+        if (timer && !timer.started) {
+          timer.start();
+        }
+      },
       handleBoxClick(type) {
+        this.startAnswerTimer();
         if (this.selectedControl) {
           if ((this.isControl(this.selectedControl) && this.isControl(type)) || 
               (this.isInfluence(this.selectedControl) && this.isInfluence(type))) {

@@ -11,7 +11,7 @@
       <!-- 题目部分 -->
       <div class="container-box question-section">
         <div class="question-text">
-          <countdown-timer :duration="duration" :timerKey="`timer_${this.no}`" @timeUp="handleTimeUp" />
+          <countdown-timer ref="countdownTimer" :autoStart="false" :duration="duration" :timerKey="`timer_${this.no}`" @timeUp="handleTimeUp" />
           <h3>问题1: 控制器功能</h3>
           <p>
             通过改变滑块并应用，弄清楚每个控制器控制着温度和湿度中的哪些因素。<br/>
@@ -153,7 +153,14 @@
       handleReset() {
         this.sendEvent('reset');
       },
+      startAnswerTimer() {
+        const timer = this.$refs.countdownTimer;
+        if (timer && !timer.started) {
+          timer.start();
+        }
+      },
       handleBoxClick(type) {
+        this.startAnswerTimer();
         if (this.selectedControl) {
           if ((this.isControl(this.selectedControl) && this.isControl(type)) || 
               (this.isInfluence(this.selectedControl) && this.isInfluence(type))) {
