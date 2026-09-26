@@ -18,6 +18,7 @@ import TicketsSaleT2 from '../views/questions/tickets_sale/tickets_sale_t2.vue'
 import TicketsSaleT3 from '../views/questions/tickets_sale/tickets_sale_t3.vue'
 import CatFeedT1 from '../views/questions/cat_feed/cat_feed_t1.vue'
 import CatFeedT2 from '../views/questions/cat_feed/cat_feed_t2.vue'
+import CatFeedQ3 from '../views/questions/cat_feed/cat_feed_q3.vue'
 import BigAirControllerT1 from "../views/questions/big_air_controller/big_air_controller_t1.vue"
 import BigAirControllerT2 from "../views/questions/big_air_controller/big_air_controller_t2.vue"
 import CameraControllerT1 from "../views/questions/camera_controller/camera_controller_t1.vue"
@@ -105,6 +106,10 @@ const router = new VueRouter({
         {
             path: '/questions/cat_feed/cat_feed_t2',
             component: CatFeedT2
+        },
+        {
+            path: '/questions/cat_feed/cat_feed_q3',
+            component: CatFeedQ3
         },
         {
             path: '/questions/big_air_controller/big_air_controller_t1',

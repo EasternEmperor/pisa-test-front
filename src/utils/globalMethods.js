@@ -33,6 +33,8 @@ export default {
                 this.$router.push('/questions/cat_feed/cat_feed_t1');
               } else if (htmlName === 'cat_feed_t2') {
                 this.$router.push('/questions/cat_feed/cat_feed_t2');
+              } else if (htmlName === 'cat_feed_q3') {
+                this.$router.push('/questions/cat_feed/cat_feed_q3');
               } else if (htmlName === 'big_air_controller_t1') {
                 this.$router.push('/questions/big_air_controller/big_air_controller_t1');
               } else if (htmlName === 'big_air_controller_t2') {

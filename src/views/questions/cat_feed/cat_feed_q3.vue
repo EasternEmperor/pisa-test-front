@@ -1,0 +1,278 @@
+<template>
+    <div class="cat-feed-q3">
+      <!-- 使用 Header 组件 -->
+      <header-component :userName="userName" />
+
+      <!-- 题干部分 -->
+      <div class="container-box">
+        <cat-feed-up-component-q3
+          ref="upComponentRef"
+          @applyChanges="handleApply"
+          @resetChanges="handleReset"
+          @control="handleControl"
+          @trial="handleTrial"
+        />
+      </div>
+
+      <!-- 题目部分 -->
+      <div class="container-box question-section">
+        <countdown-timer ref="countdownTimer" :autoStart="false" :duration="duration" :timerKey="`timer_${this.no}`" @timeUp="handleTimeUp" />
+        <div class="question-text">
+          <h3>问题3: 判断系统变化并重新达标</h3>
+          <p>
+            系统经过一段时间运行后，自动喂猫机器的工作状态发生了变化。<br/>
+            系统已将输出值和按钮恢复到本题开始时的状态，并<b>自动试运行了一次</b>（顶部控制器设为1，其余为0），试运行结果见曲线图。<br/>
+            请根据试运行结果，重新调节控制器，用尽可能少的鼠标点击次数，再次使<b>食物量处于35-40之间、出水量处于200-250毫升之间</b>（目标与问题2相同）。<br/>
+            达到目标并点击提交后，请判断系统发生了什么变化。
+          </p>
+        </div>
+        <el-row style="margin-top: 20px;" type="flex" justify="center">
+          <el-button type="primary" @click="submitAnswer">提交</el-button>
+        </el-row>
+
+        <!-- 变化判断（达到目标并提交后显示） -->
+        <div class="judge-section" v-if="judgeVisible">
+          <h3>系统发生了什么变化？</h3>
+          <el-radio-group v-model="judgeChoice" class="judge-options">
+            <el-radio label="A">A. 顶部控制器对出水量的作用减弱了</el-radio>
+            <el-radio label="B">B. 中间控制器对食物量的作用减弱了</el-radio>
+            <el-radio label="C">C. 底部控制器对食物量的作用增强了</el-radio>
+            <el-radio label="D">D. 输入与输出关系没有变化</el-radio>
+          </el-radio-group>
+          <el-row style="margin-top: 15px;" type="flex" justify="center">
+            <el-button type="primary" @click="submitJudgment" :disabled="!judgeChoice">提交判断</el-button>
+          </el-row>
+        </div>
+      </div>
+
+    </div>
+  </template>
+
+  <script>
+  import CatFeedUpComponentQ3 from './cat_feed_up_component_q3.vue';
+  import HeaderComponent from '@/components/Header.vue';
+  import CountdownTimer from '@/components/CountdownTimer.vue';
+
+  export default {
+    name: 'CatFeedQ3',
+    components: {
+      CatFeedUpComponentQ3,
+      HeaderComponent,
+      CountdownTimer,
+    },
+    data() {
+      return {
+        userName: '',
+        ithAnswer: -1,
+        no: -1,
+        eventNumber: 1, // 用于记录事件次数
+        duration: 240, // 倒计时时间
+        judgeVisible: false,
+        judgeChoice: null,
+        targetReached: false,
+      };
+    },
+    created() {
+        this.userName = JSON.parse(sessionStorage.getItem('userInfo')).userName;
+        this.ithAnswer = sessionStorage.getItem('ithAnswer');
+        this.no = parseInt(sessionStorage.getItem('no'));
+    },
+    mounted() {
+      this.startAnswer();
+      // 标准化试运行：复位 -> 顶部=1 -> 按新关系运行一次 -> 记录 -> 再次复位
+      this.$refs.upComponentRef.runTrial();
+    },
+    methods: {
+      startAnswer() {
+        this.sendEvent('start');
+      },
+      startAnswerTimer() {
+        const timer = this.$refs.countdownTimer;
+        if (timer && !timer.started) {
+          timer.start();
+        }
+      },
+      handleTrial({ settings, result }) {
+        this.sendEvent('trial', { settings, result });
+        this.$message({
+          message: '系统已自动试运行一次，请观察曲线图中的变化',
+          type: 'info',
+          duration: 4000,
+        });
+      },
+      handleControl() {
+        this.startAnswerTimer();
+        this.sendEvent('control');
+      },
+      handleApply() {
+        this.sendEvent('apply');
+      },
+      handleReset() {
+        this.sendEvent('reset');
+      },
+      submitAnswer() {
+        const upComponent = this.$refs.upComponentRef;
+        this.targetReached = upComponent.isTargetReached();
+        this.sendEvent('submit');
+        if (this.targetReached) {
+          this.judgeVisible = true;
+          this.$message({
+            message: '已达到目标！请判断系统发生了什么变化',
+            type: 'success',
+          });
+          this.$nextTick(() => {
+            const el = this.$el.querySelector('.judge-section');
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+          });
+        } else {
+          this.$message({
+            message: '尚未达到目标（食物量35-40，出水量200-250毫升），请继续调整控制器',
+            type: 'warning',
+          });
+        }
+      },
+      submitJudgment() {
+        if (!this.judgeChoice) {
+          this.$message({ message: '请先选择一个判断选项', type: 'warning' });
+          return;
+        }
+        this.sendEvent('judge', { diagramState: 'Q3_CHOICE:' + this.judgeChoice });
+        this.$message({
+          message: '提交成功，进入下一题～',
+          type: 'success',
+        });
+        this.$getQuestion(this.no + 1);
+        // 删除缓存倒计时
+        localStorage.removeItem(`timer_${this.no}`);
+      },
+      handleTimeUp() {
+        // 自动提交答案
+        this.sendEvent('timeup');
+        this.$message({
+          message: '时间到，自动提交并跳转到下一题！',
+          type: 'warning',
+        });
+        // 跳转下一题
+        this.$getQuestion(this.no + 1);
+        // 删除缓存倒计时
+        localStorage.removeItem(`timer_${this.no}`);
+      },
+      sendEvent(eventType, { settings, result, diagramState } = {}) {
+        const userName = this.userName;
+        const ithAnswer = this.ithAnswer;
+
+        const data = {
+          tableName: 1,
+          htmlName: 'cat_feed_q3',
+          userName: userName,
+          ithAnswer: ithAnswer,
+          event: 'ACER_EVENT',
+          eventType: eventType,
+          eventStartTime: new Date().toISOString(),
+          eventNumber: this.eventNumber,
+          topSetting: "NULL",
+          centralSetting: "NULL",
+          bottomSetting: "NULL",
+          foodValue: "NULL",
+          waterValue: "NULL",
+          diagramState: "NULL",
+          network: null,
+          fareType: null,
+          ticketType: null,
+          numberTrips: null,
+        };
+
+        const upComponent = this.$refs.upComponentRef;
+
+        if (eventType === 'start') {
+          data.event = 'START_ITEM';
+          data.eventType = 'NULL';
+        } else if (eventType === 'submit') {
+          // 提交时同时记录最终按钮设置与输出值（用于判定是否达标）
+          data.event = 'END_ITEM';
+          data.eventType = 'NULL';
+          data.topSetting = upComponent.topControl.toString();
+          data.centralSetting = upComponent.centralControl.toString();
+          data.bottomSetting = upComponent.bottomControl.toString();
+          data.foodValue = upComponent.food.toString();
+          data.waterValue = upComponent.water.toString();
+        } else if (eventType === 'timeup') {
+          data.event = 'TIME_UP';
+          data.eventType = 'NULL';
+          data.topSetting = upComponent.topControl.toString();
+          data.centralSetting = upComponent.centralControl.toString();
+          data.bottomSetting = upComponent.bottomControl.toString();
+          data.foodValue = upComponent.food.toString();
+          data.waterValue = upComponent.water.toString();
+        } else if (eventType === 'trial') {
+          // 标准化试运行：记录试运行按钮设置与输出结果
+          data.topSetting = String(settings.top);
+          data.centralSetting = String(settings.central);
+          data.bottomSetting = String(settings.bottom);
+          data.foodValue = String(result.food);
+          data.waterValue = String(result.water);
+        } else if (eventType === 'judge') {
+          // Q3变化判断选项，diagramState 记录为 Q3_CHOICE:A/B/C/D
+          data.diagramState = diagramState;
+        } else if (eventType === 'control') {
+          data.topSetting = upComponent.topControl.toString();
+          data.centralSetting = upComponent.centralControl.toString();
+          data.bottomSetting = upComponent.bottomControl.toString();
+        } else if (eventType === 'reset' || eventType === 'apply') {
+          data.topSetting = upComponent.topControl.toString();
+          data.centralSetting = upComponent.centralControl.toString();
+          data.bottomSetting = upComponent.bottomControl.toString();
+          data.foodValue = upComponent.food.toString();
+          data.waterValue = upComponent.water.toString();
+        } else {
+          console.error('未知的动作！');
+          return;
+        }
+
+        this.axios.post('/api/test/exploreData', data)
+          .then(response => {
+            if (response.data.code === '0') {
+                this.eventNumber++;
+            }
+          })
+          .catch(error => {
+            console.error('刚才的操作失效，请重新操作！', error);
+          });
+      },
+    }
+  };
+  </script>
+
+  <style scoped>
+  .cat-feed-q3 {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .container-box {
+    padding: 0 20px;
+    margin-bottom: 10px;
+  }
+
+  .question-section {
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+  }
+
+  .judge-section {
+    margin-top: 10px;
+    padding: 15px 20px;
+    border: 1px solid #ebeef5;
+    border-radius: 4px;
+    background-color: #f8f9fb;
+  }
+
+  .judge-options {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  </style>
