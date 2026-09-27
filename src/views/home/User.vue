@@ -38,6 +38,7 @@
       return {
         userName: '', // 从localStorage或其他来源获取
         answerHistory: [],
+      starting: false,
         formattedHistory: []
       };
     },
@@ -66,19 +67,32 @@
           });
       },
       startTest() {
+        // 防连点：一轮只允许启动一次
+        if (this.starting) {
+          return;
+        }
+        this.starting = true;
         // 清理上一轮残留的题目倒计时缓存，避免剩余时间为0导致题目秒过
         Object.keys(localStorage)
           .filter(key => key.startsWith('timer_'))
           .forEach(key => localStorage.removeItem(key));
-        if (this.answerHistory.length > 0) {
-          localStorage.setItem("ithAnswer", this.formattedHistory.reduce((max, item) => {
-                                              return item.ithAnswer + 1 > max ? item.ithAnswer + 1 : max;
-                                          }, -1));
-        } else {
-          localStorage.setItem("ithAnswer", 1);
-        }
-        localStorage.setItem("testBegin", new Date().toISOString());
-        this.$getQuestion(1);
+        // 轮次号由后端基于实际作答数据计算（含中断未完成的轮次），避免与中断轮次撞号
+        this.axios.get('/api/test/getNextIthAnswer', { params: { userName: this.userName } })
+          .then(response => {
+            this.starting = false;
+            if (response.data.code === '0') {
+              localStorage.setItem('ithAnswer', response.data.data);
+              localStorage.setItem('testBegin', new Date().toISOString());
+              this.$getQuestion(1);
+            } else {
+              this.$message.error(response.data.message || '进入测试失败，请重试');
+            }
+          })
+          .catch(error => {
+            this.starting = false;
+            console.error(error);
+            this.$message.error('进入测试失败，请重试');
+          });
       }
     },
     mounted() {
