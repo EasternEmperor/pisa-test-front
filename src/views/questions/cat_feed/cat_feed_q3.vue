@@ -16,15 +16,9 @@
 
       <!-- 题目部分 -->
       <div class="container-box question-section">
-        <countdown-timer ref="countdownTimer" :autoStart="false" :duration="duration" :timerKey="`timer_${this.no}`" @timeUp="handleTimeUp" />
+        <countdown-timer ref="countdownTimer" :duration="duration" :timerKey="`timer_${this.no}`" @timeUp="handleTimeUp" />
         <div class="question-text">
           <h3>问题3: 判断系统变化并重新达标</h3>
-          <p>
-            系统经过一段时间运行后，自动喂猫机器的工作状态发生了变化。<br/>
-            系统已将输出值和按钮恢复到本题开始时的状态，并<b>自动试运行了一次</b>（顶部控制器设为1，其余为0），试运行结果见曲线图。<br/>
-            请根据试运行结果，重新调节控制器，用尽可能少的鼠标点击次数，再次使<b>食物量处于35-40之间、出水量处于200-250毫升之间</b>（目标与问题2相同）。<br/>
-            达到目标并点击提交后，请判断系统发生了什么变化。
-          </p>
         </div>
         <el-row style="margin-top: 20px;" type="flex" justify="center">
           <el-button type="primary" @click="submitAnswer">提交</el-button>
@@ -86,12 +80,6 @@
       startAnswer() {
         this.sendEvent('start');
       },
-      startAnswerTimer() {
-        const timer = this.$refs.countdownTimer;
-        if (timer && !timer.started) {
-          timer.start();
-        }
-      },
       handleTrial({ settings, result }) {
         this.sendEvent('trial', { settings, result });
         this.$message({
@@ -101,7 +89,6 @@
         });
       },
       handleControl() {
-        this.startAnswerTimer();
         this.sendEvent('control');
       },
       handleApply() {
