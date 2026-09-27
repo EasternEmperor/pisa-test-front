@@ -24,14 +24,10 @@
         <div class="judge-section">
           <h3 class="judge-title">变化判断选项</h3>
           <el-radio-group v-model="judgeChoice" class="judge-options">
-            <el-row type="flex" class="judge-row">
-              <el-col :span="12"><el-radio label="A">A. 顶部控制器对出水量的作用减弱了</el-radio></el-col>
-              <el-col :span="12"><el-radio label="B">B. 中间控制器对食物量的作用减弱了</el-radio></el-col>
-            </el-row>
-            <el-row type="flex" class="judge-row">
-              <el-col :span="12"><el-radio label="C">C. 底部控制器对食物量的作用增强了</el-radio></el-col>
-              <el-col :span="12"><el-radio label="D">D. 输入与输出关系没有变化</el-radio></el-col>
-            </el-row>
+            <el-radio label="A">A. 顶部控制器对出水量的作用减弱了</el-radio>
+            <el-radio label="B">B. 中间控制器对食物量的作用减弱了</el-radio>
+            <el-radio label="C">C. 底部控制器对食物量的作用增强了</el-radio>
+            <el-radio label="D">D. 输入与输出关系没有变化</el-radio>
           </el-radio-group>
         </div>
 
@@ -247,19 +243,15 @@
   }
 
   .judge-options {
-    margin-top: 5px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 14px;
+    column-gap: 40px;
+    margin-top: 10px;
   }
 
-  .judge-row {
-    margin-bottom: 10px;
-  }
-
-  .judge-row .el-col {
-    padding: 0 24px;
-    box-sizing: border-box;
-  }
-
-  .judge-row .el-radio {
+  .judge-options .el-radio {
     margin-right: 0;
+    justify-content: flex-start;
   }
   </style>
