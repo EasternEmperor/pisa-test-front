@@ -233,6 +233,12 @@ const router = new VueRouter({
 // 导航守卫，前置处理
 router.beforeEach((to, from, next) => {
     let isAuthenticated = !!localStorage.getItem('userInfo')
+    // 已登录用户访问登录页/注册页（含裸域名/重定向到/login的情况）时，直接进入对应主页
+    if (isAuthenticated && (to.path === '/login' || to.path === '/register' || to.path === '/')) {
+        const role = parseInt(JSON.parse(localStorage.getItem('userInfo')).role);
+        next({ path: role === 1 ? '/admin' : '/user' });
+        return;
+    }
     // 如果路由要跳转到除了登录和注册的界面的话就判断是否已经登录，如果没有登录就强制跳到登录界面
     if (to.path !== '/login' && to.path !== '/register' && !isAuthenticated) {
         next({ path: '/login' })
