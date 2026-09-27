@@ -13,6 +13,7 @@ import User from "../views/home/User.vue"
 import FinishTest from '../views/home/FinishTest.vue'
 import AirControllerT1 from '../views/questions/air_controller/air_controller_t1.vue'
 import AirControllerT2 from '../views/questions/air_controller/air_controller_t2.vue'
+import AirControllerQ3 from "../views/questions/air_controller/air_controller_q3.vue"
 import TicketsSaleT1 from '../views/questions/tickets_sale/tickets_sale_t1.vue'
 import TicketsSaleT2 from '../views/questions/tickets_sale/tickets_sale_t2.vue'
 import TicketsSaleT3 from '../views/questions/tickets_sale/tickets_sale_t3.vue'
@@ -21,31 +22,44 @@ import CatFeedT2 from '../views/questions/cat_feed/cat_feed_t2.vue'
 import CatFeedQ3 from '../views/questions/cat_feed/cat_feed_q3.vue'
 import BigAirControllerT1 from "../views/questions/big_air_controller/big_air_controller_t1.vue"
 import BigAirControllerT2 from "../views/questions/big_air_controller/big_air_controller_t2.vue"
+import BigAirControllerQ3 from "../views/questions/big_air_controller/big_air_controller_q3.vue"
 import CameraControllerT1 from "../views/questions/camera_controller/camera_controller_t1.vue"
 import CameraControllerT2 from "../views/questions/camera_controller/camera_controller_t2.vue"
+import CameraControllerQ3 from "../views/questions/camera_controller/camera_controller_q3.vue"
 import CoffeeMachineT1 from "../views/questions/coffee_machine/coffee_machine_t1.vue"
 import CoffeeMachineT2 from "../views/questions/coffee_machine/coffee_machine_t2.vue"
+import CoffeeMachineQ3 from "../views/questions/coffee_machine/coffee_machine_q3.vue"
 import FlashlightT1 from "../views/questions/flashlight/flashlight_t1.vue"
 import FlashlightT2 from "../views/questions/flashlight/flashlight_t2.vue"
+import FlashlightQ3 from "../views/questions/flashlight/flashlight_q3.vue"
 import FlowerGardenT1 from "../views/questions/flower_garden/flower_garden_t1.vue"
 import FlowerGardenT2 from "../views/questions/flower_garden/flower_garden_t2.vue"
+import FlowerGardenQ3 from "../views/questions/flower_garden/flower_garden_q3.vue"
 import FruitTeaT1 from "../views/questions/fruit_tea/fruit_tea_t1.vue"
 import FruitTeaT2 from "../views/questions/fruit_tea/fruit_tea_t2.vue"
+import FruitTeaQ3 from "../views/questions/fruit_tea/fruit_tea_q3.vue"
 import PerfumeMakerT1 from "../views/questions/perfume_maker/perfume_maker_t1.vue"
 import PerfumeMakerT2 from "../views/questions/perfume_maker/perfume_maker_t2.vue"
+import PerfumeMakerQ3 from "../views/questions/perfume_maker/perfume_maker_q3.vue"
 import ProjectionControllerT1 from "../views/questions/projection_controller/projection_controller_t1.vue"
 import ProjectionControllerT2 from "../views/questions/projection_controller/projection_controller_t2.vue"
+import ProjectionControllerQ3 from "../views/questions/projection_controller/projection_controller_q3.vue"
 import RiceCookerT1 from "../views/questions/rice_cooker/rice_cooker_t1.vue"
 import RiceCookerT2 from "../views/questions/rice_cooker/rice_cooker_t2.vue"
+import RiceCookerQ3 from "../views/questions/rice_cooker/rice_cooker_q3.vue"
 import VideoPlayerT1 from "../views/questions/video_player/video_player_t1.vue"
 import VideoPlayerT2 from "../views/questions/video_player/video_player_t2.vue"
+import VideoPlayerQ3 from "../views/questions/video_player/video_player_q3.vue"
 import WaterDispenserT1 from "../views/questions/water_dispenser/water_dispenser_t1.vue"
 import WaterDispenserT2 from "../views/questions/water_dispenser/water_dispenser_t2.vue"
+import WaterDispenserQ3 from "../views/questions/water_dispenser/water_dispenser_q3.vue"
 import SeatsSchedule from "../views/questions/seats_schedule/seats_schedule.vue"
 import SunlightControllerT1 from "../views/questions/sunlight_controller/sunlight_controller_t1.vue"
 import SunlightControllerT2 from "../views/questions/sunlight_controller/sunlight_controller_t2.vue"
+import SunlightControllerQ3 from "../views/questions/sunlight_controller/sunlight_controller_q3.vue"
 import SaunaControllerT1 from "../views/questions/sauna_controller/sauna_controller_t1.vue"
 import SaunaControllerT2 from "../views/questions/sauna_controller/sauna_controller_t2.vue"
+import SaunaControllerQ3 from "../views/questions/sauna_controller/sauna_controller_q3.vue"
 
 // 创建并暴露一个路由器
 const router = new VueRouter({
@@ -88,6 +102,10 @@ const router = new VueRouter({
             component: AirControllerT2
         },
         {
+            path: '/questions/air_controller/air_controller_q3',
+            component: AirControllerQ3
+        },
+        {
             path: '/questions/tickets_sale/tickets_sale_t1',
             component: TicketsSaleT1
         },
@@ -120,12 +138,20 @@ const router = new VueRouter({
             component: BigAirControllerT2
         },
         {
+            path: '/questions/big_air_controller/big_air_controller_q3',
+            component: BigAirControllerQ3
+        },
+        {
             path: '/questions/camera_controller/camera_controller_t1',
             component: CameraControllerT1
         },
         {
             path: '/questions/camera_controller/camera_controller_t2',
             component: CameraControllerT2
+        },
+        {
+            path: '/questions/camera_controller/camera_controller_q3',
+            component: CameraControllerQ3
         },
         {
             path: '/questions/coffee_machine/coffee_machine_t1',
@@ -136,12 +162,20 @@ const router = new VueRouter({
             component: CoffeeMachineT2
         },
         {
+            path: '/questions/coffee_machine/coffee_machine_q3',
+            component: CoffeeMachineQ3
+        },
+        {
             path: '/questions/flashlight/flashlight_t1',
             component: FlashlightT1
         },
         {
             path: '/questions/flashlight/flashlight_t2',
             component: FlashlightT2
+        },
+        {
+            path: '/questions/flashlight/flashlight_q3',
+            component: FlashlightQ3
         },
         {
             path: '/questions/flower_garden/flower_garden_t1',
@@ -152,12 +186,20 @@ const router = new VueRouter({
             component: FlowerGardenT2
         },
         {
+            path: '/questions/flower_garden/flower_garden_q3',
+            component: FlowerGardenQ3
+        },
+        {
             path: '/questions/fruit_tea/fruit_tea_t1',
             component: FruitTeaT1
         },
         {
             path: '/questions/fruit_tea/fruit_tea_t2',
             component: FruitTeaT2
+        },
+        {
+            path: '/questions/fruit_tea/fruit_tea_q3',
+            component: FruitTeaQ3
         },
         {
             path: '/questions/perfume_maker/perfume_maker_t1',
@@ -168,12 +210,20 @@ const router = new VueRouter({
             component: PerfumeMakerT2
         },
         {
+            path: '/questions/perfume_maker/perfume_maker_q3',
+            component: PerfumeMakerQ3
+        },
+        {
             path: '/questions/projection_controller/projection_controller_t1',
             component: ProjectionControllerT1
         },
         {
             path: '/questions/projection_controller/projection_controller_t2',
             component: ProjectionControllerT2
+        },
+        {
+            path: '/questions/projection_controller/projection_controller_q3',
+            component: ProjectionControllerQ3
         },
         {
             path: '/questions/rice_cooker/rice_cooker_t1',
@@ -184,6 +234,10 @@ const router = new VueRouter({
             component: RiceCookerT2
         },
         {
+            path: '/questions/rice_cooker/rice_cooker_q3',
+            component: RiceCookerQ3
+        },
+        {
             path: '/questions/video_player/video_player_t1',
             component: VideoPlayerT1
         },
@@ -192,12 +246,20 @@ const router = new VueRouter({
             component: VideoPlayerT2
         },
         {
+            path: '/questions/video_player/video_player_q3',
+            component: VideoPlayerQ3
+        },
+        {
             path: '/questions/water_dispenser/water_dispenser_t1',
             component: WaterDispenserT1
         },
         {
             path: '/questions/water_dispenser/water_dispenser_t2',
             component: WaterDispenserT2
+        },
+        {
+            path: '/questions/water_dispenser/water_dispenser_q3',
+            component: WaterDispenserQ3
         },
         {
             path: '/questions/seats_schedule/seats_schedule',
@@ -212,12 +274,20 @@ const router = new VueRouter({
             component: SunlightControllerT2
         },
         {
+            path: '/questions/sunlight_controller/sunlight_controller_q3',
+            component: SunlightControllerQ3
+        },
+        {
             path: '/questions/sauna_controller/sauna_controller_t1',
             component: SaunaControllerT1
         },
         {
             path: '/questions/sauna_controller/sauna_controller_t2',
             component: SaunaControllerT2
+        },
+        {
+            path: '/questions/sauna_controller/sauna_controller_q3',
+            component: SaunaControllerQ3
         }
     ],
     scrollBehavior(to, from, savedPosition) {

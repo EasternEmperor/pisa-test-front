@@ -1,0 +1,147 @@
+<template>
+    <div class="air-controller-up">
+      <h2>一、空调控制</h2>
+            <p>
+        系统经过一段时间运行后，空调的工作状态发生了变化。<br/>
+        系统已将输出值和按钮恢复到本题开始时的状态，并<b>自动试运行了一次</b>（底部控制器设为2，其余为0），试运行结果见曲线图。<br/>
+        请根据试运行结果，重新调节控制器，用尽可能少的鼠标点击次数，再次使温度和湿度达到问题2的目标（目标与问题2相同）。<br/>
+        达到目标后，请在下方选择你认为系统发生的变化，并点击提交。
+      </p>
+      <div class="control-and-chart">
+        <div class="flex-container">
+          <controller-component
+            :top-control="topControl"
+            :central-control="centralControl"
+            :bottom-control="bottomControl"
+            @update:top-control="handleTop"
+            @update:central-control="handleCentral"
+            @update:bottom-control="handleBottom"
+          />
+          <chart-component
+            ref="chartComponent"
+            :temperature="temperature"
+            :humidity="humidity"
+          />
+        </div>
+        <button-component
+          @apply="applyChanges"
+          @reset="resetChanges"
+        />
+      </div>
+    </div>
+  </template>
+  
+  <script>
+  import ControllerComponent from './componentsT2/ControllerComponentT2.vue';
+  import ChartComponent from './componentsT2/ChartComponentT2.vue';
+  import ButtonComponent from './componentsT2/ButtonComponentT2.vue';
+  
+  export default {
+    name: 'AirControllerUpComponent',
+    components: {
+      ControllerComponent,
+      ChartComponent,
+      ButtonComponent
+    },
+    data() {
+      return {
+        // 控制器值
+        topControl: 0,
+        centralControl: 0,
+        bottomControl: 0,
+        // 温度和湿度值
+        temperature: 25,
+        humidity: 25,
+        applyTimes: 0,
+      };
+    },
+    methods: {
+      // 标准化试运行：复位 -> 按 trial 设置 -> 按新关系运行一次 -> 记录 -> 再次复位
+      runTrial() {
+        this.resetChanges();
+        this.bottomControl = 2;
+        const settings = { top: 0, central: 0, bottom: 2 };
+        this.applyChanges();
+        const result = { temperature: this.temperature, humidity: this.humidity };
+        this.$emit('trial', { settings, result });
+        // 试运行结束后再次复位输出值和按钮，但继续使用Q3新关系
+        this.resetChanges();
+        this.$emit('resetChanges');
+      },
+      isTargetReached() {
+        const chart = this.$refs.chartComponent;
+        return Math.abs(this.temperature - chart.randomTemperature) <= 2 && Math.abs(this.humidity - chart.randomHumidity) <= 2;
+      },
+      handleTop(value) {
+        this.topControl = value;
+        this.$emit('control');
+      },
+      handleCentral(value) {
+        this.centralControl = value;
+        this.$emit('control');
+      },
+      handleBottom(value) {
+        this.bottomControl = value;
+        this.$emit('control');
+      },
+      applyChanges() {
+        if (this.applyTimes < 9999) {
+            this.applyTimes++;
+            // 更新温度
+            const newTemperature = this.temperature + this.topControl;
+            this.temperature = Math.min(35, Math.max(0, newTemperature));
+            // 更新曲线图
+            this.$refs.chartComponent.addData('temperature', this.temperature);
+    
+            // 更新湿度
+            const newHumidity = this.humidity + this.centralControl + 0.5 * this.bottomControl;
+            this.humidity = Math.min(35, Math.max(0, newHumidity));
+            // 更新曲线图
+            this.$refs.chartComponent.addData('humidity', this.humidity);
+
+            this.$emit('applyChanges');
+        } else {
+            this.$message.error('APPLY次数已达上限，请提交作答～');
+        }
+        
+      },
+      resetChanges() {
+        this.topControl = 0;
+        this.centralControl = 0;
+        this.bottomControl = 0;
+        this.temperature = 25;
+        this.humidity = 25;
+
+        // 调用 ChartComponent 的 resetChart 方法
+        this.$refs.chartComponent.resetChart();
+
+        this.$emit('resetChanges');
+      }
+    }
+  };
+  </script>
+  
+  <style scoped>
+  .air-controller-up {
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* 占据整个页面宽度 */
+    padding: 0 20px; /* 减少左右内边距 */
+    box-sizing: border-box;
+  }
+  
+  .flex-container {
+    display: flex;
+    /* 可选: 如果需要间距，可以添加 gap 属性 */
+    gap: 10px; /* 用于控制组件间的间距 */
+  }
+  h2 {
+    margin-bottom: 10px;
+  }
+
+  p {
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+  </style>
+  
