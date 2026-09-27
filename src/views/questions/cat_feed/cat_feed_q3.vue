@@ -20,23 +20,24 @@
         <div class="question-text">
           <h3>问题3: 判断系统变化并重新达标</h3>
         </div>
+        <!-- 变化判断选项（单选，常驻显示，未选择不允许提交） -->
+        <div class="judge-section">
+          <h3 class="judge-title">变化判断选项</h3>
+          <el-radio-group v-model="judgeChoice" class="judge-options">
+            <el-row type="flex" class="judge-row">
+              <el-col :span="12"><el-radio label="A">A. 顶部控制器对出水量的作用减弱了</el-radio></el-col>
+              <el-col :span="12"><el-radio label="B">B. 中间控制器对食物量的作用减弱了</el-radio></el-col>
+            </el-row>
+            <el-row type="flex" class="judge-row">
+              <el-col :span="12"><el-radio label="C">C. 底部控制器对食物量的作用增强了</el-radio></el-col>
+              <el-col :span="12"><el-radio label="D">D. 输入与输出关系没有变化</el-radio></el-col>
+            </el-row>
+          </el-radio-group>
+        </div>
+
         <el-row style="margin-top: 20px;" type="flex" justify="center">
           <el-button type="primary" @click="submitAnswer">提交</el-button>
         </el-row>
-
-        <!-- 变化判断（达到目标并提交后显示） -->
-        <div class="judge-section" v-if="judgeVisible">
-          <h3>系统发生了什么变化？</h3>
-          <el-radio-group v-model="judgeChoice" class="judge-options">
-            <el-radio label="A">A. 顶部控制器对出水量的作用减弱了</el-radio>
-            <el-radio label="B">B. 中间控制器对食物量的作用减弱了</el-radio>
-            <el-radio label="C">C. 底部控制器对食物量的作用增强了</el-radio>
-            <el-radio label="D">D. 输入与输出关系没有变化</el-radio>
-          </el-radio-group>
-          <el-row style="margin-top: 15px;" type="flex" justify="center">
-            <el-button type="primary" @click="submitJudgment" :disabled="!judgeChoice">提交判断</el-button>
-          </el-row>
-        </div>
       </div>
 
     </div>
@@ -61,9 +62,7 @@
         no: -1,
         eventNumber: 1, // 用于记录事件次数
         duration: 240, // 倒计时时间
-        judgeVisible: false,
         judgeChoice: null,
-        targetReached: false,
       };
     },
     created() {
@@ -98,31 +97,23 @@
         this.sendEvent('reset');
       },
       submitAnswer() {
-        const upComponent = this.$refs.upComponentRef;
-        this.targetReached = upComponent.isTargetReached();
-        this.sendEvent('submit');
-        if (this.targetReached) {
-          this.judgeVisible = true;
+        // 单选题未作答不允许提交
+        if (!this.judgeChoice) {
           this.$message({
-            message: '已达到目标！请判断系统发生了什么变化',
-            type: 'success',
+            message: '请先在"变化判断选项"中选择一个选项再提交',
+            type: 'warning',
           });
-          this.$nextTick(() => {
-            const el = this.$el.querySelector('.judge-section');
-            if (el) el.scrollIntoView({ behavior: 'smooth' });
-          });
-        } else {
+          return;
+        }
+        const upComponent = this.$refs.upComponentRef;
+        if (!upComponent.isTargetReached()) {
           this.$message({
             message: '尚未达到目标（食物量35-40，出水量200-250毫升），请继续调整控制器',
             type: 'warning',
           });
-        }
-      },
-      submitJudgment() {
-        if (!this.judgeChoice) {
-          this.$message({ message: '请先选择一个判断选项', type: 'warning' });
           return;
         }
+        this.sendEvent('submit');
         this.sendEvent('judge', { diagramState: 'Q3_CHOICE:' + this.judgeChoice });
         this.$message({
           message: '提交成功，进入下一题～',
@@ -255,11 +246,16 @@
     background-color: #f8f9fb;
   }
 
+  .judge-title {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+
   .judge-options {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-    margin-top: 10px;
+    margin-top: 5px;
+  }
+
+  .judge-row {
+    margin-bottom: 10px;
   }
   </style>
