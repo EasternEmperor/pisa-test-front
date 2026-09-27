@@ -253,6 +253,9 @@ this.sendEvent('timeup').then(() => {
 
   .judge-options .el-radio {
     margin-right: 0;
+    display: flex;
+    align-items: center;
     justify-content: flex-start;
+    white-space: normal;
   }
   </style>

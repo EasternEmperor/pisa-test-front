@@ -5,7 +5,7 @@
 
       <!-- 题干部分 -->
       <div class="container-box">
-        <rice_cooker-up-component-q3
+        <RiceCookerUpComponentQ3
           ref="upComponentRef"
           @applyChanges="handleApply"
           @resetChanges="handleReset"
@@ -263,6 +263,9 @@ this.sendEvent('timeup').then(() => {
 
   .judge-options .el-radio {
     margin-right: 0;
+    display: flex;
+    align-items: center;
     justify-content: flex-start;
+    white-space: normal;
   }
   </style>

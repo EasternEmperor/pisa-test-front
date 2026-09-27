@@ -5,7 +5,7 @@
 
       <!-- 题干部分 -->
       <div class="container-box">
-        <coffee_machine-up-component-q3
+        <CoffeeMachineUpComponentQ3
           ref="upComponentRef"
           @applyChanges="handleApply"
           @resetChanges="handleReset"
@@ -268,6 +268,9 @@ this.sendEvent('timeup').then(() => {
 
   .judge-options .el-radio {
     margin-right: 0;
+    display: flex;
+    align-items: center;
     justify-content: flex-start;
+    white-space: normal;
   }
   </style>
