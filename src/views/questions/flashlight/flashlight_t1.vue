@@ -141,24 +141,27 @@
         //         type: "warning",
         //     });
         // }
-        this.sendEvent('submit');
-        this.$message({
-            message: "提交成功，进入下一题～",
-            type: "success",
+this.sendEvent('submit').then((res) => {
+          if (res.data.code === '0') {
+            this.$message.success('提交成功，进入下一题～');
+            localStorage.removeItem('timer_' + this.no);
+            this.$getNextQuestion('flashlight_t1');
+          } else {
+            this.$message.error(res.data.message || '提交失败，请重试');
+          }
         });
-        this.$getQuestion(this.no + 1);
         // 删除缓存倒计时
         localStorage.removeItem(`timer_${this.no}`);
       },
       handleTimeUp() {
         // 自动提交答案
-        this.sendEvent('timeup');
-        this.$message({
-          message: '时间到，自动提交并跳转到下一题！',
-          type: 'warning',
+this.sendEvent('timeup').then(() => {
+          this.$message.warning('时间到，自动提交并跳转到下一题！');
+          localStorage.removeItem('timer_' + this.no);
+          this.$getNextQuestion('flashlight_t1');
+        }).catch(() => {
+          this.$getNextQuestion('flashlight_t1');
         });
-        // 跳转下一题
-        this.$getQuestion(this.no + 1);
         // 删除缓存倒计时
         localStorage.removeItem(`timer_${this.no}`);
       },
@@ -269,7 +272,7 @@
           return;
         }
   
-        this.axios.post('/api/test/exploreData', data)
+        return this.axios.post('/api/test/exploreData', data)
           .then(response => {
             if (response.data.code === '0') {
                 this.eventNumber++;
