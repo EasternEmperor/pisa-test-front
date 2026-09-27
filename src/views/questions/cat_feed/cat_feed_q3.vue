@@ -81,11 +81,6 @@
       },
       handleTrial({ settings, result }) {
         this.sendEvent('trial', { settings, result });
-        this.$message({
-          message: '系统已自动试运行一次，请观察曲线图中的变化',
-          type: 'info',
-          duration: 4000,
-        });
       },
       handleControl() {
         this.sendEvent('control');
@@ -257,5 +252,14 @@
 
   .judge-row {
     margin-bottom: 10px;
+  }
+
+  .judge-row .el-col {
+    padding: 0 24px;
+    box-sizing: border-box;
+  }
+
+  .judge-row .el-radio {
+    margin-right: 0;
   }
   </style>
