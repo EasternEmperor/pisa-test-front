@@ -178,6 +178,44 @@ export default {
             this.$message.error('获取下一题失败');
           });
       };
+
+      // 查询本次答题的最新进度并跳转（用于重复作答时自动回到最新答题处）
+      Vue.prototype.$resumeQuestion = function() {
+        if (fetchingQuestion) {
+          return;
+        }
+        fetchingQuestion = true;
+        const release = () => { fetchingQuestion = false; };
+        let info = {};
+        try {
+          info = JSON.parse(localStorage.getItem('userInfo')) || {};
+        } catch (e) {
+          info = {};
+        }
+        this.axios.get('/api/test/getResumeQuestion', {
+          params: {
+            userName: info.userName,
+            ithAnswer: localStorage.getItem('ithAnswer')
+          }
+        })
+          .then(response => {
+            release();
+            if (response.data.code === '0') {
+              const data = response.data.data;
+              if (data.no !== null && data.no !== undefined) {
+                localStorage.setItem("no", data.no);
+              }
+              goPage(this, data.htmlName);
+            } else {
+              this.$message.error(response.data.message || '获取最新答题位置失败');
+            }
+          })
+          .catch(error => {
+            release();
+            console.error(error);
+            this.$message.error('获取最新答题位置失败');
+          });
+      };
     }
   };
   

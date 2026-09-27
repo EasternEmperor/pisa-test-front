@@ -131,6 +131,9 @@ this.sendEvent('submit').then((res) => {
             this.$message.success('提交成功，进入下一题～');
             localStorage.removeItem('timer_' + this.no);
             this.$getNextQuestion('air_controller_t1');
+          } else if (res.data.message && res.data.message.indexOf('已作答过') !== -1) {
+            this.$message.warning('该题已作答过，正在为您跳转到最新答题处');
+            this.$resumeQuestion();
           } else {
             this.$message.error(res.data.message || '提交失败，请重试');
           }
