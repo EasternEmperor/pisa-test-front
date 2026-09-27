@@ -52,8 +52,8 @@ export default {
   },
   methods: {
     checkSession() {
-      if (sessionStorage.getItem('userInfo') != null) {
-        const role = parseInt(JSON.parse(sessionStorage.getItem('userInfo')).role);
+      if (localStorage.getItem('userInfo') != null) {
+        const role = parseInt(JSON.parse(localStorage.getItem('userInfo')).role);
         if (role === 0) {
           this.$router.push('/user');
           } else if (res.data.data.role === 1) {
@@ -83,8 +83,8 @@ export default {
             },
           }).then((res) => { // 当收到后端的响应时执行该括号内的代码，res 为响应信息，也就是后端返回的信息
             if (res.data.code === "0") {  // 当响应的编码为 0 时，说明登录成功
-              // 将用户信息存储到sessionStorage中
-              sessionStorage.setItem("userInfo", JSON.stringify(res.data.data));
+              // 将用户信息存储到localStorage中
+              localStorage.setItem("userInfo", JSON.stringify(res.data.data));
               // 根据用户身份跳转页面到首页
               if (res.data.data.role === 0) {
                 this.$router.push('/user');

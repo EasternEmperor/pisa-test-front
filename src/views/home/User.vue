@@ -36,13 +36,13 @@
     },
     data() {
       return {
-        userName: '', // 从sessionStorage或其他来源获取
+        userName: '', // 从localStorage或其他来源获取
         answerHistory: [],
         formattedHistory: []
       };
     },
     created() {
-      this.userName = JSON.parse(sessionStorage.getItem('userInfo')).userName;
+      this.userName = JSON.parse(localStorage.getItem('userInfo')).userName;
       this.fetchAnswerHistory();
     },
     methods: {
@@ -71,13 +71,13 @@
           .filter(key => key.startsWith('timer_'))
           .forEach(key => localStorage.removeItem(key));
         if (this.answerHistory.length > 0) {
-          sessionStorage.setItem("ithAnswer", this.formattedHistory.reduce((max, item) => {
+          localStorage.setItem("ithAnswer", this.formattedHistory.reduce((max, item) => {
                                               return item.ithAnswer + 1 > max ? item.ithAnswer + 1 : max;
                                           }, -1));
         } else {
-          sessionStorage.setItem("ithAnswer", 1);
+          localStorage.setItem("ithAnswer", 1);
         }
-        sessionStorage.setItem("testBegin", new Date().toISOString());
+        localStorage.setItem("testBegin", new Date().toISOString());
         this.$getQuestion(1);
       }
     },

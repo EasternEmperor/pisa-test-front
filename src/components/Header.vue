@@ -20,8 +20,8 @@
         this.axios.post('/api/user/logout')
           .then(response => {
             if (response.data.code === "0") {
-              // 清理用户信息
-              sessionStorage.clear();
+              // 清理登录与答题状态（保留题目倒计时缓存 timer_*，下次开始测试时会统一清理）
+              ['userInfo', 'ithAnswer', 'no', 'testBegin'].forEach(key => localStorage.removeItem(key));
               // 重定向到登录页面
               this.$router.push('/login');
               this.$message.success('成功登出');
@@ -36,9 +36,9 @@
       }
     },
     mounted() {
-        if (sessionStorage.getItem('userInfo')) {
-            // 将用户信息存储到sessionStorage中
-            this.userName = JSON.parse(sessionStorage.getItem('userInfo')).userName;
+        if (localStorage.getItem('userInfo')) {
+            // 将用户信息存储到localStorage中
+            this.userName = JSON.parse(localStorage.getItem('userInfo')).userName;
         }
     },
   };

@@ -17,7 +17,7 @@ export default {
           .then(response => {
             release();
             if (response.data.code === '0') {
-              sessionStorage.setItem("no", response.data.data.no);
+              localStorage.setItem("no", response.data.data.no);
               const { htmlName } = response.data.data;
               if (htmlName === 'air_controller_t1') {
                 this.$router.push('/questions/air_controller/air_controller_t1');

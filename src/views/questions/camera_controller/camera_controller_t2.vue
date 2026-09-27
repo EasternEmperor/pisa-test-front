@@ -65,9 +65,9 @@
       };
     },
     created() {
-        this.userName = JSON.parse(sessionStorage.getItem('userInfo')).userName;
-        this.ithAnswer = sessionStorage.getItem('ithAnswer');
-        this.no = parseInt(sessionStorage.getItem('no'));
+        this.userName = JSON.parse(localStorage.getItem('userInfo')).userName;
+        this.ithAnswer = localStorage.getItem('ithAnswer');
+        this.no = parseInt(localStorage.getItem('no'));
     },
     methods: {
       drawExample() {

@@ -10,9 +10,9 @@
     methods: {
       finishTest() {
         const data = {
-          userName: JSON.parse(sessionStorage.getItem('userInfo')).userName,
-          ithAnswer: sessionStorage.getItem('ithAnswer'),
-          testBegin: sessionStorage.getItem('testBegin'),
+          userName: JSON.parse(localStorage.getItem('userInfo')).userName,
+          ithAnswer: localStorage.getItem('ithAnswer'),
+          testBegin: localStorage.getItem('testBegin'),
           testEnd: new Date().toISOString(),
         };
         this.axios.post('/api/test/finishTest', data)
