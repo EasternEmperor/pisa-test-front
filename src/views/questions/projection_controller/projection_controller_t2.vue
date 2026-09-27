@@ -82,7 +82,7 @@
       },
       submitAnswer() {
 this.sendEvent('submit').then((res) => {
-          if (res.data.code === '0') {
+          if (res && res.data && res.data.code === '0') {
             this.$message.success('提交成功，进入下一题～');
             localStorage.removeItem('timer_' + this.no);
             this.$getNextQuestion('projection_controller_t2');
@@ -211,6 +211,7 @@ this.sendEvent('timeup').then(() => {
             if (response.data.code === '0') {
                 this.eventNumber++;
             }
+            return response;
           })
           .catch(error => {
             console.error('刚才的操作失效，请重新操作！', error);
