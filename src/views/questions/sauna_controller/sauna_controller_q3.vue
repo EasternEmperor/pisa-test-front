@@ -254,9 +254,10 @@ this.sendEvent('timeup').then(() => {
 
   .judge-options {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: auto auto;
+    justify-content: center;
+    column-gap: 56px;
     row-gap: 14px;
-    column-gap: 40px;
     margin-top: 10px;
   }
 
@@ -265,6 +266,6 @@ this.sendEvent('timeup').then(() => {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    white-space: normal;
+    white-space: nowrap;
   }
   </style>
